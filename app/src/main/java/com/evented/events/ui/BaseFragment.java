@@ -1,4 +1,4 @@
-package com.evented.events;
+package com.evented.events.ui;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;

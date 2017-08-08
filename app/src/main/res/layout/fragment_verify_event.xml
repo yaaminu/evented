@@ -11,13 +11,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:gravity="bottom"
-        android:minHeight="100dp"
         android:orientation="vertical"
         android:paddingBottom="@dimen/default_gap">
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_vertical_margin" />
 
         <TextView
             android:id="@+id/et_event_name"
@@ -83,9 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/the_name_must_correspond_to_the_name_associated_with_the_phone_number"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:visibility="gone" />
+        android:text="@string/account_name_explanation"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimary" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -108,9 +104,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/official_mobile_money_phone_number"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:visibility="gone" />
+        android:text="@string/account_phone_number_explanation"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorPrimary" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"

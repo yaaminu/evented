@@ -17,9 +17,6 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/default_gap">
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_vertical_margin" />
 
         <EditText
             android:id="@+id/et_event_name"
@@ -87,28 +84,28 @@
             <TextView
                 android:id="@+id/start_date"
                 style="@style/create_event_grid_item_style.date_style"
-                app:layout_columnWeight="1"
-                android:text="11-12-2018" />
+                android:text="11-12-2018"
+                app:layout_columnWeight="1" />
 
             <TextView
                 android:id="@+id/end_date"
                 style="@style/create_event_grid_item_style.date_style"
+                android:text="15-12-2018"
                 app:layout_columnWeight="1"
-                app:layout_gravity="center_horizontal"
-                android:text="15-12-2018" />
+                app:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/start_time"
                 style="@style/create_event_grid_item_style.date_style"
-                app:layout_columnWeight="1"
-                android:text="18:45pm" />
+                android:text="18:45pm"
+                app:layout_columnWeight="1" />
 
             <TextView
                 android:id="@+id/end_time"
                 style="@style/create_event_grid_item_style.date_style"
+                android:text="15-12-2018"
                 app:layout_columnWeight="1"
-                app:layout_gravity="center_horizontal"
-                android:text="15-12-2018" />
+                app:layout_gravity="center_horizontal" />
 
 
             <android.support.v4.widget.Space
@@ -131,7 +128,7 @@
             <EditText
                 android:id="@+id/location"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:background="?attr/selectableItemBackground"
+                android:background="@color/transparent"
                 android:drawableLeft="@drawable/ic_location_on_black_24dp"
                 android:drawablePadding="@dimen/default_gap"
                 android:gravity="center_vertical"
@@ -159,52 +156,6 @@
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
 
-            <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:drawableLeft="@drawable/ic_lock_visibility"
-                android:drawablePadding="@dimen/default_gap"
-                android:text="@string/publicity"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-
-            <Spinner
-                android:id="@+id/sp_publicity"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:entries="@array/publicity_options"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-            <TextView
-                android:id="@+id/publicity_description"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/default_gap"
-                android:text="@string/completely_public_explanation"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorPrimary"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                tools:ignore="RtlHardcoded,RtlSymmetry" />
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-            <View
-                android:layout_height="1dp"
-                android:background="@color/light_gray"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
 
             <android.support.v4.widget.Space
                 android:layout_height="@dimen/default_gap"
@@ -216,7 +167,7 @@
                 android:id="@+id/description"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="?attr/selectableItemBackground"
+                android:background="@color/transparent"
                 android:drawableLeft="@drawable/ic_event_note_black_24dp"
                 android:drawablePadding="@dimen/default_gap"
                 android:hint="@string/description"

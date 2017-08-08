@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.evented.evented.com.evented.ui.MainActivity">
+    tools:context="com.evented.ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/events_list"
@@ -20,8 +20,8 @@
     </android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:layout_width="match_parent"
         android:id="@+id/empty_view"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/no_event" />

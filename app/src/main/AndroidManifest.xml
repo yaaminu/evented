@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.evented.events.CreateEventActivity"
-            android:theme="@style/AppTheme.NoTitle" />
+            android:name="com.evented.events.ui.CreateEventActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

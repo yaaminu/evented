@@ -29,4 +29,15 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <!-- AppBar Style -->
+    <style name="AppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="selectableItemBackground">@null</item>
+        <item name="popupTheme">@style/popup_theme</item>
+    </style>
+
+    <style name="popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

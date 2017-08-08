@@ -13,12 +13,13 @@
     <string name="billing_information">Billing Information</string>
     <string name="account_name">Account Name</string>
     <string name="account_number">Account Phone No.</string>
-    <string name="official_mobile_money_phone_number">official mobile money phone number</string>
-    <string name="the_name_must_correspond_to_the_name_associated_with_the_phone_number">The name must correspond to the name associated with account</string>
+    <string name="account_phone_number_explanation">Mobile money phone number</string>
+    <string name="account_name_explanation">This is your mobile money account name</string>
     <string name="attendance">Attendance</string>
     <string name="enterance_fee">Entrance Fee</string>
     <string name="amount_in_cedis">Amount in cedis</string>
     <string name="available_seats">Available seats</string>
     <string name="no_event">No event available</string>
     <string name="completely_public_explanation">Everyone can see and invite guests to this event</string>
+    <string name="folder_name_files">Evented</string>
 </resources>

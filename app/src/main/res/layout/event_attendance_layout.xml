@@ -17,10 +17,6 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/default_gap">
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_vertical_margin" />
-
 
         <TextView
             android:id="@+id/et_event_name"
@@ -90,12 +86,12 @@
                 android:id="@+id/publicity_description"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:text="@string/completely_public_explanation"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorPrimary"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1"
-                tools:ignore="RtlHardcoded,RtlSymmetry"
-                tools:text="Everyone can see and invite guests to this event" />
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
 
             <android.support.v4.widget.Space
                 android:layout_height="@dimen/default_gap"
@@ -123,7 +119,7 @@
                 android:id="@+id/entrance_fee"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="?attr/selectableItemBackground"
+                android:background="@color/transparent"
                 android:hint="@string/enterance_fee"
                 android:inputType="numberDecimal"
                 app:layout_columnSpan="2"
@@ -150,7 +146,7 @@
                 android:id="@+id/available_tickets"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="?attr/selectableItemBackground"
+                android:background="@color/transparent"
                 android:hint="@string/available_seats"
                 android:inputType="numberDecimal"
                 app:layout_columnSpan="2"
