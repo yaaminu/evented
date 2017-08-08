@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Evented</string>
+    <string name="event_name">Event Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="event_date">Event Date</string>
+    <string name="location">Location</string>
+    <string name="venue">Venue</string>
+    <string name="publicity">Event visibility</string>
+    <string name="description">Description</string>
+    <string name="create_event">Create Event</string>
+    <string name="next">Next</string>
+    <string name="billing_information">Billing Information</string>
+    <string name="account_name">Account Name</string>
+    <string name="account_number">Account Phone No.</string>
+    <string name="official_mobile_money_phone_number">official mobile money phone number</string>
+    <string name="the_name_must_correspond_to_the_name_associated_with_the_phone_number">The name must correspond to the name associated with account</string>
+    <string name="attendance">Attendance</string>
+    <string name="enterance_fee">Entrance Fee</string>
+    <string name="amount_in_cedis">Amount in cedis</string>
+    <string name="available_seats">Available seats</string>
+    <string name="no_event">No event available</string>
+    <string name="completely_public_explanation">Everyone can see and invite guests to this event</string>
+</resources>

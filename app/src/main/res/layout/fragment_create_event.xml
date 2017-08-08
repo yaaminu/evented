@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="5">
+
+    <LinearLayout
+        style="@style/create_event_grid_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/default_gap">
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_vertical_margin" />
+
+        <EditText
+            android:id="@+id/et_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/colorAccent"
+            android:hint="@string/event_name"
+            android:inputType="text"
+            android:textColorHint="@color/light_gray" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:columnCount="2"
+            app:useDefaultMargins="true">
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:drawableLeft="@drawable/ic_clock_gray_24dp"
+                android:drawablePadding="@dimen/default_gap"
+                android:gravity="center_vertical"
+                android:text="@string/event_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1"
+                tools:ignore="RtlHardcoded" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <View
+                android:layout_height="1dp"
+                android:background="@color/light_gray"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <TextView
+                style="@style/create_event_grid_item_style"
+                android:text="@string/start_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_columnWeight="1" />
+
+            <TextView
+                style="@style/create_event_grid_item_style"
+                android:text="@string/end_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_columnWeight="1"
+                app:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/start_date"
+                style="@style/create_event_grid_item_style.date_style"
+                app:layout_columnWeight="1"
+                android:text="11-12-2018" />
+
+            <TextView
+                android:id="@+id/end_date"
+                style="@style/create_event_grid_item_style.date_style"
+                app:layout_columnWeight="1"
+                app:layout_gravity="center_horizontal"
+                android:text="15-12-2018" />
+
+            <TextView
+                android:id="@+id/start_time"
+                style="@style/create_event_grid_item_style.date_style"
+                app:layout_columnWeight="1"
+                android:text="18:45pm" />
+
+            <TextView
+                android:id="@+id/end_time"
+                style="@style/create_event_grid_item_style.date_style"
+                app:layout_columnWeight="1"
+                app:layout_gravity="center_horizontal"
+                android:text="15-12-2018" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <View
+                android:layout_height="1dp"
+                android:background="@color/light_gray"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                android:drawablePadding="@dimen/default_gap"
+                android:gravity="center_vertical"
+                android:hint="@string/venue"
+                android:inputType="text"
+                android:lines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1"
+                tools:ignore="RtlHardcoded" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <View
+                android:layout_height="1dp"
+                android:background="@color/light_gray"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:drawableLeft="@drawable/ic_lock_visibility"
+                android:drawablePadding="@dimen/default_gap"
+                android:text="@string/publicity"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+
+            <Spinner
+                android:id="@+id/sp_publicity"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:entries="@array/publicity_options"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <TextView
+                android:id="@+id/publicity_description"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/default_gap"
+                android:text="@string/completely_public_explanation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorPrimary"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <View
+                android:layout_height="1dp"
+                android:background="@color/light_gray"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@drawable/ic_event_note_black_24dp"
+                android:drawablePadding="@dimen/default_gap"
+                android:hint="@string/description"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <View
+                android:layout_height="1dp"
+                android:background="@color/light_gray"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+
+            <android.support.v4.widget.Space
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1" />
+
+            <Button
+                android:id="@+id/next"
+                android:text="@string/next"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
+        </android.support.v7.widget.GridLayout>
+    </ScrollView>
+</LinearLayout>
