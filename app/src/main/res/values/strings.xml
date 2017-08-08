@@ -16,7 +16,7 @@
     <string name="account_phone_number_explanation">Mobile money phone number</string>
     <string name="account_name_explanation">This is your mobile money account name</string>
     <string name="attendance">Attendance</string>
-    <string name="enterance_fee">Entrance Fee</string>
+    <string name="enterance_fee">Entrance Fee in cedis</string>
     <string name="amount_in_cedis">Amount in cedis</string>
     <string name="available_seats">Available seats</string>
     <string name="no_event">No event available</string>
@@ -33,4 +33,8 @@
     <string name="error_start_date_past">Start date is in the past</string>
     <string name="error_end_date_required">End date is not set</string>
     <string name="error_end_date_before_start">End date can\'t come before start date</string>
+    <string name="invalid_num">Invalid number</string>
+    <string name="invalid_amount">Invalid amount</string>
+    <string name="error_phone_required">Your account phone number is required</string>
+    <string name="err_name_required">Your official account name is required</string>
 </resources>

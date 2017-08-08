@@ -72,7 +72,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         dialog.dismiss();
-                        Snackbar.make(findViewById(android.R.id.content), "Event crated", Snackbar.LENGTH_LONG)
+                        Snackbar.make(findViewById(android.R.id.content), event.toString(), Snackbar.LENGTH_LONG)
                                 .show();
                     }
                 }, TimeUnit.SECONDS.toMillis(30));

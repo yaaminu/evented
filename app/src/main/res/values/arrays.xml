@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="publicity_options">
-        <item>Completely Public</item>
-        <item>Private (invited guests can invite)</item>
-        <item>Strictly private (only you can invite)</item>
+        <item>Public Event</item>
+        <item>Private Event</item>
+        <item>Secrete Event</item>
+    </string-array>
+    <string-array name="publicity_options_des">
+        <item>@string/completely_public_explanation</item>
+        <item>Invited guests can see and invite others</item>
+        <item>Invited guests can see but only you can invite guests</item>
     </string-array>
 </resources>

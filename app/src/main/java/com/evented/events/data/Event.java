@@ -1,5 +1,7 @@
 package com.evented.events.data;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.realm.RealmObject;
 
 /**
@@ -23,6 +25,9 @@ public class Event extends RealmObject {
     private int likes;
     private int going;
     private long entranceFee;
+
+    private BillingAcount billingAcount;
+
 
     public Event() {
     }
@@ -166,5 +171,36 @@ public class Event extends RealmObject {
 
     public void setEntranceFee(long entranceFee) {
         this.entranceFee = entranceFee;
+    }
+
+    public void setBillingAcount(BillingAcount billingAcount) {
+        this.billingAcount = billingAcount;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId='" + eventId + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", name='" + name + '\'' +
+                ", flyers='" + flyers + '\'' +
+                ", description='" + description + '\'' +
+                ", venue='" + venue + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", dateUpdated=" + dateUpdated +
+                ", dateCreated=" + dateCreated +
+                ", publicity=" + publicity +
+                ", maxSeats=" + maxSeats +
+                ", likes=" + likes +
+                ", going=" + going +
+                ", entranceFee=" + entranceFee +
+                ", billingAcount=" + billingAcount +
+                '}';
+    }
+
+    @Nullable
+    public BillingAcount getBillingAcount() {
+        return billingAcount;
     }
 }
