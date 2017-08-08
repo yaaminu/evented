@@ -26,6 +26,7 @@
             android:backgroundTint="@color/colorAccent"
             android:hint="@string/event_name"
             android:inputType="text"
+            android:textColor="@color/white"
             android:textColorHint="@color/light_gray" />
     </LinearLayout>
 
@@ -70,13 +71,13 @@
 
             <TextView
                 style="@style/create_event_grid_item_style"
-                android:text="@string/start_date"
+                android:text="@string/starts_from"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_columnWeight="1" />
 
             <TextView
                 style="@style/create_event_grid_item_style"
-                android:text="@string/end_date"
+                android:text="@string/ends_at"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_columnWeight="1"
                 app:layout_gravity="center_horizontal" />
@@ -84,26 +85,34 @@
             <TextView
                 android:id="@+id/start_date"
                 style="@style/create_event_grid_item_style.date_style"
-                android:text="11-12-2018"
+                android:drawablePadding="@dimen/default_gap"
+                android:drawableRight="@drawable/ic_edit_18dp"
+                android:text="@string/start_date"
                 app:layout_columnWeight="1" />
 
             <TextView
                 android:id="@+id/end_date"
                 style="@style/create_event_grid_item_style.date_style"
-                android:text="15-12-2018"
+                android:drawablePadding="@dimen/default_gap"
+                android:drawableRight="@drawable/ic_edit_18dp"
+                android:text="@string/end_date"
                 app:layout_columnWeight="1"
                 app:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/start_time"
                 style="@style/create_event_grid_item_style.date_style"
-                android:text="18:45pm"
+                android:drawablePadding="@dimen/default_gap"
+                android:drawableRight="@drawable/ic_edit_18dp"
+                android:text="@string/start_time"
                 app:layout_columnWeight="1" />
 
             <TextView
                 android:id="@+id/end_time"
                 style="@style/create_event_grid_item_style.date_style"
-                android:text="15-12-2018"
+                android:drawablePadding="@dimen/default_gap"
+                android:drawableRight="@drawable/ic_edit_18dp"
+                android:text="@string/end_time"
                 app:layout_columnWeight="1"
                 app:layout_gravity="center_horizontal" />
 

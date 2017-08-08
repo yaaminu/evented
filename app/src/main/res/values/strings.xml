@@ -22,4 +22,15 @@
     <string name="no_event">No event available</string>
     <string name="completely_public_explanation">Everyone can see and invite guests to this event</string>
     <string name="folder_name_files">Evented</string>
+    <string name="error_event_required">Event name is required</string>
+    <string name="error_location_requred">Location required</string>
+    <string name="error_description_requred">Description required</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="ends_at">Ends At</string>
+    <string name="starts_from">Starts From</string>
+    <string name="error_start_date_required">Start date not set</string>
+    <string name="error_start_date_past">Start date is in the past</string>
+    <string name="error_end_date_required">End date is not set</string>
+    <string name="error_end_date_before_start">End date can\'t come before start date</string>
 </resources>

@@ -47,4 +47,124 @@ public class Event extends RealmObject {
         this.entranceFee = entranceFee;
 
     }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFlyers() {
+        return flyers;
+    }
+
+    public void setFlyers(String flyers) {
+        this.flyers = flyers;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(long endDate) {
+        this.endDate = endDate;
+    }
+
+    public long getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(long dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    public long getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(long dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public int getPublicity() {
+        return publicity;
+    }
+
+    public void setPublicity(int publicity) {
+        this.publicity = publicity;
+    }
+
+    public int getMaxSeats() {
+        return maxSeats;
+    }
+
+    public void setMaxSeats(int maxSeats) {
+        this.maxSeats = maxSeats;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getGoing() {
+        return going;
+    }
+
+    public void setGoing(int going) {
+        this.going = going;
+    }
+
+    public long getEntranceFee() {
+        return entranceFee;
+    }
+
+    public void setEntranceFee(long entranceFee) {
+        this.entranceFee = entranceFee;
+    }
 }

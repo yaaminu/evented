@@ -24,8 +24,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        event = new Event();
-
+         event = new Event();
         setContentView(R.layout.activity_create_event);
         if (savedInstanceState != null) {
             stage = savedInstanceState.getInt("stage", 0);
