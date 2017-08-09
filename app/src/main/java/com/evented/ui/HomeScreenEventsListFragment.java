@@ -120,7 +120,7 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         int afterNextMonth = calendar.get(Calendar.MONTH) + 1;
         maxMonth = calendar.getActualMaximum(Calendar.MONTH);
         calendar.set(Calendar.MONTH, afterNextMonth > maxMonth ? (afterNextMonth - maxMonth) - 1/*start over*/ : afterNextMonth);
-        items.add(getSectionItems(getString(R.string.more), calendar.getTimeInMillis()));
+        items.add(getSectionItems(getString(R.string.later), calendar.getTimeInMillis()));
         return items;
     }
 
