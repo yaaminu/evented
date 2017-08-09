@@ -77,7 +77,7 @@ public class CreateEventFragment1 extends BaseFragment {
             textFields.get(0).setError(getString(R.string.error_event_required));
             return false;
         }
-        event.setName(textFields.get(0).toString().trim());
+        event.setName(textFields.get(0).getText().toString().trim());
 
 
         if (textFields.get(1).getText().toString().trim().isEmpty()) {
@@ -85,14 +85,14 @@ public class CreateEventFragment1 extends BaseFragment {
             textFields.get(1).setError(getString(R.string.error_location_requred));
             return false;
         }
-        event.setVenue(textFields.get(1).toString().trim());
+        event.setVenue(textFields.get(1).getText().toString().trim());
 
         if (textFields.get(2).getText().toString().trim().isEmpty()) {
             textFields.get(2).requestFocus();
             textFields.get(2).setError(getString(R.string.error_description_requred));
             return false;
         }
-        event.setVenue(textFields.get(2).toString().trim());
+        event.setDescription(textFields.get(2).getText().toString().trim());
 
         if (event.getStartDate() <= 0) {
             showDialog(getString(R.string.error_start_date_required));

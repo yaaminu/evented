@@ -10,12 +10,15 @@ import android.support.v7.widget.Toolbar;
 
 import com.evented.evented.R;
 import com.evented.events.data.Event;
+import com.evented.utils.PLog;
 
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 
 public class CreateEventActivity extends AppCompatActivity {
+
+    private static final String TAG = "CreateEventActivity";
 
     int stage = 0;
     ProgressDialog dialog;
@@ -24,7 +27,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         event = new Event();
+        event = new Event();
         setContentView(R.layout.activity_create_event);
         if (savedInstanceState != null) {
             stage = savedInstanceState.getInt("stage", 0);
@@ -72,10 +75,11 @@ public class CreateEventActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         dialog.dismiss();
+                        PLog.d(TAG, "event: %s", event);
                         Snackbar.make(findViewById(android.R.id.content), event.toString(), Snackbar.LENGTH_LONG)
                                 .show();
                     }
-                }, TimeUnit.SECONDS.toMillis(30));
+                }, TimeUnit.SECONDS.toMillis(5));
     }
 
     private Fragment getFragment(int stage) {

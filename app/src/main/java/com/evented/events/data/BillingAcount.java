@@ -28,4 +28,13 @@ public class BillingAcount extends RealmObject {
     public String getAccountNumber() {
         return accountNumber;
     }
+
+    @Override
+    public String toString() {
+        return "BillingAcount{" +
+                "accountName='" + accountName + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", accountType='" + accountType + '\'' +
+                '}';
+    }
 }
