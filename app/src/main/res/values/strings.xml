@@ -37,4 +37,11 @@
     <string name="invalid_amount">Invalid amount</string>
     <string name="error_phone_required">Your account phone number is required</string>
     <string name="err_name_required">Your official account name is required</string>
+    <string name="empty_notice">It\'s quiet here, no event found</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="this_week">This week</string>
+    <string name="this_month">This Month</string>
+    <string name="next_month">Next month</string>
+    <string name="more">More</string>
 </resources>

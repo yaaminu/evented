@@ -2,7 +2,7 @@ package com.evented.utils;
 
 import android.os.Looper;
 
-import com.evented.evented.BuildConfig;
+import com.evented.BuildConfig;
 
 /**
  * @author Null-Pointer on 8/25/2015.

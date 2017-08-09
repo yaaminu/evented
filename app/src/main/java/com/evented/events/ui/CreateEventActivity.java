@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.evented.evented.R;
+import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
 import com.evented.events.data.UserManager;

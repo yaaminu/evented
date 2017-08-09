@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.evented.evented.R;
+import com.evented.R;
 import com.evented.events.data.Event;
 
 import java.math.BigDecimal;

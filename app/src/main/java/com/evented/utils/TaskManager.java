@@ -60,7 +60,7 @@ public class TaskManager {
         }
     }
 
-    public static long runJob(Task job) {
+    public static void runJob(Task job) {
         ThreadUtils.ensureNotMain();
         if (job == null || !job.isValid()) {
             throw new IllegalArgumentException("invalid job");
@@ -69,7 +69,7 @@ public class TaskManager {
         if (jobRunner == null) {
             throw new IllegalStateException();
         }
-        return jobRunner.runJob(job);
+        jobRunner.runJob(job);
     }
 
     public static void executeOnMainThread(Runnable r) {
@@ -120,7 +120,7 @@ public class TaskManager {
     }
 
     public interface JobRunner {
-        long runJob(Task task);
+        void runJob(Task task);
 
         CancelResult cancelJobs(String tag);
 

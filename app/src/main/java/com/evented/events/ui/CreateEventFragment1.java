@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.evented.evented.R;
+import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.utils.PLog;
 

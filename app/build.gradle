@@ -9,7 +9,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.evented.evented"
+        applicationId "com.evented"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1

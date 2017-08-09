@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 
-import com.evented.evented.R;
+import com.evented.R;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;

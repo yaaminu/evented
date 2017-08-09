@@ -1,6 +1,6 @@
 package com.evented.events.ui;
 
-import com.evented.evented.R;
+import com.evented.R;
 
 /**
  * Created by yaaminu on 8/8/17.

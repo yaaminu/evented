@@ -3,7 +3,7 @@ package com.evented.events.ui;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.evented.evented.R;
+import com.evented.R;
 import com.evented.events.data.BillingAcount;
 import com.evented.events.data.Event;
 import com.evented.utils.GenericUtils;

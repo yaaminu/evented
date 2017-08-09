@@ -3,6 +3,7 @@ package com.evented.events.data;
 import org.jetbrains.annotations.Nullable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by yaaminu on 8/8/17.
@@ -10,7 +11,15 @@ import io.realm.RealmObject;
 
 public class Event extends RealmObject {
 
+    public static final String FIELD_START_DATE = "startDate",
+            END_DATE = "endDate";
+    public static final int PUBLICITY_PUBLIC = 0,
+            PUBLICITY_PRIVATE = 1,
+            PUBLICITY_SECRETE = 2;
+
+    @PrimaryKey
     private String eventId;
+
     private String createdBy;
     private String name;
     private String flyers;
