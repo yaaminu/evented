@@ -16,6 +16,7 @@ public class Event extends RealmObject {
     public static final int PUBLICITY_PUBLIC = 0,
             PUBLICITY_PRIVATE = 1,
             PUBLICITY_SECRETE = 2;
+    public static final String FEILD_EVENT_ID = "eventId";
 
     @PrimaryKey
     private String eventId;
@@ -43,7 +44,7 @@ public class Event extends RealmObject {
 
     Event(String eventId, String createdBy, String name, String flyers, String description, String venue
             , long startDate, long endDate, long dateUpdated, long dateCreated, int publicity, int maxSeats,
-          int likes, int going, long entranceFee) {
+          int likes, int going, long entranceFee, BillingAcount billingAcount) {
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.name = name;
@@ -59,7 +60,7 @@ public class Event extends RealmObject {
         this.likes = likes;
         this.going = going;
         this.entranceFee = entranceFee;
-
+        this.billingAcount = billingAcount;
     }
 
     public String getEventId() {

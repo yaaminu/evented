@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_gap">8dp</dimen>
+    <dimen name="home_screen_item_flyer_height">120dp</dimen>
+    <dimen name="home_screen_item_width">150dp</dimen>
+    <dimen name="home_screen_item_height">200dp</dimen>
 </resources>

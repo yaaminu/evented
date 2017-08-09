@@ -7,4 +7,5 @@
     <color name="light_gray">#ccc</color>
     <color name="black">#000</color>
     <color name="transparent">#0000</color>
+    <color name="red">#f23636</color>
 </resources>

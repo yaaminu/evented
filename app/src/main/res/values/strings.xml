@@ -44,4 +44,6 @@
     <string name="this_month">This Month</string>
     <string name="next_month">Next month</string>
     <string name="more">More</string>
+    <string name="flyer">flyer</string>
+    <string name="see_all">See All</string>
 </resources>
