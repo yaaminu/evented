@@ -134,7 +134,7 @@ public class HomeScreenEventsListFragment extends BaseFragment {
             highlights.add(all.get(i));
         }
 
-        return new PeriodCategorizedEvents(title, highlights);
+        return new PeriodCategorizedEvents(oldestTime, title, highlights);
     }
 
     static class HomeScreenAdapterDelegate implements HomeScreenEventsAdapter.Delegate {
@@ -198,6 +198,9 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         @Override
         public void onItemClick(RecyclerViewBaseAdapter<PeriodCategorizedEvents, ?> adapter, View view, int position, long id) {
             Toast.makeText(context.getContext(), "item at " + position + " clicked ", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(view.getContext(), PeriodEventsListActivity.class);
+            intent.putExtra(PeriodEventsListActivity.EXTRA_OLDEST, adapter.getItem(position).oldestTime);
+            view.getContext().startActivity(intent);
         }
 
         @Override

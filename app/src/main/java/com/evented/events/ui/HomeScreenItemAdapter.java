@@ -2,7 +2,6 @@ package com.evented.events.ui;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,12 +21,10 @@ import butterknife.OnLongClick;
 
 public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder> {
     private static final String TAG = "HomeScreenItemAdapter";
-    private final LayoutInflater inflater;
     private final BitmapDrawable drawable;
 
     public HomeScreenItemAdapter(BitmapDrawable drawable, Delegate<Event> delegate) {
         super(delegate);
-        inflater = LayoutInflater.from(delegate.context());
         this.drawable = drawable;
     }
 

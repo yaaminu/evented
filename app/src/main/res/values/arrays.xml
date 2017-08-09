@@ -10,4 +10,15 @@
         <item>Invited guests can see and invite others</item>
         <item>Invited guests can see but only you can invite guests</item>
     </string-array>
+    <string-array name="event_cagories">
+        <item>All</item>
+        <item>Culture</item>
+        <item>Sports</item>
+        <item>Entertainment</item>
+        <item>Politics</item>
+        <item>Religion</item>
+        <item>Funeral</item>
+        <item>Wedding</item>
+        <item>Party</item>
+    </string-array>
 </resources>

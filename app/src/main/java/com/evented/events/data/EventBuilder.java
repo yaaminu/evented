@@ -17,6 +17,7 @@ public class EventBuilder {
     private int going = 0;
     private BillingAcount billingAcount;
     private long entranceFee = 0;
+    private int category;
 
     public EventBuilder setEventId(String eventId) {
         this.eventId = eventId;
@@ -98,9 +99,14 @@ public class EventBuilder {
         return this;
     }
 
+    public EventBuilder setCategory(int category) {
+        this.category = category;
+        return this;
+    }
+
 
     public Event createEvent() {
         return new Event(eventId, createdBy, name, flyers, description, venue, startDate, endDate, dateUpdated,
-                dateCreated, publicity, maxSeats, likes, going, entranceFee,billingAcount);
+                dateCreated, publicity, maxSeats, likes, going, entranceFee, billingAcount, category);
     }
 }

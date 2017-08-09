@@ -13,14 +13,13 @@ import com.evented.ui.RecyclerViewBaseAdapter;
  */
 
 public class HomeScreenEventsAdapter extends RecyclerViewBaseAdapter<PeriodCategorizedEvents, HomeScreenListItemHolder> {
-    private static final String TAG = "HomeScreenEventsAdapter";
-    private final LayoutInflater inflater;
     private final Delegate delegate;
+    private final LayoutInflater inflater;
 
     public HomeScreenEventsAdapter(Delegate delegate) {
         super(delegate);
-        inflater = LayoutInflater.from(delegate.context());
         this.delegate = delegate;
+        inflater = LayoutInflater.from(delegate.context());
     }
 
     @Override

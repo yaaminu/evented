@@ -3,6 +3,7 @@ package com.evented.ui;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.evented.utils.PLog;
@@ -26,10 +27,12 @@ public abstract class RecyclerViewBaseAdapter<T, H extends RecyclerView.ViewHold
     private static final String TAG = RecyclerViewBaseAdapter.class.getSimpleName();
     protected final Delegate<T> delegate;
     private List<T> items;
+    protected final LayoutInflater inflater;
 
     public RecyclerViewBaseAdapter(Delegate<T> delegate) {
         this.items = delegate.dataSet();
         this.delegate = delegate;
+        inflater = LayoutInflater.from(delegate.context());
     }
 
     /**
