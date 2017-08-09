@@ -2,7 +2,6 @@ package com.evented.events.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,31 +9,37 @@ import android.support.v7.widget.Toolbar;
 
 import com.evented.evented.R;
 import com.evented.events.data.Event;
+import com.evented.events.data.EventManager;
+import com.evented.events.data.UserManager;
 import com.evented.utils.PLog;
 
-import java.util.concurrent.TimeUnit;
-
-import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class CreateEventActivity extends AppCompatActivity {
 
     private static final String TAG = "CreateEventActivity";
 
-    int stage = 0;
-    ProgressDialog dialog;
+    private int stage = 0;
+    private ProgressDialog dialog;
     private Event event;
+
+    private EventManager eventManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         event = new Event();
+        eventManager = EventManager.create(UserManager.getInstance());
+
         setContentView(R.layout.activity_create_event);
         if (savedInstanceState != null) {
             stage = savedInstanceState.getInt("stage", 0);
         } else {
             stage = 0;
         }
-        Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,16 +75,25 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void createEvent() {
         dialog.show();
-        new Handler()
-                .postDelayed(new Runnable() {
+        eventManager.createEvent(event)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Event>() {
                     @Override
-                    public void run() {
+                    public void call(Event event) {
                         dialog.dismiss();
                         PLog.d(TAG, "event: %s", event);
-                        Snackbar.make(findViewById(android.R.id.content), event.toString(), Snackbar.LENGTH_LONG)
+                        Snackbar.make(getWindow().getDecorView(), event.toString(), Snackbar.LENGTH_LONG)
                                 .show();
+                        finish();
                     }
-                }, TimeUnit.SECONDS.toMillis(5));
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dialog.dismiss();
+                        Snackbar.make(getWindow().getDecorView(), throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private Fragment getFragment(int stage) {
@@ -91,7 +105,7 @@ public class CreateEventActivity extends AppCompatActivity {
             case 2:
                 return new CreateEventFragment3();
             default:
-                throw new AssertionError();
+                return new CreateEventFragment3();
         }
     }
 
