@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/default_gap"
+    android:gravity="center_vertical"
+    android:paddingBottom="@dimen/default_gap"
+    android:paddingLeft="@dimen/default_gap"
+    android:paddingRight="@dimen/default_gap"
+    android:paddingTop="@dimen/default_gap"
+    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+    tools:text="This is a search results" />

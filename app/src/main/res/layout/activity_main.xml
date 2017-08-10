@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_home_screen_events_list"
-    android:name="com.evented.ui.HomeScreenEventsListFragment"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_home_screen_events_list" />
+    android:background="#eee"
+    android:orientation="vertical">
+
+    <include layout="@layout/search_bar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/search_suggestion" />
+
+        <AbsoluteLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/default_gap">
+
+        </AbsoluteLayout>
+    </FrameLayout>
+</LinearLayout>

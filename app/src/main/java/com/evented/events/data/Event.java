@@ -21,6 +21,7 @@ public class Event extends RealmObject {
     public static final String FIELD_EVENT_ID = "eventId";
     public static final int CATEGORY_ALL = 0;
     public static final String FIELD_CATEGORY = "category";
+    public static final String FIELD_NAME = "name";
 
     @PrimaryKey
     private String eventId;
