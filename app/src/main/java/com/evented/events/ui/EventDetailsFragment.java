@@ -2,6 +2,7 @@ package com.evented.events.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
@@ -84,6 +85,15 @@ public class EventDetailsFragment extends BaseFragment {
         });
         event.addChangeListener(changeListener);
 
+    }
+
+    @OnClick(R.id.book_ticket)
+    void bookTicket() {
+        BottomSheetDialogFragment dialogFragment = new BookTicketDialogFragment();
+        Bundle bundle = new Bundle(1);
+        bundle.putString(BookTicketDialogFragment.ARG_EVENT_ID, event.getEventId());
+        dialogFragment.setArguments(bundle);
+        dialogFragment.show(getChildFragmentManager(), "bookTicket");
     }
 
     @Override

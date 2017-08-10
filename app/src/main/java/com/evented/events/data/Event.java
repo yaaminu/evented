@@ -2,6 +2,8 @@ package com.evented.events.data;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -200,10 +202,10 @@ public class Event extends RealmObject {
                 ", flyers='" + flyers + '\'' +
                 ", description='" + description + '\'' +
                 ", venue='" + venue + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", dateUpdated=" + dateUpdated +
-                ", dateCreated=" + dateCreated +
+                ", startDate=" + new Date(startDate) +
+                ", endDate=" + new Date(endDate) +
+                ", dateUpdated=" + new Date(dateUpdated) +
+                ", dateCreated=" + new Date(dateCreated) +
                 ", publicity=" + publicity +
                 ", maxSeats=" + maxSeats +
                 ", likes=" + likes +

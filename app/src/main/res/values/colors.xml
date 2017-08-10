@@ -8,4 +8,5 @@
     <color name="black">#000</color>
     <color name="transparent">#0000</color>
     <color name="red">#f23636</color>
+    <color name="colorAccentDark">#FFF40556</color>
 </resources>

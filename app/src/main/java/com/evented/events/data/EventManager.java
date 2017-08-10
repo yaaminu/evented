@@ -3,8 +3,12 @@ package com.evented.events.data;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 
+import com.evented.tickets.Ticket;
+import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.PLog;
 
+import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -12,6 +16,7 @@ import rx.Subscriber;
  */
 
 public class EventManager {
+    private static final String TAG = "EventManager";
 
     @NonNull
     private final UserManager usermanager;
@@ -38,6 +43,21 @@ public class EventManager {
                 event.setDateCreated(dateCreated);
                 event.setDateUpdated(dateCreated);
                 subscriber.onNext(event);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber, final String buyForNumber, final long cost) {
+        return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {
+            @Override
+            public void call(Subscriber<? super Ticket> subscriber) {
+                subscriber.onStart();
+                SystemClock.sleep(3000);
+                final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
+                        FileUtils.sha1("signature"), System.currentTimeMillis(), cost);
+                PLog.d(TAG, "ticket bought %s", ticket);
+                subscriber.onNext(ticket);
                 subscriber.onCompleted();
             }
         });

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/book_ticket_root_layout"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:columnCount="2"
+    app:useDefaultMargins="true">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_gap"
+        android:layout_marginRight="@dimen/default_gap"
+        android:text="@string/purchase_ticket_instruction"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray"
+
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+
+    <EditText
+        android:id="@+id/billing_account_number"
+        android:background="#0000"
+        android:drawableLeft="@drawable/ic_payment_black_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:gravity="center_vertical"
+        android:hint="@string/account_number"
+        android:inputType="phone"
+        android:paddingBottom="@dimen/default_gap"
+        android:paddingTop="@dimen/default_gap"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray"
+        app:layout_columnSpan="2"
+
+        app:layout_columnWeight="1" />
+
+    <EditText
+        android:id="@+id/buy_for"
+        android:background="#0000"
+        android:drawableLeft="@drawable/ic_phonelink_lock_black_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:hint="@string/buy_for"
+        android:inputType="phone"
+        android:paddingBottom="@dimen/default_gap"
+        android:paddingTop="@dimen/default_gap"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+
+
+    <Button
+        android:id="@+id/book_ticket"
+        android:layout_margin="@dimen/default_gap"
+        android:background="@drawable/round_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/book_ticket"
+        android:textColor="@color/white"
+        app:layout_columnSpan="2"
+        app:layout_columnWeight="1" />
+</android.support.v7.widget.GridLayout>
