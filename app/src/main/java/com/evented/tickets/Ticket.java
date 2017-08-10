@@ -16,6 +16,8 @@ public class Ticket {
     @PrimaryKey
     private String ticketId;
 
+    private int ticketNumber;
+
     @Index
     private String eventId;
     @Index
@@ -30,7 +32,7 @@ public class Ticket {
 
     public Ticket(String ticketId, String eventId, String purchasedBy,
                   String ownerPhone, String ticketSignatuture,
-                  long datePurchased, long ticketCost) {
+                  long datePurchased, long ticketCost, int ticketNumber) {
         this.ticketId = ticketId;
         this.eventId = eventId;
         this.purchasedBy = purchasedBy;
@@ -38,6 +40,7 @@ public class Ticket {
         this.ticketSignatuture = ticketSignatuture;
         this.datePurchased = datePurchased;
         this.ticketCost = ticketCost;
+        this.ticketNumber = ticketNumber;
 
     }
 
@@ -69,6 +72,10 @@ public class Ticket {
         return ticketSignatuture;
     }
 
+    public int getTicketNumber() {
+        return ticketNumber;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -79,6 +86,7 @@ public class Ticket {
                 ", datePurchased=" + new Date(datePurchased) +
                 ", ticketCost=" + ticketCost +
                 ", ticketSignatuture='" + ticketSignatuture + '\'' +
+                ", ticketNumber='" + ticketNumber + '\'' +
                 '}';
     }
 }

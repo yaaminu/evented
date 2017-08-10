@@ -18,6 +18,7 @@ import rx.Subscriber;
 public class EventManager {
     private static final String TAG = "EventManager";
 
+    private static int ticketNumber = 0;
     @NonNull
     private final UserManager usermanager;
 
@@ -70,7 +71,7 @@ public class EventManager {
                 SystemClock.sleep(3000);
                 if ("12345".equals(verificationCode)) {
                     final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
-                            FileUtils.sha1("signature"), System.currentTimeMillis(), cost);
+                            FileUtils.sha1("signature"), System.currentTimeMillis(), cost, ++ticketNumber);
                     PLog.d(TAG, "ticket bought %s", ticket);
                     subscriber.onNext(ticket);
                     subscriber.onCompleted();
