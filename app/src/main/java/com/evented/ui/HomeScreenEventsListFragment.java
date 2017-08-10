@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
-import android.widget.Toast;
 
 import com.evented.R;
 import com.evented.events.data.Event;
@@ -162,7 +161,6 @@ public class HomeScreenEventsListFragment extends BaseFragment {
 
         @Override
         public void onItemClick(RecyclerViewBaseAdapter<PeriodCategorizedEvents, ?> adapter, View view, int position, long id) {
-            Toast.makeText(context.getContext(), "item at " + position + " clicked ", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(view.getContext(), PeriodEventsListActivity.class);
             intent.putExtra(PeriodEventsListActivity.EXTRA_OLDEST, adapter.getItem(position).oldestTime);
             view.getContext().startActivity(intent);
