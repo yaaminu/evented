@@ -36,7 +36,7 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
         holder.tvEventName.setText(item.getName());
         holder.tvLocation.setText(item.getVenue());
         holder.tvStartTime.setText(DateUtils.formatDateTime(delegate.context(), item.getStartDate(),
-                DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_12HOUR));
+                DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR));
         holder.tvDescription.setText(item.getDescription());
         holder.likes.setText(String.valueOf(item.getLikes()));
         holder.going.setText(String.valueOf(item.getGoing()));

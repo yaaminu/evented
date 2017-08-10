@@ -107,16 +107,11 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         items.add(getSectionItems(getString(R.string.tomorrow), TimeUnit.DAYS.toMillis(1) + calendar.getTimeInMillis()));
 
         //this week
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        items.add(getSectionItems(getString(R.string.this_week), calendar.getTimeInMillis()));
+        items.add(getSectionItems(getString(R.string.this_week), TimeUnit.DAYS.toMillis(2) + calendar.getTimeInMillis()));
 
         //this month
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 2);
         items.add(getSectionItems(getString(R.string.this_month), calendar.getTimeInMillis()));
 
         //next month
