@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ddd"
-    android:padding="@dimen/default_gap"
-    tools:layout_height="match_parent">
+    android:layout_margin="@dimen/default_gap"
+    tools:layout_height="wrap_content">
 
     <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="@dimen/default_gap"
+        android:paddingTop="@dimen/default_gap"
         app:columnCount="3">
 
         <TextView
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/default_gap"
-                android:drawableLeft="@drawable/ic_going_24dp"
+                android:drawableLeft="@drawable/ic_going_18dp"
                 android:drawablePadding="@dimen/default_gap"
                 android:gravity="right"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -106,4 +106,4 @@
                 tools:text="12:30 pm" />
         </LinearLayout>
     </android.support.v7.widget.GridLayout>
-</FrameLayout>
+</android.support.v7.widget.CardView>

@@ -8,7 +8,8 @@ import com.evented.events.ui.EventDetailsFragment;
 
 public class EventDetailsActivity extends AppCompatActivity {
 
-    public static final String EXTRA_EVENT_ID = "eventId";
+    public static final String EXTRA_EVENT_ID = "eventId",
+            EXTRA_EVENT_NAME = "eventName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

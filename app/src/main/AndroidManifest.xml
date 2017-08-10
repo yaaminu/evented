@@ -21,7 +21,9 @@
         <activity
             android:name=".events.ui.CreateEventActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.EventDetailsActivity" />
+        <activity
+            android:name=".ui.EventDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.PeriodEventsListActivity" />
     </application>
 

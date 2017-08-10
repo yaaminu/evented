@@ -2,8 +2,13 @@ package com.evented.events.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.evented.R;
 import com.evented.events.data.Event;
@@ -11,9 +16,9 @@ import com.evented.ui.EventDetailsActivity;
 import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmObject;
 
 /**
  * Created by yaaminu on 8/8/17.
@@ -29,9 +34,28 @@ public class EventDetailsFragment extends BaseFragment {
     Realm realm;
     Event event;
 
-    @BindView(R.id.event)
-    TextView eventTv;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tv_location)
+    TextView location;
+
+    @BindView(R.id.tv_description)
+    TextView tv_description;
+
+    @BindView(R.id.tv_going)
+    TextView tv_going;
+
+    @BindView(R.id.tv_start_time)
+    TextView tv_start_time;
+
+    @BindView(R.id.iv_event_flyer)
+    ImageView iv_event_flyer;
+
+    @BindView(R.id.tv_likes)
+    TextView tv_likes;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,13 +66,24 @@ public class EventDetailsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String eventId = getArguments().getString(EventDetailsActivity.EXTRA_EVENT_ID);
+        String eventId = getArguments().getString(EventDetailsActivity.EXTRA_EVENT_ID),
+                eventName = getArguments().getString(EventDetailsActivity.EXTRA_EVENT_NAME);
+
         GenericUtils.assertThat(eventId != null, "event id required");
 
         event = realm.where(Event.class)
                 .equalTo(Event.FEILD_EVENT_ID, eventId)
                 .findFirstAsync();
+        collapsingToolbarLayout.setTitle(eventName);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
         event.addChangeListener(changeListener);
+
     }
 
     @Override
@@ -57,10 +92,22 @@ public class EventDetailsFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    final RealmChangeListener<RealmObject> changeListener = new RealmChangeListener<RealmObject>() {
+    final RealmChangeListener<Event> changeListener = new RealmChangeListener<Event>() {
         @Override
-        public void onChange(RealmObject o) {
-            eventTv.setText(o.toString());
+        public void onChange(Event event) {
+            collapsingToolbarLayout.setTitle(EventDetailsFragment.this.event.getName());
+            location.setText(event.getVenue());
+            tv_description.setText(event.getDescription());
+            tv_going.setText(getString(R.string.attending, event.getGoing(), event.getMaxSeats()));
+            tv_start_time.setText(DateUtils.formatDateTime(getContext(), event.getStartDate(),
+                    DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL));
+            tv_likes.setText(String.valueOf(event.getLikes()));
         }
     };
+
+    @OnClick(R.id.iv_event_flyer)
+    void onClick() {
+        // TODO: 8/10/17 launch an image view to view image
+        Toast.makeText(getContext(), "Showing image", Toast.LENGTH_SHORT).show();
+    }
 }

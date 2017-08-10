@@ -46,4 +46,6 @@
     <string name="later">Later</string>
     <string name="flyer">flyer</string>
     <string name="see_all">See All</string>
+    <string name="attending">%d of %d tickets sold</string>
+    <string name="extra_information">Extra Information</string>
 </resources>

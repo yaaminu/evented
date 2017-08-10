@@ -100,7 +100,9 @@ public class EventsListFragment extends BaseFragment {
         @Override
         public void onItemClick(RecyclerViewBaseAdapter<Event, ?> adapter, View view, int position, long id) {
             Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-            intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, adapter.getItem(position).getEventId());
+            final Event item = adapter.getItem(position);
+            intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, item.getEventId());
+            intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, item.getName());
             view.getContext().startActivity(intent);
         }
 
