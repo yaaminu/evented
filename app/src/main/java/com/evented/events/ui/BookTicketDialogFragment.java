@@ -1,6 +1,7 @@
 package com.evented.events.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -18,6 +19,7 @@ import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
 import com.evented.events.data.UserManager;
 import com.evented.tickets.Ticket;
+import com.evented.tickets.TicketDetailsActivity;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.ViewUtils;
 
@@ -70,7 +72,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         realm = Realm.getDefaultInstance();
         String eventId = getArguments().getString(ARG_EVENT_ID);
         event = realm.where(Event.class)
-                .equalTo(Event.FEILD_EVENT_ID, eventId)
+                .equalTo(Event.FIELD_EVENT_ID, eventId)
                 .findFirst();
         GenericUtils.ensureNotNull(event);
     }
@@ -160,9 +162,10 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                     @Override
                     public void call(Ticket ticket) {
                         dialog.dismiss();
-                        // TODO: 8/10/17 show ticket details
-                        showDialog(ticket.toString());
+                        Intent intent = new Intent(getContext(), TicketDetailsActivity.class);
+                        intent.putExtra(TicketDetailsActivity.EXTRA_TICKET_ID, ticket.getTicketId());
                         dismiss();
+                        getActivity().startActivity(intent);
                         //noinspection ConstantConditions
                     }
                 }, new Action1<Throwable>() {

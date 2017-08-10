@@ -73,7 +73,7 @@ public class EventDetailsFragment extends BaseFragment {
         GenericUtils.assertThat(eventId != null, "event id required");
 
         event = realm.where(Event.class)
-                .equalTo(Event.FEILD_EVENT_ID, eventId)
+                .equalTo(Event.FIELD_EVENT_ID, eventId)
                 .findFirstAsync();
         collapsingToolbarLayout.setTitle(eventName);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);

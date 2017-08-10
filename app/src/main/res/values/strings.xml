@@ -61,4 +61,10 @@
     <string name="verify_and_book">Verify &amp; book</string>
     <string name="error_verification_code">Verification code not complete</string>
     <string name="initialising_transaction">Initialising transaction</string>
+    <string name="qr_code">QR code</string>
+    <string name="ticket_details">Ticket Details</string>
+    <string name="ticket_cost">Ticket cost %s</string>
+    <string name="starts_at">Event starts at %s</string>
+    <string name="purchased_on">Purchased on: %s</string>
+    <string name="ticket_no">Ticket No. %d</string>
 </resources>

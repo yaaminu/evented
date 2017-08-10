@@ -18,7 +18,7 @@ public class Event extends RealmObject {
     public static final int PUBLICITY_PUBLIC = 0,
             PUBLICITY_PRIVATE = 1,
             PUBLICITY_SECRETE = 2;
-    public static final String FEILD_EVENT_ID = "eventId";
+    public static final String FIELD_EVENT_ID = "eventId";
     public static final int CATEGORY_ALL = 0;
     public static final String FIELD_CATEGORY = "category";
 

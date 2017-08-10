@@ -2,6 +2,7 @@ package com.evented.tickets;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
@@ -9,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by yaaminu on 8/8/17.
  */
 
-public class Ticket {
+public class Ticket extends RealmObject {
     public static final String FIELD_ticketId = "ticketId";
 
 

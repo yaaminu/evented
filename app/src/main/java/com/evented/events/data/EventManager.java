@@ -8,6 +8,7 @@ import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 
+import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -70,11 +71,19 @@ public class EventManager {
                 subscriber.onStart();
                 SystemClock.sleep(3000);
                 if ("12345".equals(verificationCode)) {
-                    final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
-                            FileUtils.sha1("signature"), System.currentTimeMillis(), cost, ++ticketNumber);
-                    PLog.d(TAG, "ticket bought %s", ticket);
-                    subscriber.onNext(ticket);
-                    subscriber.onCompleted();
+                    Realm realm = Realm.getDefaultInstance();
+                    try {
+                        final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
+                                FileUtils.sha1(System.currentTimeMillis() + ""), System.currentTimeMillis(), cost, ++ticketNumber);
+                        PLog.d(TAG, "ticket bought %s", ticket);
+                        realm.beginTransaction();
+                        realm.copyToRealmOrUpdate(ticket);
+                        realm.commitTransaction();
+                        subscriber.onNext(ticket);
+                        subscriber.onCompleted();
+                    } finally {
+                        realm.close();
+                    }
                 } else {
                     subscriber.onError(new Exception("Verification code invalid"));
                 }

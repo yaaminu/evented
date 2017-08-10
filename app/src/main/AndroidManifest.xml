@@ -25,6 +25,9 @@
             android:name=".ui.EventDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.PeriodEventsListActivity" />
+        <activity
+            android:name=".tickets.TicketDetailsActivity"
+            android:label="@string/ticket_details" />
     </application>
 
 </manifest>
