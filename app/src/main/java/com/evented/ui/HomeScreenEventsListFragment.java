@@ -2,8 +2,6 @@ package com.evented.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -143,57 +141,12 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         private final HomeScreenEventsListFragment context;
         SparseArray<HomeScreenItemAdapter> adapters;
 
-        List<BitmapDrawable> drawable;
-
         public HomeScreenAdapterDelegate(HomeScreenEventsListFragment context, List<PeriodCategorizedEvents> items) {
             this.items = items;
             this.context = context;
             adapters = new SparseArray<>(6);
-            drawable = new ArrayList<>(6);
-            setUpDrawables();
         }
 
-        private void setUpDrawables() {
-            for (int i = 0; i < 6; i++) {
-                int res = getResIdentifier(i);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeResource(context.getResources(),
-                        res, options);
-                final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_flyer_height);
-                final int requiredWidth = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_width);
-
-                options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
-                if (options.inSampleSize == 0) {
-                    options.inSampleSize = 1;
-                } else if (options.inSampleSize < 1) {
-                    options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
-                }
-                options.inJustDecodeBounds = false;
-
-                drawable.add(new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-                        res, options)));
-            }
-        }
-
-        private int getResIdentifier(int i) {
-            switch (i) {
-                case 0:
-                    return R.drawable.wating;
-                case 1:
-                    return R.drawable.denu;
-                case 2:
-                    return R.drawable.xoli;
-                case 3:
-                    return R.drawable.iceberg;
-                case 4:
-                    return R.drawable.ocean;
-                case 5:
-                    return R.drawable.iceberg;
-                default:
-                    return R.drawable.ocean;
-            }
-        }
 
         @Override
         public void onItemClick(RecyclerViewBaseAdapter<PeriodCategorizedEvents, ?> adapter, View view, int position, long id) {
@@ -223,7 +176,7 @@ public class HomeScreenEventsListFragment extends BaseFragment {
                 adapter = adapters.get(position);
             }
             if (adapter == null) {
-                adapter = new HomeScreenItemAdapter(drawable.get(position), new DelegateImpl(context.getContext(),
+                adapter = new HomeScreenItemAdapter(new DelegateImpl(context.getContext(),
                         items.get(position)));
                 adapters.put(position, adapter);
             }

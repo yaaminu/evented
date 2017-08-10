@@ -124,4 +124,5 @@ public class EventsListFragment extends BaseFragment {
             return getContext();
         }
     };
+
 }

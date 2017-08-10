@@ -49,19 +49,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     static void createEvents() {
+        final String description = "This is the description of the event. It must give precise information of what " +
+                "the event is all about and all other valuable information";
         new Thread() {
             @Override
             public void run() {
-                final User currentUser = UserManager.getInstance().getCurrentUser();
+
                 Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                createToday(currentUser, realm);
-                createTomorrow(realm, currentUser);
-                createEventNextWeek(realm, currentUser);
-                createEventNextMonth(realm, currentUser);
-                createEventAfterNextMonth(realm, currentUser);
-                realm.commitTransaction();
-                realm.close();
+                try {
+                    if (realm.where(Event.class)
+                            .count() > 20) {
+                        return;
+                    }
+                    User currentUser = UserManager.getInstance().getCurrentUser();
+                    realm.beginTransaction();
+                    createToday(currentUser, realm);
+                    createTomorrow(realm, currentUser);
+                    createEventNextWeek(realm, currentUser);
+                    createEventNextMonth(realm, currentUser);
+                    createEventAfterNextMonth(realm, currentUser);
+                    realm.commitTransaction();
+                } finally {
+                    realm.close();
+                }
             }
 
             private void createToday(User currentUser, Realm realm) {
@@ -80,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             .setStartDate(System.currentTimeMillis())
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4))
                             .setEventId("eventIdToday" + i)
-                            .setDescription("description of event")
+                            .setDescription(description)
                             .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setEntranceFee(10000)
@@ -106,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                             .setStartDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1))
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4))
                             .setEventId("eventIdTomorrow" + i)
-                            .setDescription("description of event")
+                            .setDescription(description)
                             .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setEntranceFee(10000)
@@ -131,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(11))
                             .setEventId("eventIdNextWeek" + i)
                             .setCategory(Math.max(1, i % 9))
-                            .setDescription("description of event")
+                            .setDescription(description)
                             .setMaxSeats(1000)
                             .setBillingAcount(billingAcount)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
@@ -158,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                             .setStartDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(33))
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(44))
                             .setEventId("eventIdNextMonth" + i)
-                            .setDescription("description of event")
+                            .setDescription(description)
                             .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setEntranceFee(10000)
@@ -193,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                             .setStartDate(calendar.getTimeInMillis())
                             .setEndDate(calendar.getTimeInMillis() + TimeUnit.DAYS.toMillis(3))
                             .setEventId("eventIdMore" + i)
-                            .setDescription("description of event")
+                            .setDescription(description)
                             .setCategory((1 + i) % 9)
                             .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
