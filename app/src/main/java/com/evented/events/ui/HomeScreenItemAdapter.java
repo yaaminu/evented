@@ -3,7 +3,6 @@ package com.evented.events.ui;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,8 +11,10 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.RecyclerViewBaseAdapter;
+import com.evented.utils.GenericUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,9 +28,14 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
     private static final String TAG = "HomeScreenItemAdapter";
     private static final ArrayList<BitmapDrawable> drawables = new ArrayList<>(6);
 
+    private Calendar today;
+    private Calendar thatDay;
+
     public HomeScreenItemAdapter(Delegate<Event> delegate) {
         super(delegate);
         setUpDrawables(delegate.context());
+        today = Calendar.getInstance();
+        thatDay = Calendar.getInstance();
     }
 
     @Override
@@ -37,8 +43,8 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
         Event item = getItem(position);
         holder.eventName.setText(item.getName());
         holder.location.setText(item.getVenue());
-        holder.startTime.setText(DateUtils.formatDateTime(delegate.context(), item.getStartDate(),
-                DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_12HOUR));
+        thatDay.setTimeInMillis(item.getStartDate());
+        holder.startTime.setText(GenericUtils.formatDateTime(delegate.context(), today, thatDay));
         holder.flyer.setImageDrawable(drawables.get(position % drawables.size()));
     }
 

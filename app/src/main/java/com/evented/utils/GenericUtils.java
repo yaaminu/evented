@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.StringRes;
+import android.text.format.DateUtils;
+
+import java.util.Calendar;
 
 /**
  * author Null-Pointer on 1/11/2016.
@@ -110,4 +113,22 @@ public class GenericUtils {
         }
         return false;
     }
+
+    public static String formatDateTime(Context context, Calendar today, Calendar date) {
+        int flags = 0;
+        flags |= (DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_12HOUR);
+        if (today.get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
+            if (today.get(Calendar.WEEK_OF_YEAR) == date.get(Calendar.WEEK_OF_YEAR)) {
+                if (today.get(Calendar.DAY_OF_WEEK) != date.get(Calendar.DAY_OF_WEEK)) {
+                    flags |= DateUtils.FORMAT_SHOW_WEEKDAY;
+                }
+            } else {
+                flags |= DateUtils.FORMAT_SHOW_DATE;
+            }
+        } else {
+            flags |= (DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR);
+        }
+        return DateUtils.formatDateTime(context, date.getTimeInMillis(), flags);
+    }
+
 }
