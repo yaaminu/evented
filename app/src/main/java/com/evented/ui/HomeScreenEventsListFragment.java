@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.ui.BaseFragment;
+import com.evented.events.ui.CreateEventActivity;
 import com.evented.events.ui.HomeScreenEventsAdapter;
 import com.evented.events.ui.HomeScreenItemAdapter;
 import com.evented.utils.ViewUtils;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -39,6 +42,9 @@ public class HomeScreenEventsListFragment extends BaseFragment {
 
     @BindView(R.id.empty_view)
     View emptyView;
+    @BindView(R.id.fab_create_event)
+    FloatingActionButton fab_create_event;
+
     private Realm realm;
     private HomeScreenAdapterDelegate delegate;
     private HomeScreenEventsAdapter adapter;
@@ -72,6 +78,12 @@ public class HomeScreenEventsListFragment extends BaseFragment {
             adapter.notifyDataChanged();
         }
     };
+
+    @OnClick(R.id.fab_create_event)
+    void onClick() {
+        Intent intent = new Intent(getContext(), CreateEventActivity.class);
+        getActivity().startActivity(intent);
+    }
 
 
     @Override
@@ -212,7 +224,7 @@ public class HomeScreenEventsListFragment extends BaseFragment {
             Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
             final Event item = adapter.getItem(position);
             intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, item.getEventId());
-            intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME,item.getName());
+            intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, item.getName());
             view.getContext().startActivity(intent);
         }
 
