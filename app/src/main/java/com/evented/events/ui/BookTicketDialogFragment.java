@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
@@ -18,6 +19,7 @@ import com.evented.events.data.EventManager;
 import com.evented.events.data.UserManager;
 import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,19 +37,36 @@ import rx.schedulers.Schedulers;
 public class BookTicketDialogFragment extends BottomSheetDialogFragment {
 
     static final String ARG_EVENT_ID = "eventId";
+    private EventManager eventManager;
     @BindView(R.id.billing_account_number)
     EditText billing_account_number;
     @BindView(R.id.buy_for)
     EditText buy_for;
+    @BindView(R.id.book_ticket_root_layout)
+    View book_ticket_root_layout;
+
+    @BindView(R.id.et_verification_code)
+    EditText et_verification;
 
     @BindView(R.id.book_ticket)
     Button book_ticket;
+
+    @BindView(R.id.tv_instruction)
+    TextView tv_instruction;
+
     Event event;
     private Realm realm;
+
+    int stage = 0;
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            stage = savedInstanceState.getInt("stage", 0);
+        }
+        eventManager = EventManager.create(UserManager.getInstance());
         realm = Realm.getDefaultInstance();
         String eventId = getArguments().getString(ARG_EVENT_ID);
         event = realm.where(Event.class)
@@ -56,12 +75,34 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         GenericUtils.ensureNotNull(event);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("stage", stage);
+        super.onSaveInstanceState(outState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_book_ticket, container, false);
         ButterKnife.bind(this, view);
+        dialog = new ProgressDialog(getContext());
+        dialog.setCancelable(false);
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (stage == 0 || stage == 1) {
+            tv_instruction.setText(stage == 0 ? R.string.purchase_ticket_instruction : R.string.verification_instruaction);
+            ViewUtils.showByFlag(stage == 0, book_ticket_root_layout);
+            ViewUtils.showByFlag(stage == 1, et_verification);
+            book_ticket.setText(stage == 0 ? R.string.book_ticket : R.string.verify_and_book);
+        } else {
+            throw new AssertionError();
+        }
     }
 
     @Override
@@ -76,15 +117,43 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         if (!validate()) {
             return;
         }
+        if (stage == 0) {
+            dialog.setMessage(getString(R.string.initialising_transaction));
+            dialog.show();
+            eventManager.verifyNumber(billing_account_number.getText().toString().trim())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            dialog.dismiss();
+                            ViewUtils.hideViews(book_ticket_root_layout);
+                            tv_instruction.setText(getString(R.string.verification_instruaction));
+                            ViewUtils.showViews(et_verification);
+                            book_ticket.setText(R.string.verify_and_book);
+                            stage = 1;
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            dialog.dismiss();
+                            showDialog(throwable.getMessage());
+                        }
+                    });
+        } else if (stage == 1) {
+            completeBooking();
+        } else {
+            throw new AssertionError();
+        }
+    }
+
+    private void completeBooking() {
         String billingPhoneNumber = billing_account_number.getText().toString().trim(),
                 buyFor = buy_for.getText().toString().trim();
-
-        final ProgressDialog dialog = new ProgressDialog(getContext());
         dialog.setMessage(getString(R.string.booking_ticket));
-        dialog.setCancelable(false);
         dialog.show();
-        EventManager.create(UserManager.getInstance())
-                .bookTicket(event.getEventId(), billingPhoneNumber, buyFor, event.getEntranceFee())
+        eventManager
+                .bookTicket(event.getEventId(), billingPhoneNumber, buyFor, event.getEntranceFee(), et_verification.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Ticket>() {
@@ -112,17 +181,28 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
     }
 
     private boolean validate() {
-        if (billing_account_number.getText().toString().trim().isEmpty()) {
-            showDialog(getString(R.string.error_no_billing_account_number));
-            billing_account_number.setError("");
-            return false;
+        if (stage == 0) {
+            if (billing_account_number.getText().toString().trim().isEmpty()) {
+                showDialog(getString(R.string.error_no_billing_account_number));
+                billing_account_number.setError("");
+                return false;
+            }
+            if (buy_for.getText().toString().trim().isEmpty()) {
+                showDialog(getString(R.string.error_ticket_onwer));
+                buy_for.setError("");
+                return false;
+            }
+            return true;
+        } else if (stage == 1) {
+            if (et_verification.getText().toString().trim().length() < 5) {
+                showDialog(getString(R.string.error_verification_code));
+                et_verification.setError("");
+                return false;
+            }
+            return true;
+        } else {
+            throw new AssertionError();
         }
-        if (buy_for.getText().toString().trim().isEmpty()) {
-            showDialog(getString(R.string.error_ticket_onwer));
-            buy_for.setError("");
-            return false;
-        }
-        return true;
     }
 
     public void showDialog(String message) {

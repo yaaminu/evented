@@ -48,17 +48,35 @@ public class EventManager {
         });
     }
 
-    public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber, final String buyForNumber, final long cost) {
+    public Observable<String> verifyNumber(final String phoneNumber) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                // TODO: 8/10/17 send a real sms and store the number
+                subscriber.onStart();
+                SystemClock.sleep(3000);
+                subscriber.onNext(phoneNumber);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber, final String buyForNumber, final long cost,
+                                         final String verificationCode) {
         return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {
             @Override
             public void call(Subscriber<? super Ticket> subscriber) {
                 subscriber.onStart();
                 SystemClock.sleep(3000);
-                final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
-                        FileUtils.sha1("signature"), System.currentTimeMillis(), cost);
-                PLog.d(TAG, "ticket bought %s", ticket);
-                subscriber.onNext(ticket);
-                subscriber.onCompleted();
+                if ("12345".equals(verificationCode)) {
+                    final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
+                            FileUtils.sha1("signature"), System.currentTimeMillis(), cost);
+                    PLog.d(TAG, "ticket bought %s", ticket);
+                    subscriber.onNext(ticket);
+                    subscriber.onCompleted();
+                } else {
+                    subscriber.onError(new Exception("Verification code invalid"));
+                }
             }
         });
     }

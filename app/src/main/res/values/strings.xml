@@ -56,4 +56,9 @@
     <string name="booking_ticket">Booking ticket</string>
     <string name="error_no_billing_account_number">Provide your mobile money billing account number</string>
     <string name="error_ticket_onwer">Provide phone number of ticket owner</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="verification_instruaction">First authorize the transaction,  then enter the verification code we sent you to complete the process</string>
+    <string name="verify_and_book">Verify &amp; book</string>
+    <string name="error_verification_code">Verification code not complete</string>
+    <string name="initialising_transaction">Initialising transaction</string>
 </resources>
