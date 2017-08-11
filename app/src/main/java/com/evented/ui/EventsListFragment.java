@@ -83,6 +83,12 @@ public class EventsListFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onDestroyView() {
+        events.removeAllChangeListeners();
+        super.onDestroyView();
+    }
+
     final RealmChangeListener<RealmResults<Event>> changeListener = new RealmChangeListener<RealmResults<Event>>() {
         @Override
         public void onChange(RealmResults<Event> o) {

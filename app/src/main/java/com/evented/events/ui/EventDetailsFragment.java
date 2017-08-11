@@ -87,6 +87,12 @@ public class EventDetailsFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        event.removeAllChangeListeners();
+        super.onDestroyView();
+    }
+
     @OnClick(R.id.book_ticket)
     void bookTicket() {
         BottomSheetDialogFragment dialogFragment = new BookTicketDialogFragment();

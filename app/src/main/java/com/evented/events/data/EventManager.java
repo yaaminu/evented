@@ -7,10 +7,21 @@ import com.evented.tickets.Ticket;
 import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import net.glxn.qrgen.android.QRCode;
+import net.glxn.qrgen.core.exception.QRGenerationException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
+
+import static com.evented.tickets.Ticket.FIELD_DATE_PURCHASED;
+import static com.evented.tickets.Ticket.FIELD_TICKET_NUMBER;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -29,6 +40,38 @@ public class EventManager {
 
     public static EventManager create(@NonNull UserManager usermanager) {
         return new EventManager(usermanager);
+    }
+
+    public Observable<byte[]> qrCode(@NonNull final Ticket ticket) {
+        return Observable.create(new Observable.OnSubscribe<byte[]>() {
+            @Override
+            public void call(Subscriber<? super byte[]> subscriber) {
+                subscriber.onStart();
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(Ticket.FIELD_EVENT_ID, ticket.getEventId())
+                            .put(Ticket.FIELD_EVENT_NAME, ticket.getEventName())
+                            .put(Ticket.FIELD_ticketId, ticket.getTicketId())
+                            .put(Ticket.FIELD_TICKET_COST, ticket.getTicketCost())
+                            .put(FIELD_TICKET_NUMBER, ticket.getTicketNumber())
+                            .put(FIELD_DATE_PURCHASED, ticket.getDatePurchased())
+                            .put(Ticket.FIELD_TICKET_SIGNATURE, ticket.getTicketSignature());
+                    PLog.d(TAG, "qrcode data: %s", jsonObject);
+                    final byte[] qrCodeAsByteStream = QRCode.from(jsonObject.toString())
+                            .withSize(512, 512)
+                            .withHint(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M)
+                            .stream().toByteArray();
+                    subscriber.onNext(qrCodeAsByteStream);
+                    subscriber.onCompleted();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (QRGenerationException e) {
+                    // TODO: 8/11/17 handle error
+                    subscriber.onError(e);
+                    throw new AssertionError();
+                }
+            }
+        });
     }
 
     public rx.Observable<Event> createEvent(final Event event) {
@@ -63,7 +106,8 @@ public class EventManager {
         });
     }
 
-    public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber, final String buyForNumber, final long cost,
+    public Observable<Ticket> bookTicket(final String eventId, final String eventName, final String billingPhoneNumber, final String buyForNumber,
+                                         final long cost,
                                          final String verificationCode) {
         return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {
             @Override
@@ -74,7 +118,8 @@ public class EventManager {
                     Realm realm = Realm.getDefaultInstance();
                     try {
                         final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
-                                FileUtils.sha1(System.currentTimeMillis() + ""), System.currentTimeMillis(), cost, ++ticketNumber);
+                                FileUtils.sha1(System.currentTimeMillis() + ""),
+                                System.currentTimeMillis(), cost, ++ticketNumber, eventName);
                         PLog.d(TAG, "ticket bought %s", ticket);
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(ticket);

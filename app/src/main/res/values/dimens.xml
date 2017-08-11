@@ -7,4 +7,6 @@
     <dimen name="home_screen_item_width">150dp</dimen>
     <dimen name="home_screen_item_height">200dp</dimen>
     <dimen name="list_item_flyer_height">150dp</dimen>
+    <dimen name="qrcode_height">200dp</dimen>
+    <dimen name="qrcode_width">200dp</dimen>
 </resources>

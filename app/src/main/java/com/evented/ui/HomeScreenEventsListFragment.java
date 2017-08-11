@@ -70,6 +70,12 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         realm.addChangeListener(changeListener);
     }
 
+    @Override
+    public void onDestroyView() {
+        realm.removeAllChangeListeners();
+        super.onDestroyView();
+    }
+
     final RealmChangeListener<Realm> changeListener = new RealmChangeListener<Realm>() {
         @Override
         public void onChange(Realm realm) {

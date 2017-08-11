@@ -12,11 +12,15 @@ import io.realm.annotations.PrimaryKey;
 
 public class Ticket extends RealmObject {
     public static final String FIELD_ticketId = "ticketId";
+    public static final String FIELD_DATE_PURCHASED = "datePurchased",
+            FIELD_EVENT_ID = "eventId", FIELD_EVENT_NAME = "eventName",
+            FIELD_TICKET_NUMBER = "ticketNumber", FIELD_TICKET_COST = "ticketCost",
+            FIELD_TICKET_SIGNATURE = "ticketSignature";
 
 
     @PrimaryKey
     private String ticketId;
-
+    private String eventName;
     private int ticketNumber;
 
     @Index
@@ -26,23 +30,28 @@ public class Ticket extends RealmObject {
     private String ownerPhone;
     private long datePurchased;
     private long ticketCost;
-    private String ticketSignatuture;
+    private String ticketSignature;
 
     public Ticket() {
     }
 
     public Ticket(String ticketId, String eventId, String purchasedBy,
-                  String ownerPhone, String ticketSignatuture,
-                  long datePurchased, long ticketCost, int ticketNumber) {
+                  String ownerPhone, String ticketSignature,
+                  long datePurchased, long ticketCost, int ticketNumber, String eventName) {
         this.ticketId = ticketId;
         this.eventId = eventId;
         this.purchasedBy = purchasedBy;
         this.ownerPhone = ownerPhone;
-        this.ticketSignatuture = ticketSignatuture;
+        this.ticketSignature = ticketSignature;
         this.datePurchased = datePurchased;
         this.ticketCost = ticketCost;
         this.ticketNumber = ticketNumber;
+        this.eventName = eventName;
 
+    }
+
+    public String getEventName() {
+        return eventName;
     }
 
     public String getTicketId() {
@@ -69,8 +78,8 @@ public class Ticket extends RealmObject {
         return ticketCost;
     }
 
-    public String getTicketSignatuture() {
-        return ticketSignatuture;
+    public String getTicketSignature() {
+        return ticketSignature;
     }
 
     public int getTicketNumber() {
@@ -86,7 +95,7 @@ public class Ticket extends RealmObject {
                 ", ownerPhone='" + ownerPhone + '\'' +
                 ", datePurchased=" + new Date(datePurchased) +
                 ", ticketCost=" + ticketCost +
-                ", ticketSignatuture='" + ticketSignatuture + '\'' +
+                ", ticketSignature='" + ticketSignature + '\'' +
                 ", ticketNumber='" + ticketNumber + '\'' +
                 '}';
     }
