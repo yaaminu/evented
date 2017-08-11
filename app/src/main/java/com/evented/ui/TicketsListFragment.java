@@ -40,6 +40,7 @@ public class TicketsListFragment extends BaseFragment {
     TicketListAdapter adapter;
     private String eventId;
 
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_ticket_list;
@@ -58,7 +59,7 @@ public class TicketsListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tickets = realm.where(Ticket.class)
-                .equalTo(Ticket.FIELD_EVENT_ID,eventId)
+                .equalTo(Ticket.FIELD_EVENT_ID, eventId)
                 .findAllAsync();
         adapter = new TicketListAdapter(Collections.<Ticket>emptyList());
         ticketList.setAdapter(adapter);

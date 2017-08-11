@@ -73,4 +73,5 @@
     <string name="search_suggestions">Suggestions</string>
     <string name="date_aunavialable">date unavailable</string>
     <string name="view_tickets">View Tickets</string>
+    <string name="tickets_list">%s - tickets</string>
 </resources>

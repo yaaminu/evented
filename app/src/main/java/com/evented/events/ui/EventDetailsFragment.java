@@ -35,7 +35,8 @@ public class EventDetailsFragment extends BaseFragment {
         public boolean onMenuItemClick(MenuItem item) {
             if (item.getItemId() == R.id.action_view_tickets) {
                 Intent intent = new Intent(getContext(), TicketsListActivity.class);
-                intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
+                intent.putExtra(TicketsListActivity.EXTRA_EVENT_ID, event.getEventId());
+                intent.putExtra(TicketsListActivity.EXTRA_EVENT_TITLE, getString(R.string.tickets_list, event.getName()));
                 getActivity().startActivity(intent);
                 return true;
             }

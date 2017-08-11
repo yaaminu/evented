@@ -31,7 +31,8 @@
         <activity
             android:name=".tickets.TicketDetailsActivity"
             android:label="@string/ticket_details" />
-        <activity android:name=".ui.TicketsListActivity" />
+        <activity android:name=".ui.TicketsListActivity"
+            />
     </application>
 
 </manifest>
