@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         int[] icons = {
                 R.drawable.ic_trending_events_24dp,
                 R.drawable.ic_nearby_events_24dp,
-                R.drawable.ic_favorite_border_black_24dp,
+                R.drawable.ic_favorite_events_24dp,
                 R.drawable.ic_my_events_24dp,
                 R.drawable.ic_add_alert_24dp,
                 R.drawable.ic_settings_24dp
