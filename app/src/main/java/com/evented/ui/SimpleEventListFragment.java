@@ -1,6 +1,6 @@
 package com.evented.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -21,12 +21,20 @@ import butterknife.OnItemClick;
  * Created by yaaminu on 8/10/17.
  */
 
-public class SearchResultsFragment extends BaseFragment {
+public class SimpleEventListFragment extends BaseFragment {
     private List<Event> searchResults;
 
     @BindView(R.id.search_results_list_view)
     ListView event_list;
-    private SearchResultsAdapter adapter;
+    private SimpleEventListAdapter adapter;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (!(context instanceof callbacks)) {
+            throw new ClassCastException("containing actvitiy must implement " + callbacks.class.getName());
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,17 +45,13 @@ public class SearchResultsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new SearchResultsAdapter(Collections.<Event>emptyList());
+        adapter = new SimpleEventListAdapter(Collections.<Event>emptyList());
         event_list.setAdapter(adapter);
     }
 
     @OnItemClick(R.id.search_results_list_view)
     void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Event event = (Event) adapterView.getItemAtPosition(position);
-        Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
-        intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, event.getName());
-        intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
-        startActivity(intent);
+        ((callbacks) getActivity()).onItemClicked((Event) adapterView.getItemAtPosition(position));
     }
 
     public void updateResults(List<Event> searchResults) {
@@ -56,8 +60,12 @@ public class SearchResultsFragment extends BaseFragment {
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_search_results;
+        return R.layout.fragment_simple_event_list;
     }
 
+
+    interface callbacks {
+        void onItemClicked(Event event);
+    }
 
 }

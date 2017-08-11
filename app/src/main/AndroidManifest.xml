@@ -33,6 +33,7 @@
             android:label="@string/ticket_details" />
         <activity android:name=".ui.TicketsListActivity"
             />
+        <activity android:name=".ui.MyEventListActivity" />
     </application>
 
 </manifest>

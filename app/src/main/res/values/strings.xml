@@ -74,4 +74,7 @@
     <string name="date_aunavialable">date unavailable</string>
     <string name="view_tickets">View Tickets</string>
     <string name="tickets_list">%s - tickets</string>
+    <string name="view_ticket">View tickets</string>
+    <string name="view_event_details">View details</string>
+    <string name="set_a_reminder">Set reminder</string>
 </resources>

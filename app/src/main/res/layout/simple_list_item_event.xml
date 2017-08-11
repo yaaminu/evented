@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/default_gap"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/default_gap"
+    app:columnCount="3"
+    app:useDefaultMargins="true">
+
+    <TextView
+        android:id="@+id/tv_event_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_columnSpan="3"
+        app:layout_columnWeight="1"
+        tools:text="Event Name" />
+
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:drawableLeft="@drawable/ic_location_on_gray_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:gravity="start"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        tools:text="Accra I" />
+
+    <TextView
+        android:id="@+id/tv_going"
+        android:drawableLeft="@drawable/ic_going_18dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="0"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/tv_start_time"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        tools:text="Dec 11" />
+</android.support.v7.widget.GridLayout>

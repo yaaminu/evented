@@ -28,7 +28,7 @@ public class TicketsListFragment extends BaseFragment {
     private final RealmChangeListener<RealmResults<Ticket>> listener = new RealmChangeListener<RealmResults<Ticket>>() {
         @Override
         public void onChange(RealmResults<Ticket> tickets) {
-            adapter.refil(tickets);
+            adapter.refill(tickets);
         }
     };
     @BindView(R.id.ticket_list)

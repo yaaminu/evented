@@ -44,7 +44,7 @@ import io.realm.RealmResults;
  * Created by yaaminu on 8/7/17.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SimpleEventListFragment.callbacks {
 
 
     private static final String TAG_EVENT_LIST = "eventList";
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
             searchOrClear.setImageResource(R.drawable.ic_clear_black_24dp);
             back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
-            currentFragment = new SearchResultsFragment();
+            currentFragment = new SimpleEventListFragment();
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, currentFragment, TAG_SEARCH)
@@ -226,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
         RealmResults<Event> events = realm.where(Event.class)
                 .beginsWith(Event.FIELD_NAME, searchEditText.getText().toString().trim(), Case.INSENSITIVE)
                 .findAllSorted(Event.FIELD_NAME);
-        if (currentFragment instanceof SearchResultsFragment) {
-            ((SearchResultsFragment) currentFragment).updateResults(events);
+        if (currentFragment instanceof SimpleEventListFragment) {
+            ((SimpleEventListFragment) currentFragment).updateResults(events);
         }
     }
 
@@ -245,9 +245,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnItemClick(R.id.search_suggestion_list_view)
-    void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    void onSuggestionItemClicked(AdapterView<?> adapterView, View view, int position, long id) {
         Event event = (Event) adapterView.getItemAtPosition(position);
         Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
+        intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, event.getName());
+        intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
+        startActivity(intent);
+    }
+
+    @OnItemClick(R.id.side_menu_list)
+    void onMenuItemClick(int position) {
+        if (position == 3) {
+            Intent intent = new Intent(this, MyEventListActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onItemClicked(Event event) {
+        Intent intent = new Intent(this, EventDetailsActivity.class);
         intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, event.getName());
         intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
         startActivity(intent);

@@ -16,7 +16,7 @@ public abstract class BaseListViewAdapter<T> extends BaseAdapter {
         this.items = items;
     }
 
-    public void refil(List<T> items) {
+    public void refill(List<T> items) {
         this.items = items;
         notifyDataSetChanged();
     }
