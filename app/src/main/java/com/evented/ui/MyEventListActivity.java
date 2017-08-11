@@ -31,6 +31,7 @@ public class MyEventListActivity extends AppCompatActivity implements SimpleEven
 
     Realm realm;
 
+    @Nullable
     RealmResults<Event> results;
     private RealmChangeListener<RealmResults<Event>> listener = new RealmChangeListener<RealmResults<Event>>() {
         @Override
@@ -51,32 +52,34 @@ public class MyEventListActivity extends AppCompatActivity implements SimpleEven
         List<Ticket> ticketsBought = realm.where(Ticket.class)
                 .distinct(Ticket.FIELD_EVENT_ID);
 
-        final RealmQuery<Event> eventsQuery = realm.where(Event.class);
         if (ticketsBought.size() > 0) {
+            final RealmQuery<Event> eventsQuery = realm.where(Event.class);
             String[] eventIds = new String[ticketsBought.size()];
             for (int i = 0; i < ticketsBought.size(); i++) {
                 eventIds[i] = ticketsBought.get(i).getEventId();
             }
             eventsQuery.in(Event.FIELD_EVENT_ID, eventIds);
+            results = eventsQuery
+                    .findAllSortedAsync(Event.FIELD_START_DATE);
+            results.addChangeListener(listener);
         }
-
-        results = eventsQuery
-                .findAllSortedAsync(Event.FIELD_START_DATE);
-
-        results.addChangeListener(listener);
         getSupportActionBar()
                 .setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onResume() {
-        results.addChangeListener(listener);
+        if (results != null) {
+            results.addChangeListener(listener);
+        }
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        realm.removeAllChangeListeners();
+        if (results != null) {
+            realm.removeAllChangeListeners();
+        }
         super.onPause();
     }
 
