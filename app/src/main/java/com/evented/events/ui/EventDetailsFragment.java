@@ -1,11 +1,13 @@
 package com.evented.events.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
+import com.evented.ui.TicketsListActivity;
 import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
@@ -26,6 +29,20 @@ import io.realm.RealmChangeListener;
  */
 
 public class EventDetailsFragment extends BaseFragment {
+
+    private Toolbar.OnMenuItemClickListener onMenuItemClickListener = new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            if (item.getItemId() == R.id.action_view_tickets) {
+                Intent intent = new Intent(getContext(), TicketsListActivity.class);
+                intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
+                getActivity().startActivity(intent);
+                return true;
+            }
+            return false;
+        }
+    };
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_event_details;
@@ -62,6 +79,7 @@ public class EventDetailsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -83,6 +101,8 @@ public class EventDetailsFragment extends BaseFragment {
                 getActivity().finish();
             }
         });
+        toolbar.inflateMenu(R.menu.event_details);
+        toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
         event.addChangeListener(changeListener);
 
     }
@@ -126,4 +146,5 @@ public class EventDetailsFragment extends BaseFragment {
         // TODO: 8/10/17 launch an image view to view image
         Toast.makeText(getContext(), "Showing image", Toast.LENGTH_SHORT).show();
     }
+
 }

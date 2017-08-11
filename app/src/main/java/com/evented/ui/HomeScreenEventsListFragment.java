@@ -67,14 +67,20 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         adapter = new HomeScreenEventsAdapter(delegate);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        realm.addChangeListener(changeListener);
     }
 
     @Override
-    public void onDestroyView() {
-        realm.removeAllChangeListeners();
-        super.onDestroyView();
+    public void onResume() {
+        realm.addChangeListener(changeListener);
+        super.onResume();
     }
+
+    @Override
+    public void onPause() {
+        realm.removeAllChangeListeners();
+        super.onPause();
+    }
+
 
     final RealmChangeListener<Realm> changeListener = new RealmChangeListener<Realm>() {
         @Override

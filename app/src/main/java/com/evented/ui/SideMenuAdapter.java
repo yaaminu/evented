@@ -18,7 +18,7 @@ public class SideMenuAdapter extends BaseAdapter {
     private final String[] titles;
     private final int[] sideIcons;
 
-    public SideMenuAdapter(String[] titles, @DrawableRes int[] sideIcons) {
+    SideMenuAdapter(String[] titles, @DrawableRes int[] sideIcons) {
         this.titles = titles;
         this.sideIcons = sideIcons;
     }

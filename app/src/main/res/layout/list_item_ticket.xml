@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/default_gap"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/default_gap"
+    app:columnCount="3"
+    app:useDefaultMargins="true">
+
+    <TextView
+        android:id="@+id/tv_event_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_columnSpan="3"
+        app:layout_columnWeight="1"
+        tools:text="Event Name" />
+
+
+    <TextView
+        android:id="@+id/tv_ticket_number"
+        android:gravity="start"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        tools:text="NO. 1232" />
+
+    <TextView
+        android:id="@+id/tv_ticket_cost"
+        android:gravity="center_horizontal"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        tools:text="122 cedis" />
+
+    <TextView
+        android:id="@+id/tv_date_purchased"
+        android:gravity="end"
+        app:layout_columnSpan="1"
+        app:layout_columnWeight="1"
+        tools:text="Purchased at: 12 Dec" />
+</android.support.v7.widget.GridLayout>

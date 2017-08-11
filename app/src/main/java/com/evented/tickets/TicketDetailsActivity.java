@@ -41,8 +41,8 @@ public class TicketDetailsActivity extends AppCompatActivity {
     TextView tv_start_time;
     @BindView(R.id.tv_date_purchased)
     TextView tv_date_purchased;
-    @BindView(R.id.tv_number)
-    TextView tv_number;
+    @BindView(R.id.tv_ticket_number)
+    TextView tv_ticket_number;
     @BindView(R.id.tv_ticket_cost)
     TextView tv_ticket_cost;
 
@@ -74,7 +74,7 @@ public class TicketDetailsActivity extends AppCompatActivity {
         tv_date_purchased.setText(getString(R.string.purchased_on, DateUtils.formatDateTime(TicketDetailsActivity.this,
                 ticket.getDatePurchased(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
 
-        tv_number.setText(getString(R.string.ticket_no, ticket.getTicketNumber()));
+        tv_ticket_number.setText(getString(R.string.ticket_no, ticket.getTicketNumber()));
 
         tv_event_name.setText(ticket.getEventName());
 
