@@ -1,5 +1,6 @@
 package com.evented.ui;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.evented.R;
 import com.evented.events.data.Event;
 
 import java.util.List;
@@ -18,9 +20,11 @@ import java.util.List;
 
 public class SuggestionsArrayAdapter extends BaseAdapter {
     List<Event> items;
+    private int drawablePadding;
 
-    public SuggestionsArrayAdapter(List<Event> items) {
+    public SuggestionsArrayAdapter(Context context, List<Event> items) {
         this.items = items;
+        drawablePadding = context.getResources().getDimensionPixelSize(R.dimen.default_gap);
     }
 
     public void refill(List<Event> items) {
@@ -56,6 +60,8 @@ public class SuggestionsArrayAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
         }
         ((TextView) convertView).setText(getItem(position).getName());
+        ((TextView) convertView).setCompoundDrawablePadding(drawablePadding);
+        ((TextView) convertView).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_suggestion_arrow_slanted_24dp, 0, 0, 0);
         return convertView;
     }
 }

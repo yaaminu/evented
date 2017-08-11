@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.evented.R;
 import com.evented.events.data.BillingAcount;
@@ -21,7 +20,9 @@ import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
+import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
+import com.rey.slidelayout.SlideLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.et_search)
     EditText searchEditText;
     Realm realm;
+    @BindView(R.id.slide_layout)
+    SlideLayout slide_layout;
+    @BindView(R.id.side_menu_list)
+    ListView sideMenu;
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,7 +90,35 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, currentFragment, TAG_EVENT_LIST)
                 .commit();
         createEvents();
+        slide_layout.setOnStateChangedListener(stateChangedListener);
+        int[] icons = {
+                R.drawable.ic_trending_events_24dp,
+                R.drawable.ic_nearby_events_24dp,
+                R.drawable.ic_favorite_border_black_24dp,
+                R.drawable.ic_my_events_24dp,
+                R.drawable.ic_add_alert_24dp,
+                R.drawable.ic_settings_24dp
+        };
+        sideMenu.setAdapter(new SideMenuAdapter(getResources().getStringArray(R.array.side_menu_titles),
+                icons));
     }
+
+    private final SlideLayout.OnStateChangedListener stateChangedListener = new SlideLayout.OnStateChangedListener() {
+        @Override
+        public void onStateChanged(View v, int old_state, int new_state) {
+            PLog.d(TAG, "old state %d, new state %d", old_state, new_state);
+            if (new_state == 0 && searchEditText.getText().length() == 0) {
+                back.setImageResource(R.drawable.ic_menu_black_24dp);
+            } else if (new_state == 16) {
+                back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
+            }
+        }
+
+        @Override
+        public void onOffsetChanged(View v, float offsetX, float offsetY, int state) {
+
+        }
+    };
 
 
     @Override
@@ -100,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
             if (searchEditText.getText().length() > 0) {
                 searchEditText.setText("");
             } else {
-                // TODO: 8/10/17 open drawer
-                Toast.makeText(this, "open drawer", Toast.LENGTH_SHORT).show();
+                slide_layout.openLeftMenu(true);
+                back.setImageResource(R.drawable.ic_arrow_back_black_24dp);
             }
         }
     }
@@ -109,8 +144,9 @@ public class MainActivity extends AppCompatActivity {
     @OnTextChanged(R.id.et_search)
     void onTextChanged(Editable text) {
         if (text.length() > 0) {
+            slide_layout.setDragEnable(false);
             if (adapter == null) {
-                adapter = new SuggestionsArrayAdapter(Collections.<Event>emptyList());
+                adapter = new SuggestionsArrayAdapter(this, Collections.<Event>emptyList());
                 searchSuggestionListView.setAdapter(adapter);
             }
             searchOrClear.setImageResource(R.drawable.ic_clear_black_24dp);
@@ -124,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 predictSuggestions();
             }
         } else {
+            slide_layout.setDragEnable(true);
             adapter = null;
             searchSuggestionListView.setAdapter(null);
             searchEditText.clearFocus();

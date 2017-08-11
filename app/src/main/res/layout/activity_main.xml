@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.rey.slidelayout.SlideLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/slide_layout"
+    style="@style/SlideLayoutStyleDefault"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eee"
-    android:orientation="vertical">
+    app:sl_contentChild="1"
+    app:sl_leftMenuChild="0">
 
-    <include layout="@layout/search_bar" />
+    <include layout="@layout/left_menu" />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#eee"
         android:orientation="vertical">
 
-        <include layout="@layout/search_suggestion" />
+        <include layout="@layout/search_bar" />
 
-        <AbsoluteLayout
-            android:id="@+id/fragment_container"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/default_gap">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        </AbsoluteLayout>
-    </FrameLayout>
-</LinearLayout>
+            <include layout="@layout/search_suggestion" />
+
+            <AbsoluteLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </AbsoluteLayout>
+        </FrameLayout>
+    </LinearLayout>
+</com.rey.slidelayout.SlideLayout>
+

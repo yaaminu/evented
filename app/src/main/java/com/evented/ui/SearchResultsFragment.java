@@ -24,9 +24,9 @@ import butterknife.OnItemClick;
 public class SearchResultsFragment extends BaseFragment {
     private List<Event> searchResults;
 
-    @BindView(R.id.search_suggestion_list_view)
+    @BindView(R.id.search_results_list_view)
     ListView event_list;
-    private SuggestionsArrayAdapter adapter;
+    private SearchResultsAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +37,11 @@ public class SearchResultsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new SuggestionsArrayAdapter(Collections.<Event>emptyList());
+        adapter = new SearchResultsAdapter(Collections.<Event>emptyList());
         event_list.setAdapter(adapter);
     }
 
-    @OnItemClick(R.id.search_suggestion_list_view)
+    @OnItemClick(R.id.search_results_list_view)
     void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Event event = (Event) adapterView.getItemAtPosition(position);
         Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);

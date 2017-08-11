@@ -21,9 +21,10 @@
 
         <ListView
             android:id="@+id/search_suggestion_list_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_gap"
+            android:scrollbars="none"
             android:layout_marginLeft="@dimen/default_gap"
             android:layout_marginRight="@dimen/default_gap"
             android:layout_marginTop="@dimen/default_gap" />
