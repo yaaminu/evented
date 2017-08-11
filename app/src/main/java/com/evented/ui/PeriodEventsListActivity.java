@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.evented.R;
 import com.evented.utils.GenericUtils;
@@ -36,8 +37,17 @@ public class PeriodEventsListActivity extends AppCompatActivity {
         pager.setAdapter(new PagerAdapterImpl(getSupportFragmentManager(), oldest,
                 getResources().getStringArray(R.array.event_cagories)));
         layout.setupWithViewPager(pager);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     static class PagerAdapterImpl extends FragmentStatePagerAdapter {
 

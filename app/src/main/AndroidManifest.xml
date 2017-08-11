@@ -27,13 +27,15 @@
         <activity
             android:name=".ui.EventDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".ui.PeriodEventsListActivity" />
         <activity
             android:name=".tickets.TicketDetailsActivity"
             android:label="@string/ticket_details" />
-        <activity android:name=".ui.TicketsListActivity"
-            />
-        <activity android:name=".ui.MyEventListActivity" />
+        <activity android:name=".ui.TicketsListActivity" />
+        <activity
+            android:name=".ui.MyEventListActivity"
+            android:label="@string/my_events" />
     </application>
 
 </manifest>

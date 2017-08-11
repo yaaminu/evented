@@ -77,4 +77,5 @@
     <string name="view_ticket">View tickets</string>
     <string name="view_event_details">View details</string>
     <string name="set_a_reminder">Set reminder</string>
+    <string name="my_events">My Events</string>
 </resources>
