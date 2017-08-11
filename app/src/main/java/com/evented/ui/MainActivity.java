@@ -234,7 +234,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (currentFragment == homeScreenEventListFragment) {
-            super.onBackPressed();
+            if (slide_layout.getState() == 0) {
+                super.onBackPressed();
+            } else {
+                slide_layout.closeLeftMenu(true);
+            }
         } else {
             searchEditText.setText("");
         }
