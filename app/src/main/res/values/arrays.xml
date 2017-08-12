@@ -25,8 +25,9 @@
         <item>Trending</item>
         <item>Nearby</item>
         <item>Favorites</item>
-        <item>My Events</item>
+        <item>Going</item>
         <item>Notification</item>
+        <item>Manage Events</item>
         <item>Settings</item>
     </string-array>
     <integer-array name="side_menu_drawable">

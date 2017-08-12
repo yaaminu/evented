@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                 R.drawable.ic_favorite_events_24dp,
                 R.drawable.ic_my_events_24dp,
                 R.drawable.ic_add_alert_24dp,
+                R.drawable.ic_manage_events_24dp,
                 R.drawable.ic_settings_24dp
         };
         sideMenu.setAdapter(new SideMenuAdapter(getResources().getStringArray(R.array.side_menu_titles),
@@ -258,6 +259,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         if (position == 3) {
             Intent intent = new Intent(this, MyEventListActivity.class);
             startActivity(intent);
+        } else if (position == 5) {
+            startActivity(new Intent(this, ManageEventsActivity.class));
         }
     }
 

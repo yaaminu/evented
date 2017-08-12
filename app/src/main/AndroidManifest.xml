@@ -35,7 +35,13 @@
         <activity android:name=".ui.TicketsListActivity" />
         <activity
             android:name=".ui.MyEventListActivity"
-            android:label="@string/my_events" />
+            android:label="@string/going" />
+        <activity
+            android:name=".ui.VerifyTicketActivity"
+            android:label="@string/verify_tickets_title" />
+        <activity
+            android:name=".ui.ManageEventsActivity"
+            android:label="@string/manage_events" />
     </application>
 
 </manifest>
