@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.evented.BuildConfig;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
+import com.evented.ui.LauncherActivity;
 import com.evented.ui.TicketsListActivity;
 import com.evented.utils.GenericUtils;
 
@@ -103,6 +105,8 @@ public class EventDetailsFragment extends BaseFragment {
             }
         });
         toolbar.inflateMenu(R.menu.event_details);
+        toolbar.getMenu().findItem(R.id.action_view_tickets)
+                .setVisible(!BuildConfig.FLAVOR.equals(LauncherActivity.FLAVOR_ATTENDEES));
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
         event.addChangeListener(changeListener);
 

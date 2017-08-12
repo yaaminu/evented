@@ -20,6 +20,7 @@ import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
+import com.evented.utils.Config;
 import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
 import com.rey.slidelayout.SlideLayout;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         sideMenu.setAdapter(new SideMenuAdapter(getResources().getStringArray(R.array.side_menu_titles),
                 icons));
     }
+
 
     private final SlideLayout.OnStateChangedListener stateChangedListener = new SlideLayout.OnStateChangedListener() {
         @Override
@@ -258,6 +260,11 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         if (position == 3) {
             Intent intent = new Intent(this, MyEventListActivity.class);
             startActivity(intent);
+        } else if (position == 5) {
+            // TODO: 8/12/17 remove this
+            Config.setManagement(true);
+            startActivity(new Intent(this, LauncherActivity.class));
+            finish();
         }
         slide_layout.closeLeftMenu(true);
     }

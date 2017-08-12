@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.ui.CreateEventActivity;
+import com.evented.utils.Config;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,5 +94,17 @@ public class EventManagerActivity extends AppCompatActivity implements SimpleEve
         startActivity(new Intent(this, CreateEventActivity.class));
     }
 
-    public static boolean isManager = true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Config.setManagement(false);
+        startActivity(new Intent(this, LauncherActivity.class));
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("switch to management");
+        return super.onCreateOptionsMenu(menu);
+    }
 }

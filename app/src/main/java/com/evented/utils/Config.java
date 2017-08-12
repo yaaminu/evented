@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 
+import com.evented.BuildConfig;
 import com.evented.R;
 
 import java.io.File;
@@ -26,6 +27,7 @@ public class Config {
     private static Application application;
     private static AtomicBoolean isAppOpen = new AtomicBoolean(false);
     private static boolean debug;
+    private static boolean isManagement;
 
     private static boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
@@ -133,6 +135,14 @@ public class Config {
 
     public static SharedPreferences getPreferences(String s) {
         return getApplicationContext().getSharedPreferences(s, Context.MODE_PRIVATE);
+    }
+
+    public static boolean isManagement() {
+        return BuildConfig.DEBUG && isManagement;
+    }
+
+    public static void setManagement(boolean isManagement) {
+        Config.isManagement = isManagement;
     }
 
 }
