@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         } else if (position == 5) {
             startActivity(new Intent(this, ManageEventsActivity.class));
         }
+        slide_layout.closeLeftMenu(true);
     }
 
     @Override
