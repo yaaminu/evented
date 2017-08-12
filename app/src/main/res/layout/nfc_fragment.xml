@@ -6,12 +6,14 @@
     android:orientation="horizontal">
 
     <ProgressBar
+        android:id="@+id/progress"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
     <TextView
         android:layout_width="wrap_content"
+        android:id="@+id/tv_nfc_data"
         android:layout_height="wrap_content"
         android:text="@string/scanning_nearby_devices" />
 </LinearLayout>

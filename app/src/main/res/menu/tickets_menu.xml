@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_verify_ticket_nfc"
+        android:title="@string/verify_ticket_with_nfc"
+        app:showAsAction="never" />
+</menu>

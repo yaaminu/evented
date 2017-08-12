@@ -24,19 +24,6 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/use_nfc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/round_button"
-            android:text="@string/verify_nfc"
-            android:textColor="@color/white" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:background="@color/white" />
 
         <Button
             android:id="@+id/scan_qrcode"
@@ -46,6 +33,22 @@
             android:background="@drawable/flat_background"
             android:text="@string/verify_qrcode"
             android:textColor="@color/white" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <Button
+            android:id="@+id/use_nfc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="@string/verify_nfc"
+            android:textColor="@color/white" />
+
+
     </LinearLayout>
 
     <View

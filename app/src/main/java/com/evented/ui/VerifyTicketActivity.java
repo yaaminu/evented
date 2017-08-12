@@ -1,6 +1,8 @@
 package com.evented.ui;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +35,7 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        currentItem = 0;
 
 
         setContentView(R.layout.activity_verify_ticket);
@@ -45,18 +48,25 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
         handleIntent(getIntent());
     }
 
-    private void handleIntent(Intent intent) {
-        String eventId = intent.getStringExtra(EXTRA_EVENT_ID);
-        GenericUtils.assertThat(!GenericUtils.isEmpty(eventId), "event id required");
 
-        event = realm.where(Event.class)
-                .equalTo(Event.FIELD_EVENT_ID, eventId)
-                .findFirst();
-        GenericUtils.ensureNotNull(event);
-        currentItem = 0;
-        final View useNfc = findViewById(R.id.use_nfc);
-        onClick(useNfc);
+    private void handleIntent(Intent intent) {
+        if (!NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            String eventId = intent.getStringExtra(EXTRA_EVENT_ID);
+            GenericUtils.assertThat(!GenericUtils.isEmpty(eventId), "event id required");
+
+            event = realm.where(Event.class)
+                    .equalTo(Event.FIELD_EVENT_ID, eventId)
+                    .findFirst();
+            GenericUtils.ensureNotNull(event);
+        }
+        Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        if (tagFromIntent != null) {
+            onClick(findViewById(R.id.use_nfc));
+        } else {
+            onClick(findViewById(R.id.scan_qrcode));
+        }
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -70,6 +80,7 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
         if (currentItem == v.getId()) {
             return;
         }
+
         if (currentItem != 0) {
             findViewById(currentItem).setSelected(false);
 
