@@ -87,7 +87,7 @@
     <string name="verify_tickets_title">Verify Tickets</string>
     <string name="instructions">Instructions</string>
     <string name="nfc_instructions">1. Turn on NFC on both devices \n2. Bring your devices closer such that they touch each other \n3. Wait few seconds to get the ticket verified</string>
-    <string name="qr_code_instructions">1. Have the ticket bearer open the ticket details screen \n2. Scan the ticket QR Code \n3. Wait few seconds to get the ticket verified</string>
+    <string name="qr_code_instructions">1. Have the ticket bearer open the ticket details screen \n2. Focus the camera on the QR Code. \n3. Touch the preview to start scanning. \n4. Wait few seconds to get the ticket verified</string>
     <string name="scanning_nearby_devices">Scanning for nearby devices...</string>
     <string name="verify_ticket_with_nfc">Verify with NFC</string>
     <string name="no_nfc">No NFC available on this device, would you like to enable it in settings?</string>
