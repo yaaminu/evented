@@ -1,5 +1,6 @@
 package com.evented.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,22 +33,36 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        String eventId = getIntent().getStringExtra(EXTRA_EVENT_ID);
+
+
+        setContentView(R.layout.activity_verify_ticket);
+        ButterKnife.bind(this);
+
+        // TODO: 8/12/17 deal with activity rotations
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        handleIntent(getIntent());
+    }
+
+    private void handleIntent(Intent intent) {
+        String eventId = intent.getStringExtra(EXTRA_EVENT_ID);
         GenericUtils.assertThat(!GenericUtils.isEmpty(eventId), "event id required");
 
         event = realm.where(Event.class)
                 .equalTo(Event.FIELD_EVENT_ID, eventId)
                 .findFirst();
         GenericUtils.ensureNotNull(event);
-
-        setContentView(R.layout.activity_verify_ticket);
-        ButterKnife.bind(this);
-
-        // TODO: 8/12/17 deal with activity rotations
         currentItem = 0;
         final View useNfc = findViewById(R.id.use_nfc);
         onClick(useNfc);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); //order is important.
+        handleIntent(intent);
     }
 
     @OnClick({R.id.use_nfc, R.id.scan_qrcode})
