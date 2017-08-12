@@ -5,6 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.evented.R;
+import com.evented.events.data.EventManager;
+import com.evented.events.data.UserManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,12 +31,19 @@ class EventListItemHolder extends RecyclerViewBaseAdapter.Holder {
     @BindView(R.id.tv_going)
     TextView going;
 
+    static final EventManager eventManager = EventManager.create(UserManager.getInstance());
+
     public EventListItemHolder(View v) {
         super(v);
     }
 
     @OnClick({R.id.tv_event_name, R.id.tv_location, R.id.tv_start_time, R.id.tv_likes, R.id.tv_going, R.id.tv_description, R.id.iv_event_flyer})
-    void onClick() {
-        itemView.performClick();
+    void onClick(View view) {
+        if (view.getId() == R.id.tv_likes) {
+            eventManager
+                    .toggleLikedAsyn(((String) view.getTag()));
+        } else {
+            itemView.performClick();
+        }
     }
 }

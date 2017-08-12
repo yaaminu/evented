@@ -43,6 +43,8 @@ public class Event extends RealmObject {
     private long entranceFee;
 
     private BillingAcount billingAcount;
+    private boolean liked;
+    private boolean currentUserGoing;
 
 
     public Event() {
@@ -223,5 +225,21 @@ public class Event extends RealmObject {
 
     public int getCategory() {
         return category;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setCurrentUserGoing(boolean currentUserGoing) {
+        this.currentUserGoing = currentUserGoing;
+    }
+
+    public boolean isCurrentUserGoing() {
+        return currentUserGoing;
     }
 }

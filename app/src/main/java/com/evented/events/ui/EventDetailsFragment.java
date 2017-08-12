@@ -13,12 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.evented.BuildConfig;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
-import com.evented.ui.LauncherActivity;
 import com.evented.ui.TicketsListActivity;
+import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
@@ -106,7 +105,7 @@ public class EventDetailsFragment extends BaseFragment {
         });
         toolbar.inflateMenu(R.menu.event_details);
         toolbar.getMenu().findItem(R.id.action_view_tickets)
-                .setVisible(!BuildConfig.FLAVOR.equals(LauncherActivity.FLAVOR_ATTENDEES));
+                .setVisible(Config.isManagement());
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
         event.addChangeListener(changeListener);
 
@@ -143,6 +142,9 @@ public class EventDetailsFragment extends BaseFragment {
             tv_start_time.setText(DateUtils.formatDateTime(getContext(), event.getStartDate(),
                     DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL));
             tv_likes.setText(String.valueOf(event.getLikes()));
+            tv_likes.setCompoundDrawablesWithIntrinsicBounds(
+                    event.isLiked() ? R.drawable.ic_favorite_black_fill_24dp : R.drawable.ic_favorite_border_black_24dp, 0, 0, 0
+            );
         }
     };
 

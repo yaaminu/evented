@@ -12,11 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.evented.BuildConfig;
 import com.evented.R;
 import com.evented.events.ui.BaseFragment;
 import com.evented.tickets.Ticket;
 import com.evented.tickets.TicketDetailsActivity;
+import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.ViewUtils;
 
@@ -140,7 +140,7 @@ public class TicketsListFragment extends BaseFragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.export_tickets).setVisible(!BuildConfig.FLAVOR.equals(LauncherActivity.FLAVOR_ATTENDEES) &&
+        menu.findItem(R.id.export_tickets).setVisible(Config.isManagement() &&
                 !tickets.isEmpty());
         super.onPrepareOptionsMenu(menu);
     }

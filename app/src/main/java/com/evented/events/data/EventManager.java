@@ -7,6 +7,7 @@ import com.evented.tickets.Ticket;
 import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
+import com.evented.utils.TaskManager;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
@@ -15,6 +16,8 @@ import net.glxn.qrgen.core.exception.QRGenerationException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.SecureRandom;
 
 import io.realm.Realm;
 import rx.Observable;
@@ -87,6 +90,8 @@ public class EventManager {
                 final long dateCreated = System.currentTimeMillis();
                 event.setDateCreated(dateCreated);
                 event.setDateUpdated(dateCreated);
+                event.setLikes(Math.abs(new SecureRandom().nextInt()) % 100);
+                event.setLiked(true);
                 subscriber.onNext(event);
                 subscriber.onCompleted();
             }
@@ -123,6 +128,11 @@ public class EventManager {
                         PLog.d(TAG, "ticket bought %s", ticket);
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(ticket);
+                        Event event = realm.where(Event.class).equalTo(Event.FIELD_EVENT_ID, eventId)
+                                .findFirst();
+                        GenericUtils.ensureNotNull(event);
+                        event.setCurrentUserGoing(true);
+                        event.setGoing(event.getGoing() + 1);
                         realm.commitTransaction();
                         subscriber.onNext(ticket);
                         subscriber.onCompleted();
@@ -134,5 +144,27 @@ public class EventManager {
                 }
             }
         });
+    }
+
+    public void toggleLikedAsyn(final String eventId) {
+        TaskManager.executeNow(new Runnable() {
+            @Override
+            public void run() {
+                Realm realm = Realm.getDefaultInstance();
+                try {
+                    Event event = realm.where(Event.class)
+                            .equalTo(Event.FIELD_EVENT_ID, eventId)
+                            .findFirst();
+                    GenericUtils.ensureNotNull(event);
+                    final boolean liked = !event.isLiked();
+                    realm.beginTransaction();
+                    event.setLiked(liked);
+                    event.setLikes(liked ? event.getLikes() + 1 : Math.max(0, event.getLikes() - 1));
+                    realm.commitTransaction();
+                } finally {
+                    realm.close();
+                }
+            }
+        }, true);
     }
 }
