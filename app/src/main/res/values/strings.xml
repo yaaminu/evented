@@ -82,7 +82,7 @@
     <string name="verify_qrcode">Scan QR Code</string>
     <string name="going">Going</string>
     <string name="verify_tickets">Verify tickets</string>
-    <string name="update_event">Update event</string>
+    <string name="update_event">View event details</string>
     <string name="manage_events">Manage Events</string>
     <string name="verify_tickets_title">Verify Tickets</string>
     <string name="instructions">Instructions</string>
@@ -95,4 +95,13 @@
     <string name="no_event_created">You havn\'t  created any event yet</string>
     <string name="no_tickets_purchased_yet">No tickets purchased yet :-)</string>
     <string name="spread_the_word">Spread The Word</string>
+    <string name="open_after_export">Open exported file after export</string>
+    <string name="export_instructions">Welcome to ticket exporter, easily export your tickets to a Microsoft excel spreadsheet.</string>
+    <string name="begin_export">Begin Export</string>
+    <string name="export_to_excel">Export To Excel</string>
+    <string name="export">Export</string>
+    <string name="cancel_export">Cancel Export</string>
+    <string name="preparing_to_export">Preparing tickets...</string>
+    <string name="export_progress">Export progress %s</string>
+    <string name="exproted_success_message">Successfully exported tickets to %s</string>
 </resources>

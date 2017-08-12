@@ -35,4 +35,8 @@ public abstract class BaseFragment extends Fragment {
         unbinder.unbind();
         super.onDestroyView();
     }
+
+    public boolean onBackPressed() {
+        return false;
+    }
 }

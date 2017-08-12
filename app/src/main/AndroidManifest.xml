@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Evented"
@@ -49,6 +50,9 @@
         <activity
             android:name=".ui.EventManagerActivity"
             android:label="@string/manage_events" />
+        <activity
+            android:name=".ui.ExportTicketsActivity"
+            android:label="@string/export" />
     </application>
 
 </manifest>

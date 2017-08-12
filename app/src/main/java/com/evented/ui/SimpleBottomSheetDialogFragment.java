@@ -36,6 +36,11 @@ public class SimpleBottomSheetDialogFragment extends BottomSheetDialogFragment {
                     Intent intent = new Intent(getContext(), VerifyTicketActivity.class);
                     intent.putExtra(VerifyTicketActivity.EXTRA_EVENT_ID, eventId);
                     startActivity(intent);
+                } else if (i == 1) {
+                    Intent intent = new Intent(getContext(), EventDetailsActivity.class);
+                    intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, eventId);
+                    intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, eventName);
+                    startActivity(intent);
                 } else if (i == 2) {
                     Intent intent = new Intent(getContext(), TicketsListActivity.class);
                     intent.putExtra(TicketsListActivity.EXTRA_EVENT_ID, eventId);

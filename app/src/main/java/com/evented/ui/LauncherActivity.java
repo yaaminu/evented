@@ -13,10 +13,12 @@ import com.evented.BuildConfig;
 
 public class LauncherActivity extends AppCompatActivity {
 
+     static final String FLAVOR_ATTENDEES = "attendees";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (BuildConfig.FLAVOR.equals("attendees")) {
+        if (BuildConfig.FLAVOR.equals(FLAVOR_ATTENDEES)) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, EventManagerActivity.class));
