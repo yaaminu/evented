@@ -1,10 +1,13 @@
 package com.evented.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
 import com.evented.R;
 import com.evented.events.ui.BaseFragment;
@@ -12,10 +15,9 @@ import com.evented.tickets.Ticket;
 import com.evented.tickets.TicketDetailsActivity;
 import com.evented.utils.GenericUtils;
 
-import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnItemClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -28,11 +30,12 @@ public class TicketsListFragment extends BaseFragment {
     private final RealmChangeListener<RealmResults<Ticket>> listener = new RealmChangeListener<RealmResults<Ticket>>() {
         @Override
         public void onChange(RealmResults<Ticket> tickets) {
-            adapter.refill(tickets);
+            adapter.notifyDataChanged();
         }
     };
+
     @BindView(R.id.ticket_list)
-    ListView ticketList;
+    RecyclerView ticketList;
     private Realm realm;
 
     RealmResults<Ticket> tickets;
@@ -61,7 +64,9 @@ public class TicketsListFragment extends BaseFragment {
         tickets = realm.where(Ticket.class)
                 .equalTo(Ticket.FIELD_EVENT_ID, eventId)
                 .findAllAsync();
-        adapter = new TicketListAdapter(Collections.<Ticket>emptyList());
+        adapter = new TicketListAdapter(delegate);
+        final GridLayoutManager layoutManger = new GridLayoutManager(getContext(), 2);
+        ticketList.setLayoutManager(layoutManger);
         ticketList.setAdapter(adapter);
         tickets.addChangeListener(listener);
     }
@@ -73,16 +78,35 @@ public class TicketsListFragment extends BaseFragment {
     }
 
 
-    @OnItemClick(R.id.ticket_list)
-    void onItemClick(int position) {
-        Intent intent = new Intent(getContext(), TicketDetailsActivity.class);
-        intent.putExtra(TicketDetailsActivity.EXTRA_TICKET_ID, adapter.getItem(position).getTicketId());
-        getActivity().startActivity(intent);
-    }
-
     @Override
     public void onDestroy() {
         realm.close();
         super.onDestroy();
     }
+
+    final RecyclerViewBaseAdapter.Delegate<Ticket> delegate = new RecyclerViewBaseAdapter.Delegate<Ticket>() {
+        @Override
+        public void onItemClick(RecyclerViewBaseAdapter<Ticket, ?> adapter, View view, int position, long id) {
+            Intent intent = new Intent(getContext(), TicketDetailsActivity.class);
+            intent.putExtra(TicketDetailsActivity.EXTRA_TICKET_ID, adapter.getItem(position).getTicketId());
+            getActivity().startActivity(intent);
+        }
+
+        @Override
+        public boolean onItemLongClick(RecyclerViewBaseAdapter<Ticket, ?> adapter, View view, int position, long id) {
+            return false;
+        }
+
+        @NonNull
+        @Override
+        public List<Ticket> dataSet() {
+            return tickets;
+        }
+
+        @NonNull
+        @Override
+        public Context context() {
+            return getActivity();
+        }
+    };
 }

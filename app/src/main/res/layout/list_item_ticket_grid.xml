@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/home_screen_item_height"
+    android:layout_marginBottom="@dimen/default_gap"
+    android:layout_marginRight="@dimen/default_gap"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:clickable="false"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_ticket_number"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            android:drawableBottom="@drawable/ic_check_circle_black_24dp"
+            android:drawablePadding="@dimen/default_gap"
+            android:focusable="false"
+            android:gravity="center"
+            android:paddingBottom="@dimen/default_gap"
+            android:paddingTop="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
+            tools:text="No. 12" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_gap" />
+
+        <TextView
+            android:id="@+id/tv_event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingRight="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            tools:text="Event name" />
+
+        <TextView
+            android:id="@+id/tv_date_purchased"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingRight="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="12 oct 2017" />
+
+        <TextView
+            android:id="@+id/tv_ticket_cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingLeft="@dimen/default_gap"
+            android:paddingRight="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="12 cedis" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

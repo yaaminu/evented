@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ddd">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/ticket_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/default_gap"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:layout_marginLeft="@dimen/default_gap"
         android:divider="@color/light_gray"
         android:dividerHeight="0.5dp"
-        tools:listitem="@layout/list_item_ticket" />
+        app:layoutManager="GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/list_item_ticket_grid" />
 
 </FrameLayout>

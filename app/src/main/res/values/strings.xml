@@ -63,10 +63,10 @@
     <string name="initialising_transaction">Initialising transaction</string>
     <string name="qr_code">QR code</string>
     <string name="ticket_details">Ticket Details</string>
-    <string name="ticket_cost">Ticket cost %s</string>
+    <string name="ticket_cost">Cost %s</string>
     <string name="starts_at">Event starts at %s</string>
     <string name="purchased_on">Purchased on: %s</string>
-    <string name="ticket_no">Ticket No. %d</string>
+    <string name="ticket_no">No. %d</string>
     <string name="back">back</string>
     <string name="search">search</string>
     <string name="search_hint">Search...</string>
@@ -91,4 +91,5 @@
     <string name="scanning_nearby_devices">Scanning for nearby devices...</string>
     <string name="verify_ticket_with_nfc">Verify with NFC</string>
     <string name="no_nfc">No NFC available on this device, would you like to enable it in settings?</string>
+    <string name="date">Date %s</string>
 </resources>
