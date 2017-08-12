@@ -92,4 +92,7 @@
     <string name="verify_ticket_with_nfc">Verify with NFC</string>
     <string name="no_nfc">No NFC available on this device, would you like to enable it in settings?</string>
     <string name="date">Date %s</string>
+    <string name="no_event_created">You havn\'t  created any event yet</string>
+    <string name="no_tickets_purchased_yet">No tickets purchased yet :-)</string>
+    <string name="spread_the_word">Spread The Word</string>
 </resources>

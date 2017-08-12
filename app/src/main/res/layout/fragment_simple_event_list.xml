@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_results_list_view"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/default_gap"
-    android:layout_marginTop="@dimen/default_gap"
-    android:orientation="vertical" />
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/search_results_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/default_gap"
+        android:layout_marginTop="@dimen/default_gap"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_event_created" />
+</FrameLayout>

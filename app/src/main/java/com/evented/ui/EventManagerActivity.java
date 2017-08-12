@@ -1,15 +1,16 @@
 package com.evented.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.evented.R;
 import com.evented.events.data.Event;
+import com.evented.events.ui.CreateEventActivity;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -19,10 +20,7 @@ import io.realm.RealmResults;
  * Created by yaaminu on 8/12/17.
  */
 
-public class ManageEventsActivity extends AppCompatActivity implements SimpleEventListFragment.callbacks {
-
-
-    private SimpleEventListFragment fragment;
+public class EventManagerActivity extends AppCompatActivity implements SimpleEventListFragment.callbacks {
 
     Realm realm;
 
@@ -34,24 +32,27 @@ public class ManageEventsActivity extends AppCompatActivity implements SimpleEve
             fragment.updateResults(results);
         }
     };
+    private SimpleEventListFragment fragment;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        setContentView(R.layout.activity_event_list);
+        setContentView(R.layout.activity_event_manager);
+        ButterKnife.bind(this);
         fragment = new SimpleEventListFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, "tag")
+                .replace(R.id.container, fragment, "manageEvents")
                 .commit();
+
         final RealmQuery<Event> eventsQuery = realm.where(Event.class);
         results = eventsQuery
                 .findAllSortedAsync(Event.FIELD_START_DATE);
         results.addChangeListener(listener);
 
-        getSupportActionBar()
-                .setDisplayHomeAsUpEnabled(true);
     }
+
 
     @Override
     protected void onResume() {
@@ -77,26 +78,18 @@ public class ManageEventsActivity extends AppCompatActivity implements SimpleEve
 
     @Override
     public void onItemClicked(final Event event) {
-        String[] items = new String[3];
-        items[0] = getString(R.string.verify_tickets);
-        items[1] = getString(R.string.update_event);
-        items[2] = getString(R.string.view_tickets);
-        new AlertDialog.Builder(this)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            Intent intent = new Intent(ManageEventsActivity.this, VerifyTicketActivity.class);
-                            intent.putExtra(VerifyTicketActivity.EXTRA_EVENT_ID, event.getEventId());
-                            startActivity(intent);
-                        } else if (i == 2) {
-                            Intent intent = new Intent(ManageEventsActivity.this, TicketsListActivity.class);
-                            intent.putExtra(TicketsListActivity.EXTRA_EVENT_ID, event.getEventId());
-                            intent.putExtra(TicketsListActivity.EXTRA_EVENT_TITLE, getString(R.string.tickets_list, event.getName()));
-                            startActivity(intent);
-                        }
-                    }
-                }).create().show();
+        final SimpleBottomSheetDialogFragment dialogFragment = new SimpleBottomSheetDialogFragment();
+        Bundle args = new Bundle(2);
+        args.putString(SimpleBottomSheetDialogFragment.EXTRA_EVENT_ID, event.getEventId());
+        args.putString(SimpleBottomSheetDialogFragment.EXTRA_EVENT_NAME, event.getName());
+        dialogFragment.setArguments(args);
+        dialogFragment.show(getSupportFragmentManager(), "dialog");
     }
 
+    @OnClick(R.id.fab_create_event)
+    void onClick() {
+        startActivity(new Intent(this, CreateEventActivity.class));
+    }
+
+    public static boolean isManager = true;
 }

@@ -22,10 +22,12 @@ import butterknife.OnItemClick;
  */
 
 public class SimpleEventListFragment extends BaseFragment {
-    private List<Event> searchResults;
 
     @BindView(R.id.search_results_list_view)
     ListView event_list;
+    @BindView(R.id.empty_view)
+    View empty_view;
+
     private SimpleEventListAdapter adapter;
 
     @Override
@@ -37,15 +39,10 @@ public class SimpleEventListFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        searchResults = Collections.emptyList();
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapter = new SimpleEventListAdapter(Collections.<Event>emptyList());
+        event_list.setEmptyView(empty_view);
         event_list.setAdapter(adapter);
     }
 

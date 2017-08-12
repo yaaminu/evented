@@ -14,6 +14,7 @@ import com.evented.events.ui.BaseFragment;
 import com.evented.tickets.Ticket;
 import com.evented.tickets.TicketDetailsActivity;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.ViewUtils;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class TicketsListFragment extends BaseFragment {
     private Realm realm;
 
     RealmResults<Ticket> tickets;
+
+    @BindView(R.id.empty_view)
+    View emptyView;
 
     TicketListAdapter adapter;
     private String eventId;
@@ -100,6 +104,8 @@ public class TicketsListFragment extends BaseFragment {
         @NonNull
         @Override
         public List<Ticket> dataSet() {
+            ViewUtils.showByFlag(tickets.isEmpty(), emptyView);
+            ViewUtils.showByFlag(!tickets.isEmpty(), ticketList);
             return tickets;
         }
 

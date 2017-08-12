@@ -15,16 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
+        <activity android:name=".ui.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".events.ui.CreateEventActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -46,7 +47,7 @@
             android:label="@string/verify_tickets_title"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.ManageEventsActivity"
+            android:name=".ui.EventManagerActivity"
             android:label="@string/manage_events" />
     </application>
 
