@@ -117,8 +117,8 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
     public void onTicketVerified(Ticket ticket) {
         this.ticket = ticket;
         if (ticket.getVerifications() > 1) {
-            final Snackbar snackbar = Snackbar.make(getWindow().getDecorView(), "Warning: This ticket has been verified before", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("I know", new View.OnClickListener() {
+            final Snackbar snackbar = Snackbar.make(getWindow().getDecorView(), R.string.overused_ticket_warning, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.i_know, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 

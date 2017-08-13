@@ -121,4 +121,6 @@
     <string name="title_verify_phone">Verify Phone Number</string>
     <string name="title_add_phone_number">Add Phone Number</string>
     <string name="welcome">Welcome</string>
+    <string name="i_know">I know</string>
+    <string name="overused_ticket_warning">Warning: This ticket has been verified before</string>
 </resources>
