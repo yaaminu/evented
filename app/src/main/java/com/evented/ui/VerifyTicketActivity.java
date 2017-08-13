@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
@@ -116,13 +117,19 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
     public void onTicketVerified(Ticket ticket) {
         this.ticket = ticket;
         if (ticket.getVerifications() > 1) {
-            Snackbar.make(getWindow().getDecorView(), "Warning: This ticket has been verified before", Snackbar.LENGTH_INDEFINITE)
+            final Snackbar snackbar = Snackbar.make(getWindow().getDecorView(), "Warning: This ticket has been verified before", Snackbar.LENGTH_INDEFINITE)
                     .setAction("I know", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                         }
-                    }).show();
+                    });
+            snackbar.getView()
+                    .setBackgroundResource(R.color.red);
+            TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_action);
+            textView.setTextColor(getResources().getColor(R.color.white));
+            snackbar
+                    .show();
         }
         getSupportFragmentManager()
                 .beginTransaction()
