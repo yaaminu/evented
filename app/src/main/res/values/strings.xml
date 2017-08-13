@@ -108,4 +108,17 @@
     <string name="ticket_veriefied_successfully">ticket_verified</string>
     <string name="ticket_verified_success_message">Ticket verified successfully, tap to scan again</string>
     <string name="ticket_verified_failed_message">Failed: %s. Tap to scan again</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="get_started">Get Started</string>
+    <string name="phone_required">Phone number is required</string>
+    <string name="skip">Skip</string>
+    <string name="login_intro">You need to add your phone number in order to buy a ticket, view tickets or create an  event</string>
+    <string name="add_phone">Add Phone Number</string>
+    <string name="verify">Verify</string>
+    <string name="verification_notice">You\'ll shortly receive the verification code in your inbox. Make sure you have a working SMS plan</string>
+    <string name="change_phone">Change Phone Number</string>
+    <string name="title_verify_phone">Verify Phone Number</string>
+    <string name="title_add_phone_number">Add Phone Number</string>
+    <string name="welcome">Welcome</string>
 </resources>

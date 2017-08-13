@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_gap"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_smartphone_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:padding="@dimen/default_gap"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
+        android:text="@string/get_started"
+        android:textColor="@color/white" />
+</LinearLayout>

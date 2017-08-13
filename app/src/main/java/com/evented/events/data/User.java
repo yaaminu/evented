@@ -13,4 +13,13 @@ public class User {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

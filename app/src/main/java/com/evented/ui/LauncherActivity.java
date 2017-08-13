@@ -15,6 +15,7 @@ import com.evented.utils.Config;
 public class LauncherActivity extends AppCompatActivity {
 
     public static final String FLAVOR_ATTENDEES = "attendees";
+    public static final String EXTRA_SKIP_LOGIN = "skipLogin";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,8 +23,14 @@ public class LauncherActivity extends AppCompatActivity {
         if (!Config.isManagement() || BuildConfig.FLAVOR.equals(FLAVOR_ATTENDEES)) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
-            startActivity(new Intent(this, EventManagerActivity.class));
+            if (!com.evented.events.data.UserManager.getInstance()
+                    .isCurrentUserVerified()) {
+                startActivity(new Intent(this, LoginActivity.class));
+            } else {
+                startActivity(new Intent(this, EventManagerActivity.class));
+            }
         }
         finish();
+
     }
 }

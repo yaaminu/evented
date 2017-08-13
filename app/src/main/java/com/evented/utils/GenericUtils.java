@@ -131,4 +131,10 @@ public class GenericUtils {
         return DateUtils.formatDateTime(context, date.getTimeInMillis(), flags);
     }
 
+    public static void showDialog(Context context, String message) {
+        new android.support.v7.app.AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .create().show();
+    }
 }

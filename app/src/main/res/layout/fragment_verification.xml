@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="300dp"
+
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:gravity="center_horizontal"
+
+            android:text="@string/verification_notice"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="0.5dp"
+            android:background="@color/light_gray" />
+
+        <EditText
+            android:id="@+id/et_verification_code"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_gap"
+            android:background="@color/transparent"
+            android:drawableLeft="@drawable/ic_phonelink_lock_black_24dp"
+            android:drawablePadding="@dimen/default_gap"
+            android:hint="@string/verification_code"
+            android:inputType="number"
+            android:padding="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="0.5dp"
+            android:background="@color/light_gray" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_gap" />
+
+        <Button
+            android:id="@+id/bt_verify"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
+            android:text="@string/verify"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <Button
+        android:id="@+id/bt_change_phone_number"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="@string/change_phone"
+        android:textColor="@color/colorPrimaryDark" />
+</LinearLayout>
