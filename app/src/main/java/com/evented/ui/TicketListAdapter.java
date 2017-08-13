@@ -38,6 +38,7 @@ public class TicketListAdapter extends RecyclerViewBaseAdapter<Ticket, TicketLis
                 item.getTicketCost()).divide(BigDecimal.valueOf(100),
                 MathContext.DECIMAL128).longValue()));
         holder.tv_ticket_number.setText(getString(R.string.ticket_no, item.getTicketNumber()));
+        holder.tv_ticket_number.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, item.getVerifications() >= 1 ? R.drawable.ic_check_circle_black_24dp : 0);
 
     }
 
