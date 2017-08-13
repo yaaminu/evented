@@ -1,6 +1,7 @@
 package com.evented.ui;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.BillingAcount;
@@ -103,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         };
         sideMenu.setAdapter(new SideMenuAdapter(getResources().getStringArray(R.array.side_menu_titles),
                 icons));
+        ((TextView) findViewById(R.id.app_name_menu_title))
+                .setTypeface(Typeface.createFromAsset(getAssets(), "fonts/bop.ttf"));
     }
 
 
