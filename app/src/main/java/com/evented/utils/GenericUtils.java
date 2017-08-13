@@ -223,22 +223,22 @@ public class GenericUtils {
     }
 
     public static Bitmap getImage(Context context) {
-         int res = getResIdentifier(Math.abs(new SecureRandom().nextInt()) % 10);
-         BitmapFactory.Options options = new BitmapFactory.Options();
-         options.inJustDecodeBounds = true;
-         BitmapFactory.decodeResource(context.getResources(),
-                 res, options);
-         final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
-         final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
+        int res = getResIdentifier(Math.abs(new SecureRandom().nextInt()) % 10);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(),
+                res, options);
+        final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
+        final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
 
-         options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
-         if (options.inSampleSize == 0) {
-             options.inSampleSize = 1;
-         } else if (options.inSampleSize < 1) {
-             options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
-         }
-         options.inJustDecodeBounds = false;
-         return BitmapFactory.decodeResource(context.getResources(),
-                 res, options);
-     }
+        options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
+        if (options.inSampleSize == 0) {
+            options.inSampleSize = 1;
+        } else if (options.inSampleSize < 1) {
+            options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
+        }
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(context.getResources(),
+                res, options);
+    }
 }
