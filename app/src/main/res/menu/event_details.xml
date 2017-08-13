@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_get_directions"
+        android:orderInCategory="101"
+        android:title="@string/view_tickets"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_contact_organizer"
+        android:orderInCategory="101"
+        android:title="@string/view_tickets"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_view_tickets"
         android:orderInCategory="101"
         android:title="@string/view_tickets"
