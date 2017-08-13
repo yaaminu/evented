@@ -5,12 +5,17 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.format.DateUtils;
 import android.widget.EditText;
 
+import com.evented.R;
+import com.evented.events.ui.HomeScreenItemAdapter;
+
+import java.security.SecureRandom;
 import java.util.Calendar;
 
 /**
@@ -160,4 +165,80 @@ public class GenericUtils {
         }
         return BitmapFactory.decodeFile(path, options);
     }
+
+    /****************************************for testing****************************************/
+    public static int getResIdentifier(int position) {
+        switch (position) {
+            case 0:
+                return R.drawable.flyer;
+            case 1:
+                return R.drawable.flyer2;
+            case 2:
+                return R.drawable.flyer20;
+            case 3:
+                return R.drawable.flyer3;
+            case 4:
+                return R.drawable.flyer4;
+            case 5:
+                return R.drawable.flyer8;
+            case 6:
+                return R.drawable.flyer11;
+            case 7:
+                return R.drawable.flyer14;
+            case 8:
+                return R.drawable.flyer18;
+            case 9:
+                return R.drawable.flyer21;
+            default:
+                return R.drawable.flyer18;
+        }
+    }
+
+    /*******************************************for testing*************************************/
+    public static void setUpDrawables(Context context) {
+
+        if (!HomeScreenItemAdapter.drawables.isEmpty()) {
+            return;
+        }
+        for (int i = 0; i < 10; i++) {
+            int res = getResIdentifier(i);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(context.getResources(),
+                    res, options);
+            final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_flyer_height);
+            final int requiredWidth = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_width);
+
+            options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
+            if (options.inSampleSize == 0) {
+                options.inSampleSize = 1;
+            } else if (options.inSampleSize < 1) {
+                options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
+            }
+            options.inJustDecodeBounds = false;
+
+            HomeScreenItemAdapter.drawables.add(new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
+                    res, options)));
+        }
+    }
+
+    public static Bitmap getImage(Context context) {
+         int res = getResIdentifier(Math.abs(new SecureRandom().nextInt()) % 10);
+         BitmapFactory.Options options = new BitmapFactory.Options();
+         options.inJustDecodeBounds = true;
+         BitmapFactory.decodeResource(context.getResources(),
+                 res, options);
+         final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
+         final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
+
+         options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
+         if (options.inSampleSize == 0) {
+             options.inSampleSize = 1;
+         } else if (options.inSampleSize < 1) {
+             options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
+         }
+         options.inJustDecodeBounds = false;
+         return BitmapFactory.decodeResource(context.getResources(),
+                 res, options);
+     }
 }

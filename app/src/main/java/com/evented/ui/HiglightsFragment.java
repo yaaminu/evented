@@ -1,8 +1,6 @@
 package com.evented.ui;
 
-import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.ui.BaseFragment;
-import com.evented.events.ui.HomeScreenItemAdapter;
+import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
 import io.realm.Realm;
@@ -59,15 +57,15 @@ public class HiglightsFragment extends BaseFragment {
         final RealmResults<Event> allEvents = realm.where(Event.class)
                 .findAllSorted(Event.FIELD_GOING, Sort.DESCENDING);
         if (!allEvents.isEmpty()) {
-            HomeScreenItemAdapter.setUpDrawables(getContext());
+            GenericUtils.setUpDrawables(getContext());
             Event event = allEvents.first();
             tv_location.setText(event.getVenue());
             tv_event_name.setText(event.getName());
             tv_likes.setText(String.valueOf(event.getLikes()));
             tv_going.setText(String.valueOf(event.getGoing()));
-            final BitmapDrawable image = getImage(getContext());
-            iv_event_flyer.setImageDrawable(image);
-            Palette.from(image.getBitmap())
+            final Bitmap image = GenericUtils.getImage(getContext());
+            iv_event_flyer.setImageBitmap(image);
+            Palette.from(image)
                     .generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(Palette palette) {
@@ -78,7 +76,7 @@ public class HiglightsFragment extends BaseFragment {
                                     R.color.trasparent_dark));
                             bar.setBackgroundColor(color);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                getActivity().getWindow().setStatusBarColor(palette.getVibrantColor(ContextCompat.getColor(getContext(),
+                                getActivity().getWindow().setStatusBarColor(palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
                                         R.color.colorPrimaryDark)));
                             }
                         }
@@ -86,26 +84,6 @@ public class HiglightsFragment extends BaseFragment {
         } else {
             view.setVisibility(View.GONE);
         }
-    }
-
-    private BitmapDrawable getImage(Context context) {
-        int res = R.drawable.flyer18;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(),
-                res, options);
-        final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
-        final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
-
-        options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
-        if (options.inSampleSize == 0) {
-            options.inSampleSize = 1;
-        } else if (options.inSampleSize < 1) {
-            options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
-        }
-        options.inJustDecodeBounds = false;
-        return new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-                res, options));
     }
 
     @Override

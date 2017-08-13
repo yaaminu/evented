@@ -1,7 +1,5 @@
 package com.evented.events.ui;
 
-import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +31,7 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
 
     public HomeScreenItemAdapter(Delegate<Event> delegate) {
         super(delegate);
-        setUpDrawables(delegate.context());
+        GenericUtils.setUpDrawables(delegate.context());
         today = Calendar.getInstance();
         thatDay = Calendar.getInstance();
     }
@@ -54,61 +52,6 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
                 false));
     }
 
-    /*******************************************for testing*************************************/
-    public static void setUpDrawables(Context context) {
-
-        if (!drawables.isEmpty()) {
-            return;
-        }
-        for (int i = 0; i < 10; i++) {
-            int res = getResIdentifier(i);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(context.getResources(),
-                    res, options);
-            final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_flyer_height);
-            final int requiredWidth = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_width);
-
-            options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
-            if (options.inSampleSize == 0) {
-                options.inSampleSize = 1;
-            } else if (options.inSampleSize < 1) {
-                options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
-            }
-            options.inJustDecodeBounds = false;
-
-            drawables.add(new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-                    res, options)));
-        }
-    }
-
-    private static int getResIdentifier(int i) {
-        switch (i) {
-            case 0:
-                return R.drawable.flyer;
-            case 1:
-                return R.drawable.flyer2;
-            case 2:
-                return R.drawable.flyer20;
-            case 3:
-                return R.drawable.flyer3;
-            case 4:
-                return R.drawable.flyer4;
-            case 5:
-                return R.drawable.flyer8;
-            case 6:
-                return R.drawable.flyer11;
-            case 7:
-                return R.drawable.flyer14;
-            case 8:
-                return R.drawable.flyer18;
-            case 9:
-                return R.drawable.flyer21;
-            default:
-                return R.drawable.flyer18;
-        }
-    }
-    /****************************************for testing****************************************/
 }
 
 
