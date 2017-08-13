@@ -39,7 +39,7 @@
             android:layout_marginBottom="@dimen/default_gap"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ocean"
+            android:src="@drawable/flyer20"
             app:layout_columnSpan="3"
             app:layout_columnWeight="1" />
 

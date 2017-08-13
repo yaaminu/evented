@@ -89,11 +89,11 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
     private static int getResIdentifier(int i) {
         switch (i) {
             case 0:
-                return R.drawable.ocean;
+                return R.drawable.flyer18;
             case 1:
-                return R.drawable.iceberg;
+                return R.drawable.flyer;
             default:
-                return R.drawable.ocean;
+                return R.drawable.flyer8;
         }
     }
 /**********************************************************************************************************/

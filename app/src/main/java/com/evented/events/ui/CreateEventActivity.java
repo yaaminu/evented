@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.evented.R;
 import com.evented.events.data.Event;
@@ -20,6 +19,12 @@ import rx.schedulers.Schedulers;
 public class CreateEventActivity extends AppCompatActivity {
 
     private static final String TAG = "CreateEventActivity";
+    private static final String KEY_EVENT = "event";
+    private static final String KEY_STAGE = "stage";
+    private final CreateEventFragment1 createEventFragment1 = new CreateEventFragment1();
+    private final CreateEventFragment2 createEventFragment2 = new CreateEventFragment2();
+    private final CreateEventFragment3 createEventFragment3 = new CreateEventFragment3();
+    private final CreateEventFragment3 createEventFragment31 = new CreateEventFragment3();
 
     private int stage = 0;
     private ProgressDialog dialog;
@@ -30,20 +35,16 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        event = new Event();
         eventManager = EventManager.create(UserManager.getInstance());
 
         setContentView(R.layout.activity_create_event);
         if (savedInstanceState != null) {
-            stage = savedInstanceState.getInt("stage", 0);
+            stage = savedInstanceState.getInt(KEY_STAGE, 0);
+            event = savedInstanceState.getParcelable(KEY_EVENT);
         } else {
+            event = new Event();
             stage = 0;
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //noinspection ConstantConditions
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
 
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
@@ -52,7 +53,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("stage", stage);
+        outState.putInt(KEY_STAGE, stage);
+        outState.putParcelable(KEY_EVENT, event);
         super.onSaveInstanceState(outState);
     }
 
@@ -99,13 +101,13 @@ public class CreateEventActivity extends AppCompatActivity {
     private Fragment getFragment(int stage) {
         switch (stage) {
             case 0:
-                return new CreateEventFragment1();
+                return createEventFragment1;
             case 1:
-                return new CreateEventFragment2();
+                return createEventFragment2;
             case 2:
-                return new CreateEventFragment3();
+                return createEventFragment3;
             default:
-                return new CreateEventFragment3();
+                return createEventFragment31;
         }
     }
 

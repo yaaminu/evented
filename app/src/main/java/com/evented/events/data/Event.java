@@ -1,5 +1,8 @@
 package com.evented.events.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
@@ -11,7 +14,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by yaaminu on 8/8/17.
  */
 
-public class Event extends RealmObject {
+public class Event extends RealmObject implements Parcelable {
 
     public static final String FIELD_START_DATE = "startDate",
             END_DATE = "endDate";
@@ -74,6 +77,41 @@ public class Event extends RealmObject {
         this.entranceFee = entranceFee;
         this.billingAcount = billingAcount;
     }
+
+    protected Event(Parcel in) {
+        eventId = in.readString();
+        createdBy = in.readString();
+        name = in.readString();
+        flyers = in.readString();
+        description = in.readString();
+        category = in.readInt();
+        venue = in.readString();
+        startDate = in.readLong();
+        endDate = in.readLong();
+        dateUpdated = in.readLong();
+        dateCreated = in.readLong();
+        publicity = in.readInt();
+        maxSeats = in.readInt();
+        likes = in.readInt();
+        going = in.readInt();
+        entranceFee = in.readLong();
+        liked = in.readByte() != 0;
+        currentUserGoing = in.readByte() != 0;
+        organizerContact = in.readString();
+        webLink = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 
     public String getEventId() {
         return eventId;
@@ -260,5 +298,34 @@ public class Event extends RealmObject {
 
     public String getWebLink() {
         return webLink;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(eventId);
+        parcel.writeString(createdBy);
+        parcel.writeString(name);
+        parcel.writeString(flyers);
+        parcel.writeString(description);
+        parcel.writeInt(category);
+        parcel.writeString(venue);
+        parcel.writeLong(startDate);
+        parcel.writeLong(endDate);
+        parcel.writeLong(dateUpdated);
+        parcel.writeLong(dateCreated);
+        parcel.writeInt(publicity);
+        parcel.writeInt(maxSeats);
+        parcel.writeInt(likes);
+        parcel.writeInt(going);
+        parcel.writeLong(entranceFee);
+        parcel.writeByte((byte) (liked ? 1 : 0));
+        parcel.writeByte((byte) (currentUserGoing ? 1 : 0));
+        parcel.writeString(organizerContact);
+        parcel.writeString(webLink);
     }
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,27 +7,53 @@
     android:orientation="vertical"
     android:weightSum="5">
 
-    <LinearLayout
-        style="@style/create_event_grid_item_style"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/add_flyer_height"
         android:background="@color/colorPrimary"
         android:gravity="bottom"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_gap">
+        android:orientation="vertical">
 
 
-        <EditText
+        <ImageView
+            android:id="@+id/iv_event_flyer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/flyer"
+            android:scaleType="fitXY"
+            tools:src="@drawable/flyer18" />
+
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/et_event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:backgroundTint="@color/colorAccent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:hint="@string/event_name"
             android:inputType="text"
             android:textColor="@color/white"
-            android:textColorHint="@color/light_gray" />
-    </LinearLayout>
+            android:textColorHint="@color/light_gray"
+            app:backgroundTint="@color/white" />
+
+
+        <TextView
+            android:id="@+id/tv_add_flyer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/default_gap"
+            android:drawableTop="@drawable/ic_add_a_photo_black_24dp"
+            android:focusable="true"
+            android:padding="@dimen/default_gap"
+            android:text="@string/add_flyer"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -41,10 +66,6 @@
             app:columnCount="2"
             app:useDefaultMargins="true">
 
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
 
             <TextView
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -53,15 +74,10 @@
                 android:gravity="center_vertical"
                 android:text="@string/event_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1"
                 tools:ignore="RtlHardcoded" />
-
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
 
             <View
                 android:layout_height="1dp"
@@ -128,12 +144,6 @@
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
 
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-
             <EditText
                 android:id="@+id/location"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -149,10 +159,6 @@
                 app:layout_columnWeight="1"
                 tools:ignore="RtlHardcoded" />
 
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
 
             <View
                 android:layout_height="1dp"
@@ -164,13 +170,6 @@
                 android:layout_height="@dimen/default_gap"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
-
-
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
 
             <EditText
                 android:id="@+id/description"
@@ -186,10 +185,6 @@
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
 
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
 
             <View
                 android:layout_height="1dp"
@@ -215,9 +210,7 @@
                 android:drawablePadding="@dimen/default_gap"
                 android:drawableRight="@drawable/ic_chevron_right_color_primary_24dp"
                 android:gravity="end|center_vertical"
-                android:padding="@dimen/default_gap"
                 android:text="@string/next"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />

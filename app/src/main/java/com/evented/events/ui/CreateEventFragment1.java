@@ -1,9 +1,14 @@
 package com.evented.events.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -11,12 +16,17 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.evented.R;
 import com.evented.events.data.Event;
+import com.evented.utils.FileUtils;
+import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
+import com.evented.utils.TaskManager;
+import com.evented.utils.ThreadUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +43,10 @@ import butterknife.OnClick;
 
 public class CreateEventFragment1 extends BaseFragment {
     private static final String TAG = "CreateEventFragment1";
+    private static final int PICK_FLYER_REQUEST_CODE = 1001;
+
+    @BindView(R.id.iv_event_flyer)
+    ImageView iv_event_flyer;
 
     @Override
     protected int getLayout() {
@@ -59,15 +73,77 @@ public class CreateEventFragment1 extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @OnClick(R.id.next)
-    public void next() {
-        if (validate()) {
-            ((CreateEventActivity) getActivity()).onNext();
+        final Event event = ((CreateEventActivity) getActivity()).getEvent();
+        if (event != null && event.getFlyers() != null) {
+            loadImageAsync(event.getFlyers(), getResources().getDisplayMetrics().widthPixels,
+                    getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
         }
     }
 
+    @OnClick({R.id.tv_add_flyer, R.id.next})
+    public void onClick(View v) {
+        if (v.getId() == R.id.tv_add_flyer) {
+            addFlyer();
+        } else {
+            if (validate()) {
+                ((CreateEventActivity) getActivity()).onNext();
+            }
+        }
+    }
+
+
+    private void addFlyer() {
+        // TODO: 8/13/17 check storage permission
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, PICK_FLYER_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_FLYER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            String path = FileUtils.resolveContentUriToFilePath(uri);
+            ((CreateEventActivity) getActivity()).getEvent().setFlyers(path);
+            loadImageAsync(path, getResources().getDisplayMetrics().widthPixels, getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void loadImageAsync(final String path, final int width, final int height) {
+        TaskManager.executeNow(new Runnable() {
+
+            private Bitmap bitmap;
+
+            @Override
+            public void run() {
+                if (ThreadUtils.isMainThread() && getActivity() != null) {
+                    if (bitmap != null) {
+                        iv_event_flyer.setImageBitmap(bitmap);
+                    } else {
+                        GenericUtils.showDialog(getContext(), getString(R.string.failed_to_load_flyer));
+                    }
+                } else {
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(path, options);
+
+                    options.inJustDecodeBounds = false;
+                    double scalFactor = Math.ceil(Math.max(width * 1.0 / options.outWidth,
+                            height * 1.0 / options.outHeight));
+                    options.inSampleSize = (int) scalFactor;
+                    if (options.inSampleSize < 1) {
+                        options.inSampleSize = 1;
+                    }
+                    bitmap = BitmapFactory.decodeFile(path, options);
+                    TaskManager.executeOnMainThread(this);
+                }
+            }
+        }, true);
+    }
 
     private boolean validate() {
 

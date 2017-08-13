@@ -26,7 +26,7 @@ import butterknife.OnLongClick;
 
 public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder> {
     private static final String TAG = "HomeScreenItemAdapter";
-    public static final ArrayList<BitmapDrawable> drawables = new ArrayList<>(6);
+    public static final ArrayList<BitmapDrawable> drawables = new ArrayList<>();
 
     private Calendar today;
     private Calendar thatDay;
@@ -60,7 +60,7 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
         if (!drawables.isEmpty()) {
             return;
         }
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 10; i++) {
             int res = getResIdentifier(i);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -85,19 +85,27 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
     private static int getResIdentifier(int i) {
         switch (i) {
             case 0:
-                return R.drawable.wating;
+                return R.drawable.flyer;
             case 1:
-                return R.drawable.denu;
+                return R.drawable.flyer2;
             case 2:
-                return R.drawable.xoli;
+                return R.drawable.flyer20;
             case 3:
-                return R.drawable.iceberg;
+                return R.drawable.flyer3;
             case 4:
-                return R.drawable.ocean;
+                return R.drawable.flyer4;
             case 5:
-                return R.drawable.iceberg;
+                return R.drawable.flyer8;
+            case 6:
+                return R.drawable.flyer11;
+            case 7:
+                return R.drawable.flyer14;
+            case 8:
+                return R.drawable.flyer18;
+            case 9:
+                return R.drawable.flyer21;
             default:
-                return R.drawable.ocean;
+                return R.drawable.flyer18;
         }
     }
     /****************************************for testing****************************************/

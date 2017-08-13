@@ -1,5 +1,8 @@
 package com.evented.ui;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -57,10 +60,30 @@ public class HiglightsFragment extends BaseFragment {
             tv_event_name.setText(event.getName());
             tv_likes.setText(String.valueOf(event.getLikes()));
             tv_going.setText(String.valueOf(event.getGoing()));
-            iv_event_flyer.setImageDrawable(HomeScreenItemAdapter.drawables.get(4));
+            iv_event_flyer.setImageDrawable(getImage(getContext()));
         } else {
             view.setVisibility(View.GONE);
         }
+    }
+
+    private BitmapDrawable getImage(Context context) {
+        int res = R.drawable.flyer18;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(),
+                res, options);
+        final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
+        final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
+
+        options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
+        if (options.inSampleSize == 0) {
+            options.inSampleSize = 1;
+        } else if (options.inSampleSize < 1) {
+            options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
+        }
+        options.inJustDecodeBounds = false;
+        return new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
+                res, options));
     }
 
     @Override

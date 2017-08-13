@@ -23,6 +23,10 @@
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
     </style>
 
+    <style name="TextAppearance.AppCompat.Headline.hidden">
+        <item name="android:textSize">0sp</item>
+    </style>
+
     <style name="create_event_grid_item_style.date_style">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>

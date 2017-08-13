@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="@dimen/highlights_height">
 
     <ImageView
         android:id="@+id/iv_event_flyer"
@@ -11,7 +11,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/flyer"
         android:scaleType="fitXY"
-        tools:src="@drawable/ocean" />
+        tools:src="@drawable/flyer2" />
 
     <TextView
         android:id="@+id/tv_event_name"
@@ -23,16 +23,19 @@
         android:layout_marginRight="@dimen/default_gap"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/white"
+        android:visibility="gone"
         tools:text="Event Name" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/default_gap"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:orientation="horizontal">
+        android:background="#8000"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/default_gap"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/default_gap">
 
         <TextView
             android:id="@+id/tv_likes"
