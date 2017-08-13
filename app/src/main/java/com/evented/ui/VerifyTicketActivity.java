@@ -30,6 +30,8 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
 
     private Realm realm;
     private Event event;
+    @Nullable
+    private Ticket ticket;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
         if (currentItem == v.getId()) {
             return;
         }
+        ticket = null;
 
         if (currentItem != 0) {
             findViewById(currentItem).setSelected(false);
@@ -110,9 +113,10 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
     //will be called as a callback
     @Override
     public void onTicketVerified(Ticket ticket) {
+        this.ticket = ticket;
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.ticket_details_container, new TicketsListFragment())
+                .replace(R.id.ticket_details_container, new MiniTicketDetailsFragment())
                 .commit();
     }
 
@@ -123,6 +127,26 @@ public class VerifyTicketActivity extends AppCompatActivity implements VerifyTic
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Event getEvent() {
+        return event;
+    }
+
+    @Nullable
+    @Override
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    @Override
+    public void clearCurrentTicket() {
+        ticket = null;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.ticket_details_container, new EmptyInstructionsFragment())
+                .commit();
     }
 
     @Override

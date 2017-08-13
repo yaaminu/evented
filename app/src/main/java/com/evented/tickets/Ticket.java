@@ -16,6 +16,7 @@ public class Ticket extends RealmObject {
             FIELD_EVENT_ID = "eventId", FIELD_EVENT_NAME = "eventName",
             FIELD_TICKET_NUMBER = "ticketNumber", FIELD_TICKET_COST = "ticketCost",
             FIELD_TICKET_SIGNATURE = "ticketSignature";
+    public static final String OWNER_NUMBER = "ownerPhone";
 
 
     @PrimaryKey

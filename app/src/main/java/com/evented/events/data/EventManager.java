@@ -3,6 +3,7 @@ package com.evented.events.data;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 
+import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
 import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
@@ -22,9 +23,7 @@ import java.security.SecureRandom;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
-
-import static com.evented.tickets.Ticket.FIELD_DATE_PURCHASED;
-import static com.evented.tickets.Ticket.FIELD_TICKET_NUMBER;
+import rx.exceptions.Exceptions;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -56,8 +55,9 @@ public class EventManager {
                             .put(Ticket.FIELD_EVENT_NAME, ticket.getEventName())
                             .put(Ticket.FIELD_ticketId, ticket.getTicketId())
                             .put(Ticket.FIELD_TICKET_COST, ticket.getTicketCost())
-                            .put(FIELD_TICKET_NUMBER, ticket.getTicketNumber())
-                            .put(FIELD_DATE_PURCHASED, ticket.getDatePurchased())
+                            .put(Ticket.OWNER_NUMBER, ticket.getOwnerPhone())
+                            .put(Ticket.FIELD_TICKET_NUMBER, ticket.getTicketNumber())
+                            .put(Ticket.FIELD_DATE_PURCHASED, ticket.getDatePurchased())
                             .put(Ticket.FIELD_TICKET_SIGNATURE, ticket.getTicketSignature());
                     PLog.d(TAG, "qrcode data: %s", jsonObject);
                     final byte[] qrCodeAsByteStream = QRCode.from(jsonObject.toString())
@@ -72,6 +72,53 @@ public class EventManager {
                     // TODO: 8/11/17 handle error
                     subscriber.onError(e);
                     throw new AssertionError();
+                }
+            }
+        });
+    }
+
+    public Observable<Ticket> fromQrCodeText(final String eventId, final String ticketJson) {
+        return Observable.create(new Observable.OnSubscribe<Ticket>() {
+            @Override
+            public void call(Subscriber<? super Ticket> subscriber) {
+                subscriber.onStart();
+                try {
+                    JSONObject obj = new JSONObject(ticketJson);
+                    final String ticketId = obj.getString(Ticket.FIELD_ticketId),
+                            signature = obj.getString(Ticket.FIELD_TICKET_SIGNATURE),
+                            ticketEventId = obj.getString(Ticket.FIELD_EVENT_ID);
+                    // skip for development.
+                    ///remember to remove this
+                    if (!BuildConfig.DEBUG /*//TODO i mean this debug build check*/ && !ticketEventId.equals(eventId)) {
+                        subscriber.onError(new Throwable("Ticket not for this event"));
+                        return;
+                    }
+                    GenericUtils.ensureNotEmpty(ticketId, signature);
+                    //in the real application, we should be able to lookup the ticket and find it. since the
+                    //event organizer will sync with the server.
+                    subscriber.onNext(new Ticket(ticketId, eventId, "032233", obj.optString(Ticket.OWNER_NUMBER, "022222"), signature,
+                            obj.getLong(Ticket.FIELD_DATE_PURCHASED), obj.getLong(Ticket.FIELD_TICKET_COST), obj.getInt(Ticket.FIELD_TICKET_NUMBER),
+                            obj.getString(Ticket.FIELD_EVENT_NAME)));
+                    subscriber.onCompleted();
+
+                  /*  realm = Realm.getDefaultInstance();
+                    Ticket ticket = realm.where(Ticket.class)
+                            .equalTo(Ticket.FIELD_ticketId, ticketId)
+                            .findFirst();
+                    if (ticket == null) {
+                        subscriber.onError(new Exception("Ticket not found"));
+                    } else {*/
+                    // verify ticket
+                    ///steps
+                    //1. compare the two signatures.
+                    //2. calculate the signature again using the same parameters used but
+                    //   this time round with the ticket we have here.
+                    //3. compare the the output signature to make sure they are the same.
+
+//                    }
+                } catch (JSONException e) {
+                    PLog.e(TAG, e.getMessage(), e);
+                    throw Exceptions.propagate(new Exception("Unable to decode QR Code"));
                 }
             }
         });
@@ -111,7 +158,8 @@ public class EventManager {
         });
     }
 
-    public Observable<Ticket> bookTicket(final String eventId, final String eventName, final String billingPhoneNumber, final String buyForNumber,
+    public Observable<Ticket> bookTicket(final String eventId, final String eventName,
+                                         final String billingPhoneNumber, final String buyForNumber,
                                          final long cost,
                                          final String verificationCode) {
         return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {

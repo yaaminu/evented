@@ -1,5 +1,6 @@
 package com.evented.ui;
 
+import com.evented.events.data.Event;
 import com.evented.tickets.Ticket;
 
 /**
@@ -11,4 +12,10 @@ interface VerifyTicketCallbacks {
     void onTicketVerified(Ticket ticket);
 
     int getVerificationStrategy();
+
+    Event getEvent();
+
+    Ticket getTicket();
+
+    void clearCurrentTicket();
 }

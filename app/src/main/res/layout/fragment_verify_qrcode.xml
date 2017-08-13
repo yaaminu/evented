@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/camera_preview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
     android:orientation="vertical">
 
+    <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+        android:id="@+id/qrdecoderview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_ticket_verified_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/default_gap"
+        android:drawableTop="@drawable/ic_chekc_failed_red_24dp"
+        android:text="@string/ticket_veriefied_successfully"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle" />
+
     <View
-        android:layout_width="@dimen/qrcode_width"
-        android:layout_height="@dimen/qrcode_height"
+        android:id="@+id/gauge"
+        android:layout_width="@dimen/qrcode_guage_width"
+        android:layout_height="@dimen/qrcode_guage_height"
         android:layout_gravity="center"
         android:background="@drawable/qrcoce_gauge" />
 </FrameLayout>
