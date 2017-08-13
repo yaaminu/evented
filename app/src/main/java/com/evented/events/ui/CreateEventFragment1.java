@@ -7,11 +7,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -123,25 +125,22 @@ public class CreateEventFragment1 extends BaseFragment {
                 if (ThreadUtils.isMainThread() && getActivity() != null) {
                     if (bitmap != null) {
                         iv_event_flyer.setImageBitmap(bitmap);
+                        Palette palette = Palette.from(bitmap)
+                                .generate();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getActivity().getWindow().setStatusBarColor(palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
+                                    R.color.colorPrimaryDark)));
+                        }
                     } else {
                         GenericUtils.showDialog(getContext(), getString(R.string.failed_to_load_flyer));
                     }
                 } else {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(path, options);
-
-                    options.inJustDecodeBounds = false;
-                    double scalFactor = Math.ceil(Math.max(width * 1.0 / options.outWidth,
-                            height * 1.0 / options.outHeight));
-                    options.inSampleSize = (int) scalFactor;
-                    if (options.inSampleSize < 1) {
-                        options.inSampleSize = 1;
-                    }
-                    bitmap = BitmapFactory.decodeFile(path, options);
+                    bitmap = GenericUtils.loadBitmap(path, width, height);
                     TaskManager.executeOnMainThread(this);
                 }
             }
+
+
         }, true);
     }
 

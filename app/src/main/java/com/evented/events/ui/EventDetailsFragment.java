@@ -1,10 +1,16 @@
 package com.evented.events.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
@@ -108,8 +114,38 @@ public class EventDetailsFragment extends BaseFragment {
                 .setVisible(Config.isManagement());
         toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
         event.addChangeListener(changeListener);
-
+        final Bitmap image = getImage(getContext());
+        iv_event_flyer.setImageBitmap(image);
+        Palette palette = Palette.from(image)
+                .generate();
+        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark)));
+//        collapsingToolbarLayout.setBackgroundColor();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(palette.getVibrantColor(ContextCompat.getColor(getContext(),
+                    R.color.colorPrimaryDark)));
+        }
     }
+
+    private Bitmap getImage(Context context) {
+        int res = R.drawable.flyer18;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(),
+                res, options);
+        final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.highlights_height);
+        final int requiredWidth = context.getResources().getDisplayMetrics().widthPixels;
+
+        options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
+        if (options.inSampleSize == 0) {
+            options.inSampleSize = 1;
+        } else if (options.inSampleSize < 1) {
+            options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
+        }
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(context.getResources(),
+                res, options);
+    }
+
 
     @Override
     public void onDestroyView() {

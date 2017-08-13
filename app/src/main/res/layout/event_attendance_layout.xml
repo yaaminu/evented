@@ -8,27 +8,39 @@
     android:orientation="vertical"
     android:weightSum="5">
 
-    <LinearLayout
-        style="@style/create_event_grid_item_style"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/add_flyer_height"
         android:background="@color/colorPrimary"
         android:gravity="bottom"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/default_gap">
+        android:orientation="vertical">
 
+
+        <ImageView
+            android:id="@+id/iv_event_flyer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/flyer"
+            android:scaleType="fitXY"
+            tools:src="@drawable/flyer2" />
 
         <TextView
             android:id="@+id/et_event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="#5000"
             android:hint="@string/event_name"
+            android:paddingBottom="@dimen/default_gap"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/default_gap"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColorHint="@color/light_gray" />
-    </LinearLayout>
+            android:textColor="@color/white" />
+    </FrameLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -182,12 +194,10 @@
                 android:drawablePadding="@dimen/default_gap"
                 android:drawableRight="@drawable/ic_chevron_right_color_primary_24dp"
                 android:gravity="end|center_vertical"
-                android:padding="@dimen/default_gap"
                 android:text="@string/next"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
         </android.support.v7.widget.GridLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

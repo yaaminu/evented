@@ -3,6 +3,8 @@ package com.evented.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -142,5 +144,20 @@ public class GenericUtils {
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, null)
                 .create().show();
+    }
+
+    public static Bitmap loadBitmap(String path, int width, int height) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        options.inJustDecodeBounds = false;
+        double scalFactor = Math.ceil(Math.max(width * 1.0 / options.outWidth,
+                height * 1.0 / options.outHeight));
+        options.inSampleSize = (int) scalFactor;
+        if (options.inSampleSize < 1) {
+            options.inSampleSize = 1;
+        }
+        return BitmapFactory.decodeFile(path, options);
     }
 }

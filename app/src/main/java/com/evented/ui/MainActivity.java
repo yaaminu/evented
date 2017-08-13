@@ -2,6 +2,7 @@ package com.evented.ui;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -83,12 +85,15 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        }
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         homeScreenEventListFragment = new HomeScreenEventsListFragment();
         currentFragment = homeScreenEventListFragment;
-        com.evented.utils.ViewUtils.hideViews(suggestionPane);
+        ViewUtils.hideViews(suggestionPane);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, currentFragment, TAG_EVENT_LIST)

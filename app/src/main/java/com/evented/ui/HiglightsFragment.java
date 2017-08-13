@@ -3,6 +3,7 @@ package com.evented.ui;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -76,6 +77,10 @@ public class HiglightsFragment extends BaseFragment {
                             int color = palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
                                     R.color.trasparent_dark));
                             bar.setBackgroundColor(color);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                getActivity().getWindow().setStatusBarColor(palette.getVibrantColor(ContextCompat.getColor(getContext(),
+                                        R.color.colorPrimaryDark)));
+                            }
                         }
                     });
         } else {

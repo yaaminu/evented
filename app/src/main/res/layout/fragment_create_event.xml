@@ -22,20 +22,22 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/flyer"
             android:scaleType="fitXY"
-            tools:src="@drawable/flyer18" />
+            tools:src="@drawable/flyer2" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/et_event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="#5000"
             android:hint="@string/event_name"
             android:inputType="text"
+            android:paddingBottom="@dimen/default_gap"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/default_gap"
             android:textColor="@color/white"
-            android:textColorHint="@color/light_gray"
-            app:backgroundTint="@color/white" />
+            android:textColorHint="#eee" />
 
 
         <TextView
@@ -66,6 +68,10 @@
             app:columnCount="2"
             app:useDefaultMargins="true">
 
+            <android.support.v4.widget.Space
+                android:layout_height="@dimen/default_gap"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1" />
 
             <TextView
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
