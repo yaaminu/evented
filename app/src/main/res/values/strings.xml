@@ -133,4 +133,6 @@
     <string name="get_directions">Get directions</string>
     <string name="add_flyer">Tap to add a flyer</string>
     <string name="failed_to_load_flyer">Failed to load flyer</string>
+    <string name="open_file">Open file</string>
+    <string name="no_app_for_view_file_type">No app for viewing this file type</string>
 </resources>
