@@ -1,7 +1,6 @@
 package com.evented.ui;
 
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -76,11 +75,7 @@ public class HiglightsFragment extends BaseFragment {
                                     R.color.colorPrimaryDark));
 
                             bar.setBackgroundColor(darkMutedColor);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                getActivity().getWindow().setStatusBarColor(darkMutedColor);
-                            }
-                            getActivity().findViewById(R.id.side_men_parent)
-                                    .setBackgroundColor(darkMutedColor);
+
                         }
                     });
         } else {
