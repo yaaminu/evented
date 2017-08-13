@@ -1,7 +1,5 @@
 package com.evented.tickets;
 
-import java.util.Date;
-
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
@@ -32,6 +30,7 @@ public class Ticket extends RealmObject {
     private long datePurchased;
     private long ticketCost;
     private String ticketSignature;
+    private int verifications;
 
     public Ticket() {
     }
@@ -87,17 +86,27 @@ public class Ticket extends RealmObject {
         return ticketNumber;
     }
 
+    public void setVerifications(int verifications) {
+        this.verifications = verifications;
+    }
+
+    public int getVerifications() {
+        return verifications;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
                 "ticketId='" + ticketId + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", ticketNumber=" + ticketNumber +
                 ", eventId='" + eventId + '\'' +
                 ", purchasedBy='" + purchasedBy + '\'' +
                 ", ownerPhone='" + ownerPhone + '\'' +
-                ", datePurchased=" + new Date(datePurchased) +
+                ", datePurchased=" + datePurchased +
                 ", ticketCost=" + ticketCost +
                 ", ticketSignature='" + ticketSignature + '\'' +
-                ", ticketNumber='" + ticketNumber + '\'' +
+                ", verifications=" + verifications +
                 '}';
     }
 }

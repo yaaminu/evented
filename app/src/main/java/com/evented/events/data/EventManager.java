@@ -19,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.realm.Realm;
 import rx.Observable;
@@ -35,6 +37,8 @@ public class EventManager {
     private static int ticketNumber = 0;
     @NonNull
     private final UserManager usermanager;
+
+    static final Map<String, Integer> verificationMap = new HashMap<>();
 
     private EventManager(@NonNull UserManager manager) {
         this.usermanager = manager;
@@ -96,9 +100,25 @@ public class EventManager {
                     GenericUtils.ensureNotEmpty(ticketId, signature);
                     //in the real application, we should be able to lookup the ticket and find it. since the
                     //event organizer will sync with the server.
-                    subscriber.onNext(new Ticket(ticketId, eventId, "032233", obj.optString(Ticket.OWNER_NUMBER, "022222"), signature,
+                    Realm realm = Realm.getDefaultInstance();
+                    try {
+                        realm.beginTransaction();
+                        Ticket ticket = realm.where(Ticket.class)
+                                .equalTo(Ticket.FIELD_ticketId, ticketId)
+                                .findFirst();
+                        if (ticket != null) {
+                            ticket.setVerifications(ticket.getVerifications() + 1);
+                        }
+                        realm.commitTransaction();
+                    } finally {
+                        realm.close();
+                    }
+                    final Ticket ret = new Ticket(ticketId, eventId, "032233", obj.optString(Ticket.OWNER_NUMBER, "022222"), signature,
                             obj.getLong(Ticket.FIELD_DATE_PURCHASED), obj.getLong(Ticket.FIELD_TICKET_COST), obj.getInt(Ticket.FIELD_TICKET_NUMBER),
-                            obj.getString(Ticket.FIELD_EVENT_NAME)));
+                            obj.getString(Ticket.FIELD_EVENT_NAME));
+                    verificationMap.put(ticketId, verificationMap.get(ticketId) == null ? 1 : verificationMap.get(ticketId) + 1);
+                    ret.setVerifications(verificationMap.get(ticketId));
+                    subscriber.onNext(ret);
                     subscriber.onCompleted();
 
                   /*  realm = Realm.getDefaultInstance();
