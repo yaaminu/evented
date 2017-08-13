@@ -1,18 +1,12 @@
 package com.evented.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.view.ViewGroup;
 
 import com.evented.R;
 import com.evented.events.data.Event;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.evented.utils.GenericUtils;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -25,8 +19,6 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
     public EventsListAdapter(Delegate<Event> delegate) {
         super(delegate);
         categories = delegate.context().getResources().getStringArray(R.array.event_cagories);
-
-        setUpDrawables(delegate.context());
     }
 
     @SuppressLint("SetTextI18n")
@@ -46,7 +38,7 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
         holder.going.setText(String.valueOf(item.getGoing()));
         holder.going.setCompoundDrawablesWithIntrinsicBounds(
                 item.isCurrentUserGoing() ? R.drawable.ic_attendance_colored_24dp : R.drawable.ic_attendance_white_24dp, 0, 0, 0);
-        holder.flyer.setImageDrawable(drawables.get(position % 2));
+        holder.flyer.setImageBitmap(GenericUtils.getImage(delegate.context()));
         holder.likes.setTag(item.getEventId());
     }
 
@@ -55,46 +47,4 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
         return new EventListItemHolder(inflater.inflate(R.layout.list_item_event, parent, false));
     }
 
-
-    /******************************For testing********************************/
-    private static List<Drawable> drawables;
-
-    private static void setUpDrawables(Context context) {
-        if (drawables != null) {
-            return;
-        }
-        drawables = new ArrayList<>(2);
-        for (int i = 0; i < 2; i++) {
-            int res = getResIdentifier(i);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(context.getResources(),
-                    res, options);
-            final int requiredHeight = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_flyer_height);
-            final int requiredWidth = context.getResources().getDimensionPixelSize(R.dimen.home_screen_item_width);
-
-            options.inSampleSize = Math.max(options.outWidth / requiredWidth, options.outHeight / requiredHeight);
-            if (options.inSampleSize == 0) {
-                options.inSampleSize = 1;
-            } else if (options.inSampleSize < 1) {
-                options.inSampleSize = (int) Math.ceil(1 / options.inSampleSize);
-            }
-            options.inJustDecodeBounds = false;
-
-            drawables.add(new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-                    res, options)));
-        }
-    }
-
-    private static int getResIdentifier(int i) {
-        switch (i) {
-            case 0:
-                return R.drawable.flyer18;
-            case 1:
-                return R.drawable.flyer;
-            default:
-                return R.drawable.flyer8;
-        }
-    }
-/**********************************************************************************************************/
 }
