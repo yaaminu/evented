@@ -128,4 +128,5 @@
     <string name="contact_phone_hint">Contact No.</string>
     <string name="contact_required">Contact number is required</string>
     <string name="contact_hint">You can add multiple no\'s by separating them with commas</string>
+    <string name="top_highlights">trending</string>
 </resources>

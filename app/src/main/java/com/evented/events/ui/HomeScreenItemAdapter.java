@@ -26,7 +26,7 @@ import butterknife.OnLongClick;
 
 public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder> {
     private static final String TAG = "HomeScreenItemAdapter";
-    private static final ArrayList<BitmapDrawable> drawables = new ArrayList<>(6);
+    public static final ArrayList<BitmapDrawable> drawables = new ArrayList<>(6);
 
     private Calendar today;
     private Calendar thatDay;
@@ -55,7 +55,7 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
     }
 
     /*******************************************for testing*************************************/
-    private static void setUpDrawables(Context context) {
+    public static void setUpDrawables(Context context) {
 
         if (!drawables.isEmpty()) {
             return;

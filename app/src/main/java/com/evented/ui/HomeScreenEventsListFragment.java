@@ -62,6 +62,10 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         adapter = new HomeScreenEventsAdapter(delegate);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.highlights, new HiglightsFragment())
+                .commit();
     }
 
     @Override
@@ -84,7 +88,6 @@ public class HomeScreenEventsListFragment extends BaseFragment {
             adapter.notifyDataChanged();
         }
     };
-
 
 
     @Override
