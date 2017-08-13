@@ -296,13 +296,15 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                         return;
                     }
                     User currentUser = UserManager.getInstance().getCurrentUser();
-                    realm.beginTransaction();
-                    createToday(currentUser, realm);
-                    createTomorrow(realm, currentUser);
-                    createEventNextWeek(realm, currentUser);
-                    createEventNextMonth(realm, currentUser);
-                    createEventAfterNextMonth(realm, currentUser);
-                    realm.commitTransaction();
+                    if (currentUser != null) {
+                        realm.beginTransaction();
+                        createToday(currentUser, realm);
+                        createTomorrow(realm, currentUser);
+                        createEventNextWeek(realm, currentUser);
+                        createEventNextMonth(realm, currentUser);
+                        createEventAfterNextMonth(realm, currentUser);
+                        realm.commitTransaction();
+                    }
                 } finally {
                     realm.close();
                 }

@@ -25,9 +25,6 @@
             android:textColorHint="@color/light_gray" />
     </LinearLayout>
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/default_gap" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -49,10 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_gap" />
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/default_gap" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -68,10 +61,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/transparent"
         android:drawableLeft="@drawable/ic_person_black_24dp"
         android:drawablePadding="@dimen/default_gap"
         android:hint="@string/account_name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:padding="@dimen/default_gap" />
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
 
     <TextView
         android:id="@+id/account_name_description"
@@ -79,9 +79,19 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/default_gap"
         android:text="@string/account_name_explanation"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/colorPrimary" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -93,10 +103,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/transparent"
         android:drawableLeft="@drawable/ic_phonelink_lock_black_24dp"
         android:drawablePadding="@dimen/default_gap"
         android:hint="@string/account_number"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:padding="@dimen/default_gap" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
 
     <TextView
         android:id="@+id/et_phone_description"
@@ -104,26 +121,141 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/default_gap"
         android:text="@string/account_phone_number_explanation"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/colorPrimary" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_gap" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:drawableLeft="@drawable/ic_contact_mail_black_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:text="@string/contact_info"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#444" />
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <EditText
+        android:id="@+id/et_contact_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_call_black_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:hint="@string/contact_phone_hint"
+        android:inputType="phone"
+        android:padding="@dimen/default_gap" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:padding="@dimen/default_gap"
+        android:text="@string/contact_hint"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/colorPrimary" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <EditText
+        android:id="@+id/et_event_web_site"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_web_24dp"
+        android:drawablePadding="@dimen/default_gap"
+        android:hint="@string/event_website"
+        android:inputType="text"
+        android:padding="@dimen/default_gap" />
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_gap" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/light_gray" />
+
     <Button
         android:id="@+id/create_event"
-        android:layout_width="match_parent"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/default_gap"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="@string/create_event" />
+        android:gravity="center"
+        android:padding="@dimen/default_gap"
+        android:text="@string/create_event"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorPrimaryDark" />
 </LinearLayout>

@@ -45,6 +45,8 @@ public class Event extends RealmObject {
     private BillingAcount billingAcount;
     private boolean liked;
     private boolean currentUserGoing;
+    private String organizerContact;
+    private String webLink;
 
 
     public Event() {
@@ -241,5 +243,21 @@ public class Event extends RealmObject {
 
     public boolean isCurrentUserGoing() {
         return currentUserGoing;
+    }
+
+    public void setOrganizerContact(String organizerContact) {
+        this.organizerContact = organizerContact;
+    }
+
+    public void setWebLink(String webLink) {
+        this.webLink = webLink;
+    }
+
+    public String getOrganizerContact() {
+        return organizerContact;
+    }
+
+    public String getWebLink() {
+        return webLink;
     }
 }

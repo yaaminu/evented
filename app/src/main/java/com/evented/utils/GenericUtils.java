@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.format.DateUtils;
+import android.widget.EditText;
 
 import java.util.Calendar;
 
@@ -32,6 +34,10 @@ public class GenericUtils {
 
     public static boolean isEmpty(CharSequence cs) {
         return cs == null || cs.toString().trim().length() == 0;
+    }
+
+    public static boolean isEmpty(@NonNull EditText editText) {
+        return editText.getText().length() == 0 || GenericUtils.isEmpty(editText.getText().toString().trim());
     }
 
     public static String getString(@StringRes int res) {

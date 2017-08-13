@@ -26,6 +26,7 @@
     <style name="create_event_grid_item_style.date_style">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:focusable">true</item>
     </style>
 
