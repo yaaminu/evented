@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +43,8 @@ public class HiglightsFragment extends BaseFragment {
     TextView tv_event_name;
     @BindView(R.id.iv_event_flyer)
     ImageView iv_event_flyer;
+    @BindView(R.id.event_info_bar)
+    View bar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +64,20 @@ public class HiglightsFragment extends BaseFragment {
             tv_event_name.setText(event.getName());
             tv_likes.setText(String.valueOf(event.getLikes()));
             tv_going.setText(String.valueOf(event.getGoing()));
-            iv_event_flyer.setImageDrawable(getImage(getContext()));
+            final BitmapDrawable image = getImage(getContext());
+            iv_event_flyer.setImageDrawable(image);
+            Palette.from(image.getBitmap())
+                    .generate(new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(Palette palette) {
+                            if (getActivity() == null) {
+                                return;
+                            }
+                            int color = palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
+                                    R.color.trasparent_dark));
+                            bar.setBackgroundColor(color);
+                        }
+                    });
         } else {
             view.setVisibility(View.GONE);
         }

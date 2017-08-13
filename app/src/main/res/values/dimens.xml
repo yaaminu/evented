@@ -12,5 +12,5 @@
     <dimen name="qrcode_guage_width">220dp</dimen>
     <dimen name="qrcode_width">200dp</dimen>
     <dimen name="add_flyer_height">250dp</dimen>
-    <dimen name="highlights_height">180dp</dimen>
+    <dimen name="highlights_height">250dp</dimen>
 </resources>

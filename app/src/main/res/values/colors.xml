@@ -9,4 +9,5 @@
     <color name="transparent">#0000</color>
     <color name="red">#f23636</color>
     <color name="colorAccentDark">#FFF40556</color>
+    <color name="trasparent_dark">#8000</color>
 </resources>

@@ -26,11 +26,13 @@
         android:visibility="gone"
         tools:text="Event Name" />
 
+
     <LinearLayout
+        android:id="@+id/event_info_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#8000"
+        android:background="@color/trasparent_dark"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/default_gap"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -83,4 +85,5 @@
             android:textColor="@color/white"
             tools:text="Independence square" />
     </LinearLayout>
+
 </FrameLayout>
