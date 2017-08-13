@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/colorAccentDark"
+            android:background="@color/colorPrimary"
             android:clickable="false"
             android:drawableBottom="@drawable/ic_check_circle_black_24dp"
             android:drawablePadding="@dimen/default_gap"
