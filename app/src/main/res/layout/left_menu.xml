@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/side_men_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/colorPrimaryDark"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -18,14 +19,14 @@
         android:gravity="center"
         android:text="@string/app_name_cap"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#444"
+        android:textColor="@color/white"
         android:textSize="48sp"
         android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/light_gray" />
+        android:background="@color/white" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,6 +41,6 @@
             android:divider="@color/transparent"
             android:dividerHeight="@dimen/activity_vertical_margin"
             android:listSelector="@color/transparent"
-            tools:listItem="@layout/menu_list_item" />
+            tools:listitem="@layout/menu_list_item" />
     </FrameLayout>
 </LinearLayout>

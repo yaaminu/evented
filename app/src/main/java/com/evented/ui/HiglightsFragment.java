@@ -72,13 +72,15 @@ public class HiglightsFragment extends BaseFragment {
                             if (getActivity() == null) {
                                 return;
                             }
-                            int color = palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
-                                    R.color.trasparent_dark));
-                            bar.setBackgroundColor(color);
+                            final int darkMutedColor = palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
+                                    R.color.colorPrimaryDark));
+
+                            bar.setBackgroundColor(darkMutedColor);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                getActivity().getWindow().setStatusBarColor(palette.getDarkMutedColor(ContextCompat.getColor(getContext(),
-                                        R.color.colorPrimaryDark)));
+                                getActivity().getWindow().setStatusBarColor(darkMutedColor);
                             }
+                            getActivity().findViewById(R.id.side_men_parent)
+                                    .setBackgroundColor(darkMutedColor);
                         }
                     });
         } else {
