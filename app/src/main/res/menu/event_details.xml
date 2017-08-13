@@ -4,12 +4,12 @@
     <item
         android:id="@+id/action_get_directions"
         android:orderInCategory="101"
-        android:title="@string/view_tickets"
+        android:title="@string/get_directions"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_contact_organizer"
         android:orderInCategory="101"
-        android:title="@string/view_tickets"
+        android:title="@string/contact_organizer"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_view_tickets"
