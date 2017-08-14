@@ -3,8 +3,6 @@ package com.evented.events.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.evented.events.ui.Venue;
-
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;

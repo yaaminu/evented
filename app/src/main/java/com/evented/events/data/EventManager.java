@@ -57,6 +57,7 @@ public class EventManager {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(Ticket.FIELD_EVENT_ID, ticket.getEventId())
                             .put(Ticket.FIELD_EVENT_NAME, ticket.getEventName())
+                            .put(Ticket.FIELD_TYPE, ticket.getType())
                             .put(Ticket.FIELD_ticketId, ticket.getTicketId())
                             .put(Ticket.FIELD_TICKET_COST, ticket.getTicketCost())
                             .put(Ticket.OWNER_NUMBER, ticket.getOwnerPhone())
@@ -115,7 +116,7 @@ public class EventManager {
                     }
                     final Ticket ret = new Ticket(ticketId, eventId, "032233", obj.optString(Ticket.OWNER_NUMBER, "022222"), signature,
                             obj.getLong(Ticket.FIELD_DATE_PURCHASED), obj.getLong(Ticket.FIELD_TICKET_COST), obj.getInt(Ticket.FIELD_TICKET_NUMBER),
-                            obj.getString(Ticket.FIELD_EVENT_NAME));
+                            obj.getString(Ticket.FIELD_EVENT_NAME), obj.optString("type", "unknown"));
                     verificationMap.put(ticketId, verificationMap.get(ticketId) == null ? 1 : verificationMap.get(ticketId) + 1);
                     ret.setVerifications(verificationMap.get(ticketId));
                     subscriber.onNext(ret);
@@ -159,7 +160,12 @@ public class EventManager {
                 event.setDateUpdated(dateCreated);
                 event.setLikes(Math.abs(new SecureRandom().nextInt()) % 100);
                 event.setLiked(true);
-                subscriber.onNext(event);
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                Event tmp = realm.copyFromRealm(realm.copyToRealmOrUpdate(event));
+                realm.commitTransaction();
+                realm.close();
+                subscriber.onNext(tmp);
                 subscriber.onCompleted();
             }
         });
@@ -181,7 +187,7 @@ public class EventManager {
     public Observable<Ticket> bookTicket(final String eventId, final String eventName,
                                          final String billingPhoneNumber, final String buyForNumber,
                                          final long cost,
-                                         final String verificationCode) {
+                                         final String verificationCode, final String ticketType) {
         return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {
             @Override
             public void call(Subscriber<? super Ticket> subscriber) {
@@ -192,7 +198,7 @@ public class EventManager {
                     try {
                         final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
                                 FileUtils.sha1(System.currentTimeMillis() + ""),
-                                System.currentTimeMillis(), cost, ++ticketNumber, eventName);
+                                System.currentTimeMillis(), cost, ++ticketNumber, eventName, ticketType);
                         PLog.d(TAG, "ticket bought %s", ticket);
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(ticket);

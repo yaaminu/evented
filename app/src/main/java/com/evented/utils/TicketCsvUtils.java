@@ -42,10 +42,11 @@ public class TicketCsvUtils {
     }
 
     private String getHeader() {
-        String[] headers = new String[3];
+        String[] headers = new String[4];
         headers[0] = ("Ticket No.");
         headers[1] = ("Date Purchased");
         headers[2] = ("Cost");
+        headers[3] = "Class";
         //noinspection StringBufferReplaceableByString
         return new StringBuilder()
                 .append(headers[0])
@@ -53,16 +54,19 @@ public class TicketCsvUtils {
                 .append(headers[1])
                 .append(",")
                 .append(headers[2])
+                .append(",")
+                .append(headers[3])
                 .append("\n")
                 .toString();
     }
 
     private String getRow(Ticket ticket) {
-        String[] row = new String[3];
+        String[] row = new String[4];
         row[0] = (ticket.getTicketNumber() + "");
         row[1] = (format.format(new Date(ticket.getDatePurchased())));
         row[2] = (FORMAT.format(BigDecimal.valueOf(ticket.getTicketCost())
                 .divide(BigDecimal.valueOf(100), MathContext.DECIMAL128)));
+        row[3] = ticket.getType();
         //noinspection StringBufferReplaceableByString
         return new StringBuilder()
                 .append(row[0])
@@ -70,6 +74,8 @@ public class TicketCsvUtils {
                 .append(row[1])
                 .append("       ,")
                 .append(row[2])
+                .append(",")
+                .append(row[3])
                 .append("   \n")
                 .toString();
     }

@@ -1,6 +1,7 @@
 package com.evented.ui;
 
 import android.annotation.SuppressLint;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -12,11 +13,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+import java.io.IOException;
 
-    public static final String EXTRA_GET_DIRECTIONS = "get.directions",
-            EXTRA_SEARCH = "search",
-            EXTRA_VENUE = "venue.direction";
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_VENUE = "venue.direction";
 
     private GoogleMap googleMap;
 
@@ -43,12 +43,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-        this.googleMap.setMyLocationEnabled(true);
+        try {
+            this.googleMap = googleMap;
+            Geocoder geocoder = new Geocoder(this);
+            geocoder.getFromLocationName("name", 4);
+            this.googleMap.setMyLocationEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        final LatLng loc = new LatLng(0, 0);
-        this.googleMap.addMarker(new MarkerOptions().position(loc).title("You").visible(true));
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            // Add a marker in Sydney and move the camera
+            final LatLng loc = new LatLng(5.6218986, -0.17353469999999996);
+            this.googleMap.addMarker(new MarkerOptions().position(loc).title("Silverbird Cinemas").visible(true));
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

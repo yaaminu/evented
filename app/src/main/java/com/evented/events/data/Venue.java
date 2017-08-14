@@ -1,4 +1,4 @@
-package com.evented.events.ui;
+package com.evented.events.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,10 +10,10 @@ import io.realm.RealmObject;
  */
 
 public class Venue extends RealmObject implements Parcelable {
-    String name;
-    String address;
-    double latitude;
-    double longitude;
+    private String name;
+    private String address;
+    private double latitude;
+    private double longitude;
 
     public Venue(String name, String address, double longitude, double latitude) {
         this.name = name;

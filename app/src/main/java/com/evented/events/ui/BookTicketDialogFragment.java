@@ -154,11 +154,12 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 buyFor = buy_for.getText().toString().trim();
         dialog.setMessage(getString(R.string.booking_ticket));
         dialog.show();
+        // TODO: 8/14/17 add a ticket type field
         eventManager
                 .bookTicket(event.getEventId(), event.getName()
                         , billingPhoneNumber, buyFor,
                         event.getEntranceFee(),
-                        et_verification.getText().toString())
+                        et_verification.getText().toString(), "ticketType")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Ticket>() {

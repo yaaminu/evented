@@ -18,7 +18,7 @@ public class TicketCsvUtilsTest {
         List<Ticket> tickets = new ArrayList<>(100);
         for (int i = 0; i < 100; i++) {
             tickets.add(new Ticket("ticketId" + i, "eventId", "", "lkdf", "kda;f", System.currentTimeMillis(),
-                    100 + (i % 10000), i + 1, "Event name"));
+                    100 + (i % 10000), i + 1, "Event name","VIP"));
         }
 
         File destination = ticketCsvUtils.generateCsv(tickets, "/tmp/ouput_" + System.currentTimeMillis() + ".csv");

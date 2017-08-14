@@ -15,6 +15,7 @@ public class Ticket extends RealmObject {
             FIELD_TICKET_NUMBER = "ticketNumber", FIELD_TICKET_COST = "ticketCost",
             FIELD_TICKET_SIGNATURE = "ticketSignature";
     public static final String OWNER_NUMBER = "ownerPhone";
+    public static final String FIELD_TYPE = "type";
 
 
     @PrimaryKey
@@ -32,12 +33,14 @@ public class Ticket extends RealmObject {
     private String ticketSignature;
     private int verifications;
 
+    private String type;
+
     public Ticket() {
     }
 
     public Ticket(String ticketId, String eventId, String purchasedBy,
                   String ownerPhone, String ticketSignature,
-                  long datePurchased, long ticketCost, int ticketNumber, String eventName) {
+                  long datePurchased, long ticketCost, int ticketNumber, String eventName, String type) {
         this.ticketId = ticketId;
         this.eventId = eventId;
         this.purchasedBy = purchasedBy;
@@ -47,6 +50,7 @@ public class Ticket extends RealmObject {
         this.ticketCost = ticketCost;
         this.ticketNumber = ticketNumber;
         this.eventName = eventName;
+        this.type = type;
 
     }
 
@@ -107,6 +111,11 @@ public class Ticket extends RealmObject {
                 ", ticketCost=" + ticketCost +
                 ", ticketSignature='" + ticketSignature + '\'' +
                 ", verifications=" + verifications +
+                ", type='" + type + '\'' +
                 '}';
+    }
+
+    public String getType() {
+        return type;
     }
 }

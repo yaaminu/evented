@@ -1,7 +1,9 @@
 package com.evented.events.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -146,7 +148,15 @@ public class EventDetailsFragment extends BaseFragment {
 
     @OnClick(R.id.tv_location)
     void onLocationClicked() {
-        getActivity().startActivity(new Intent(getContext(), MapsActivity.class));
+        launchGoogleMaps(getContext(), event.getVenue().getLatitude(), event.getVenue().getLongitude(), event.getName());
+    }
+
+    public static void launchGoogleMaps(Context context, double latitude, double longitude, String label) {
+        String format = "geo:0,0?q=" + Double.toString(latitude) + "," + Double.toString(longitude) + "(" + label + ")";
+        Uri uri = Uri.parse(format);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.evented.events.data;
 
-import com.evented.events.ui.Venue;
-
 public class EventBuilder {
     private String eventId;
     private String createdBy;

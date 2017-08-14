@@ -27,7 +27,7 @@ public class Config {
     private static Application application;
     private static AtomicBoolean isAppOpen = new AtomicBoolean(false);
     private static boolean debug;
-    private static boolean isManagement;
+    private static boolean isManagement = true;
 
     private static boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();

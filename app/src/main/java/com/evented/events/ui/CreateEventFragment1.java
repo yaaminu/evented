@@ -10,10 +10,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
+import android.text.Editable;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -24,6 +26,7 @@ import android.widget.TimePicker;
 
 import com.evented.R;
 import com.evented.events.data.Event;
+import com.evented.events.data.Venue;
 import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
@@ -38,6 +41,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * Created by yaaminu on 8/8/17.
@@ -45,12 +49,13 @@ import butterknife.OnClick;
 
 public class CreateEventFragment1 extends BaseFragment {
     private static final String TAG = "CreateEventFragment1";
-    private static final int PICK_FLYER_REQUEST_CODE = 1001;
+    private static final int PICK_FLYER_REQUEST_CODE = 1001,
+            PICK_LOCATION_REQUEST_CODE = 1002;
 
     @BindView(R.id.iv_event_flyer)
     ImageView iv_event_flyer;
 
-    Venue venue;
+    private boolean selfChanged;
 
     @Override
     protected int getLayout() {
@@ -77,7 +82,7 @@ public class CreateEventFragment1 extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        venue = new Venue("Unspecified", "Unspecified", 0, 0);
+        handler = new Handler();
     }
 
     @Override
@@ -101,6 +106,32 @@ public class CreateEventFragment1 extends BaseFragment {
         }
     }
 
+    final Runnable searchRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (selfChanged) {
+                selfChanged = false;
+                return;
+            }
+            final String textToSearch = textFields.get(1).getText().toString().trim();
+            if (!selfChanged && textToSearch.length() > 0) {
+
+                final Intent intent = new Intent(getContext(), PickPlaceActivity.class);
+                intent.putExtra(PickPlaceActivity.EXTRA_SEARCH, textToSearch);
+                startActivityForResult(intent, PICK_LOCATION_REQUEST_CODE);
+                handler.removeCallbacks(this);
+            }
+        }
+    };
+
+    Handler handler;
+
+    @OnTextChanged(R.id.location)
+    void location(Editable text) {
+        handler.removeCallbacks(searchRunnable);
+        handler.postDelayed(searchRunnable, 1000);
+    }
+
 
     private void addFlyer() {
         // TODO: 8/13/17 check storage permission
@@ -113,7 +144,16 @@ public class CreateEventFragment1 extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_FLYER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PICK_LOCATION_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                selfChanged = true;
+                Venue venue = data.getParcelableExtra(PickPlaceActivity.DATA_PLACE);
+                GenericUtils.ensureNotNull(venue);
+                ((CreateEventActivity) getActivity()).getEvent().setVenue(venue);
+                textFields.get(1)
+                        .setText(venue.getName());
+            }
+        } else if (requestCode == PICK_FLYER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             String path = FileUtils.resolveContentUriToFilePath(uri);
             ((CreateEventActivity) getActivity()).getEvent().setFlyers(path);
@@ -168,7 +208,9 @@ public class CreateEventFragment1 extends BaseFragment {
             textFields.get(1).setError(getString(R.string.error_location_requred));
             return false;
         }
-        event.setVenue(venue);
+        if (event.getVenue() == null) {
+            event.setVenue(new Venue(textFields.get(1).getText().toString().trim(), "", 0, 0));
+        }
 
         if (textFields.get(2).getText().toString().trim().isEmpty()) {
             textFields.get(2).requestFocus();

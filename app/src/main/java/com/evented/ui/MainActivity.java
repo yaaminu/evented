@@ -24,7 +24,7 @@ import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
-import com.evented.events.ui.Venue;
+import com.evented.events.data.Venue;
 import com.evented.utils.Config;
 import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
