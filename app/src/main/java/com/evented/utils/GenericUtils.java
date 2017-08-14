@@ -157,8 +157,8 @@ public class GenericUtils {
         BitmapFactory.decodeFile(path, options);
 
         options.inJustDecodeBounds = false;
-        double scalFactor = Math.ceil(Math.max(width * 1.0 / options.outWidth,
-                height * 1.0 / options.outHeight));
+        double scalFactor = Math.ceil(Math.min(options.outWidth * 1.0 / width,
+                options.outHeight * 1.0 / height * 1.0));
         options.inSampleSize = (int) scalFactor;
         if (options.inSampleSize < 1) {
             options.inSampleSize = 1;
