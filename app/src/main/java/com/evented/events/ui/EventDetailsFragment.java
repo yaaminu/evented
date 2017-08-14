@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
+import com.evented.ui.MapsActivity;
 import com.evented.ui.TicketsListActivity;
 import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
@@ -44,6 +45,9 @@ public class EventDetailsFragment extends BaseFragment {
                 intent.putExtra(TicketsListActivity.EXTRA_EVENT_TITLE, getString(R.string.tickets_list, event.getName()));
                 getActivity().startActivity(intent);
                 return true;
+            } else if (item.getItemId() == R.id.action_get_directions) {
+                Intent intent = new Intent(getContext(), MapsActivity.class);
+                startActivity(intent);
             }
             return false;
         }

@@ -137,4 +137,5 @@
     <string name="no_app_for_view_file_type">No app for viewing this file type</string>
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
