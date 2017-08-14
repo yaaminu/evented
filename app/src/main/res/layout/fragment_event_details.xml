@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_buy_ticket"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:layout_anchor="@+id/app_bar_layout"
         app:layout_anchorGravity="bottom|right" />
 

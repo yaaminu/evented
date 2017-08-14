@@ -144,6 +144,11 @@ public class EventDetailsFragment extends BaseFragment {
         dialogFragment.show(getChildFragmentManager(), "bookTicket");
     }
 
+    @OnClick(R.id.tv_location)
+    void onLocationClicked() {
+        getActivity().startActivity(new Intent(getContext(), MapsActivity.class));
+    }
+
     @Override
     public void onDestroy() {
         realm.close();

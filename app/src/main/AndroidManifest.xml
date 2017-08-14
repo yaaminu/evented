@@ -85,6 +85,7 @@
 
         <activity
             android:name=".ui.MapsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_maps" />
     </application>
 
