@@ -1,6 +1,9 @@
 package com.evented.events.ui;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,9 @@ public class CreateEventFragment3 extends BaseFragment {
     @BindView(R.id.et_name)
     TextView name;
 
+    @BindView(R.id.et_event_name)
+    TextView et_event_name;
+
     @BindView(R.id.et_contact_number)
     EditText et_contact_number;
     @BindView(R.id.et_event_web_site)
@@ -39,6 +45,12 @@ public class CreateEventFragment3 extends BaseFragment {
         if (!(context instanceof CreateEventActivity)) {
             throw new ClassCastException("containing activity must be " + CreateEventActivity.class.getName());
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        et_event_name.setText(((CreateEventActivity) getActivity()).getEvent().getName());
     }
 
     @OnClick(R.id.create_event)

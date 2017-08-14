@@ -34,6 +34,9 @@ public class MiniTicketDetailsFragment extends BaseFragment {
     TextView tv_ticket_number;
     @BindView(R.id.tv_ticket_cost)
     TextView tv_ticket_cost;
+    @BindView(R.id.tv_ticket_type)
+    TextView tv_ticket_type;
+
     private VerifyTicketCallbacks callbacks;
 
     @Override
@@ -60,6 +63,8 @@ public class MiniTicketDetailsFragment extends BaseFragment {
         tv_date_purchased.setText(getString(R.string.purchased_on, DateUtils.formatDateTime(getContext(),
                 ticket.getDatePurchased(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
         tv_ticket_number.setText(getString(R.string.ticket_no, ticket.getTicketNumber()));
+        tv_ticket_type.setText(getString(R.string.ticket_class,ticket.getType()));
+
     }
 
 

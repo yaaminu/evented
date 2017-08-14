@@ -138,4 +138,5 @@
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="title_activity_maps">Map</string>
+    <string name="ticket_class">Class %s</string>
 </resources>

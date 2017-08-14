@@ -22,6 +22,7 @@
             android:layout_gravity="bottom"
             android:hint="@string/event_name"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
             android:textColorHint="@color/light_gray" />
     </LinearLayout>
 

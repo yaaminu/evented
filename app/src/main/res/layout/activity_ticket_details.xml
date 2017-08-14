@@ -61,6 +61,13 @@
             tools:text="Event Name" />
 
         <TextView
+            android:id="@+id/tv_ticket_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_gap"
+            tools:text="Type vip" />
+
+        <TextView
             android:id="@+id/tv_ticket_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

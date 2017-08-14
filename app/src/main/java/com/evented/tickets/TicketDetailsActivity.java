@@ -72,6 +72,8 @@ public class TicketDetailsActivity extends AppCompatActivity {
 
     @BindView(R.id.ticket_qr_code)
     ImageView ticketQrCode;
+    @BindView(R.id.tv_ticket_type)
+    TextView tv_ticket_type;
 
     @BindView(R.id.progress)
     ProgressBar progress;
@@ -122,6 +124,7 @@ public class TicketDetailsActivity extends AppCompatActivity {
             Event event = realm.where(Event.class)
                     .equalTo(Event.FIELD_EVENT_ID, ticket.getEventId()).findFirst();
 
+            tv_ticket_type.setText(getString(R.string.ticket_class,ticket.getType()));
             tv_start_time.setText(getString(R.string.starts_at, event == null ? getString(R.string.date_aunavialable) : DateUtils.formatDateTime(TicketDetailsActivity.this,
                     event.getStartDate(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
             ViewUtils.showViews(progress);
