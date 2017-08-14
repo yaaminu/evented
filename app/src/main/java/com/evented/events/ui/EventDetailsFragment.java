@@ -159,7 +159,7 @@ public class EventDetailsFragment extends BaseFragment {
         @Override
         public void onChange(Event event) {
             collapsingToolbarLayout.setTitle(EventDetailsFragment.this.event.getName());
-            location.setText(event.getVenue());
+            location.setText(event.getVenue().getName());
             tv_description.setText(event.getDescription());
             tv_going.setText(getString(R.string.attending, event.getGoing(), event.getMaxSeats()));
             tv_start_time.setText(DateUtils.formatDateTime(getContext(), event.getStartDate(),

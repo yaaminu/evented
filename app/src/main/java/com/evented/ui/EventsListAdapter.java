@@ -26,7 +26,7 @@ class EventsListAdapter extends RecyclerViewBaseAdapter<Event, EventListItemHold
     protected void doBindHolder(EventListItemHolder holder, int position) {
         final Event item = getItem(position);
         holder.tvEventName.setText(item.getName());
-        holder.tvLocation.setText(item.getVenue());
+        holder.tvLocation.setText(item.getVenue().getName());
         holder.tvStartTime.setText(DateUtils.formatDateTime(delegate.context(), item.getStartDate(),
                 DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR));
         holder.tvDescription.setText(item.getDescription());

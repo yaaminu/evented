@@ -50,6 +50,8 @@ public class CreateEventFragment1 extends BaseFragment {
     @BindView(R.id.iv_event_flyer)
     ImageView iv_event_flyer;
 
+    Venue venue;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_create_event;
@@ -70,6 +72,12 @@ public class CreateEventFragment1 extends BaseFragment {
         if (!(context instanceof CreateEventActivity)) {
             throw new ClassCastException("containing activity must be " + CreateEventActivity.class.getName());
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        venue = new Venue("Unspecified", "Unspecified", 0, 0);
     }
 
     @Override
@@ -160,7 +168,7 @@ public class CreateEventFragment1 extends BaseFragment {
             textFields.get(1).setError(getString(R.string.error_location_requred));
             return false;
         }
-        event.setVenue(textFields.get(1).getText().toString().trim());
+        event.setVenue(venue);
 
         if (textFields.get(2).getText().toString().trim().isEmpty()) {
             textFields.get(2).requestFocus();

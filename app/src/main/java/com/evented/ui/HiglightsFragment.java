@@ -58,7 +58,7 @@ public class HiglightsFragment extends BaseFragment {
         if (!allEvents.isEmpty()) {
             GenericUtils.setUpDrawables(getContext());
             Event event = allEvents.first();
-            tv_location.setText(event.getVenue());
+            tv_location.setText(event.getVenue().getName());
             tv_event_name.setText(event.getName());
             tv_likes.setText(String.valueOf(event.getLikes()));
             tv_going.setText(String.valueOf(event.getGoing()));

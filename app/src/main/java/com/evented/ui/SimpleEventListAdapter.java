@@ -39,7 +39,7 @@ public class SimpleEventListAdapter extends BaseListViewAdapter<Event> {
                         DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME |
                         DateUtils.FORMAT_12HOUR));
         holder.tv_event_name.setText(item.getName());
-        holder.tv_location.setText(item.getVenue());
+        holder.tv_location.setText(item.getVenue().getName());
         holder.tv_going.setText(String.valueOf(item.getGoing()));
 
         return convertView;

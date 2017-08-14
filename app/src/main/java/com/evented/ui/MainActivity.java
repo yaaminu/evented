@@ -24,6 +24,7 @@ import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
+import com.evented.events.ui.Venue;
 import com.evented.utils.Config;
 import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
@@ -291,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         final String description = "This is the description of the event. It must give precise information of what " +
                 "the event is all about and all other valuable information";
         new Thread() {
+
             @Override
             public void run() {
 
@@ -338,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setEntranceFee(10000)
                             .setName("Event name " + i)
-                            .setVenue("Event venue" + i)
+                            .setVenue(new Venue("event location", "address", 0, 0))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
@@ -369,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setEntranceFee(10000)
                             .setName("Event name " + i)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
-                            .setVenue("Event venue" + i)
+                            .setVenue(new Venue("event location", "address", 0, 0))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
@@ -399,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setName("Event name " + i)
-                            .setVenue("Event venue" + i)
+                            .setVenue(new Venue("event location", "address", 0, 0))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
@@ -429,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setEntranceFee(10000)
                             .setName("Event name " + i)
-                            .setVenue("Event venue" + i)
+                            .setVenue(new Venue("event location", "address", 0, 0))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
@@ -470,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setEntranceFee(10000)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setName("Event name " + i)
-                            .setVenue("Event venue" + i)
+                            .setVenue(new Venue("event location", "address", 0, 0))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);

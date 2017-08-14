@@ -40,7 +40,7 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
     protected void doBindHolder(com.evented.events.ui.Holder holder, int position) {
         Event item = getItem(position);
         holder.eventName.setText(item.getName());
-        holder.location.setText(item.getVenue());
+        holder.location.setText(item.getVenue().getName());
         thatDay.setTimeInMillis(item.getStartDate());
         holder.startTime.setText(GenericUtils.formatDateTime(delegate.context(), today, thatDay));
         holder.flyer.setImageDrawable(drawables.get(position % drawables.size()));

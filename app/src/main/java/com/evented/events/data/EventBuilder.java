@@ -1,12 +1,14 @@
 package com.evented.events.data;
 
+import com.evented.events.ui.Venue;
+
 public class EventBuilder {
     private String eventId;
     private String createdBy;
     private String name;
     private String flyers;
     private String description;
-    private String venue;
+    private Venue venue;
     private long startDate;
     private long endDate;
     private long dateUpdated;
@@ -49,7 +51,7 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setVenue(String venue) {
+    public EventBuilder setVenue(Venue venue) {
         this.venue = venue;
         return this;
     }

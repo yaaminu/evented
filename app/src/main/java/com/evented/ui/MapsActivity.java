@@ -1,5 +1,6 @@
 package com.evented.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,7 +14,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    public static final String EXTRA_GET_DIRECTIONS = "get.directions",
+            EXTRA_SEARCH = "search",
+            EXTRA_VENUE = "venue.direction";
+
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +40,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.googleMap = googleMap;
+        this.googleMap.setMyLocationEnabled(true);
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        final LatLng loc = new LatLng(0, 0);
+        this.googleMap.addMarker(new MarkerOptions().position(loc).title("You").visible(true));
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
     }
 }

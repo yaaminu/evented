@@ -3,6 +3,8 @@ package com.evented.events.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.evented.events.ui.Venue;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
@@ -35,7 +37,7 @@ public class Event extends RealmObject implements Parcelable {
     private String flyers;
     private String description;
     private int category;
-    private String venue;
+    private Venue venue;
     private long startDate;
     private long endDate;
     private long dateUpdated;
@@ -56,7 +58,7 @@ public class Event extends RealmObject implements Parcelable {
     public Event() {
     }
 
-    Event(String eventId, String createdBy, String name, String flyers, String description, String venue
+    Event(String eventId, String createdBy, String name, String flyers, String description, Venue venue
             , long startDate, long endDate, long dateUpdated, long dateCreated, int publicity, int maxSeats,
           int likes, int going, long entranceFee, BillingAcount billingAcount, int category) {
         this.eventId = eventId;
@@ -78,6 +80,7 @@ public class Event extends RealmObject implements Parcelable {
         this.billingAcount = billingAcount;
     }
 
+
     protected Event(Parcel in) {
         eventId = in.readString();
         createdBy = in.readString();
@@ -85,7 +88,7 @@ public class Event extends RealmObject implements Parcelable {
         flyers = in.readString();
         description = in.readString();
         category = in.readInt();
-        venue = in.readString();
+        venue = in.readParcelable(Venue.class.getClassLoader());
         startDate = in.readLong();
         endDate = in.readLong();
         dateUpdated = in.readLong();
@@ -153,11 +156,11 @@ public class Event extends RealmObject implements Parcelable {
         this.description = description;
     }
 
-    public String getVenue() {
+    public Venue getVenue() {
         return venue;
     }
 
-    public void setVenue(String venue) {
+    public void setVenue(Venue venue) {
         this.venue = venue;
     }
 
@@ -313,7 +316,7 @@ public class Event extends RealmObject implements Parcelable {
         parcel.writeString(flyers);
         parcel.writeString(description);
         parcel.writeInt(category);
-        parcel.writeString(venue);
+        parcel.writeParcelable(venue, i);
         parcel.writeLong(startDate);
         parcel.writeLong(endDate);
         parcel.writeLong(dateUpdated);
