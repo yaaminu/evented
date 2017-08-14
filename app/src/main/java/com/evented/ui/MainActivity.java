@@ -26,7 +26,6 @@ import com.evented.events.data.TicketType;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
 import com.evented.events.data.Venue;
-import com.evented.utils.Config;
 import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
 import com.rey.slidelayout.SlideLayout;
@@ -274,8 +273,6 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             Intent intent = new Intent(this, MyEventListActivity.class);
             startActivity(intent);
         } else if (position == 5) {
-            // TODO: 8/12/17 remove this
-            Config.setManagement(true);
             startActivity(new Intent(this, LauncherActivity.class));
             finish();
         }
@@ -309,15 +306,16 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                         return;
                     }
                     User currentUser = UserManager.getInstance().getCurrentUser();
-                    if (currentUser != null) {
-                        realm.beginTransaction();
-                        createToday(currentUser, realm);
-                        createTomorrow(realm, currentUser);
-                        createEventNextWeek(realm, currentUser);
-                        createEventNextMonth(realm, currentUser);
-                        createEventAfterNextMonth(realm, currentUser);
-                        realm.commitTransaction();
+                    if (currentUser == null) {
+                        currentUser = new User("yaaminu", "233266349205", "233266349205");
                     }
+                    realm.beginTransaction();
+                    createToday(currentUser, realm);
+                    createTomorrow(realm, currentUser);
+                    createEventNextWeek(realm, currentUser);
+                    createEventNextMonth(realm, currentUser);
+                    createEventAfterNextMonth(realm, currentUser);
+                    realm.commitTransaction();
                 } finally {
                     realm.close();
                 }

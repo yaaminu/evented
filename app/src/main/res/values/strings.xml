@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Evented</string>
     <string name="app_name_cap">EVENTED</string>
     <string name="event_name">Event Name</string>
     <string name="start_date">Start Date</string>

@@ -14,13 +14,13 @@ import com.evented.utils.Config;
 
 public class LauncherActivity extends AppCompatActivity {
 
-    public static final String FLAVOR_ATTENDEES = "attendees";
+    public static final String FLAVOR_ADMIN = "admin";
     public static final String EXTRA_SKIP_LOGIN = "skipLogin";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!Config.isManagement() || BuildConfig.FLAVOR.equals(FLAVOR_ATTENDEES)) {
+        if (!Config.isManagement() || !BuildConfig.FLAVOR.equals(FLAVOR_ADMIN)) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             if (!com.evented.events.data.UserManager.getInstance()

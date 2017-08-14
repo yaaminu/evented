@@ -7,8 +7,8 @@
 
     <style name="SlideMenuStyleDefault">
         <item name="sm_overDrag">true</item>
-        <item name="sm_menuBorder">120dp</item>
-        <item name="sm_menuOverDragBorder">120dp</item>
+        <item name="sm_menuBorder">100dp</item>
+        <item name="sm_menuOverDragBorder">100dp</item>
         <item name="sm_slideRatio">0.5</item>
         <item name="sm_menuShadow">0.5dp</item>
         <item name="sm_dragEdge">32dp</item>
