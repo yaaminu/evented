@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/default_gap"
+    android:layout_marginRight="@dimen/default_gap"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    tools:showIn="@layout/fragment_event_details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/book_ticket"
+            style="@style/event_details_action_bar"
+            android:drawableTop="@drawable/ic_attendance_colored_24dp"
+            android:text="@string/book_ticket" />
+
+        <TextView
+            android:id="@+id/get_directions"
+            style="@style/event_details_action_bar"
+            android:drawableTop="@drawable/ic_directions_colored_24dp"
+            android:text="@string/get_directions" />
+
+        <TextView
+            android:id="@+id/contact_organiser"
+            style="@style/event_details_action_bar"
+            android:drawableTop="@drawable/ic_call_colored_24dp"
+            android:text="@string/contact" />
+
+        <TextView
+            android:id="@+id/visit_site"
+            style="@style/event_details_action_bar"
+            android:drawableTop="@drawable/ic_web_colored_24dp"
+            android:text="@string/visit_site" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

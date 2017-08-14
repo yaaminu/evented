@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,9 +21,6 @@ import android.widget.Toast;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
-import com.evented.ui.MapsActivity;
-import com.evented.ui.TicketsListActivity;
-import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
@@ -38,22 +34,6 @@ import io.realm.RealmChangeListener;
 
 public class EventDetailsFragment extends BaseFragment {
 
-    private Toolbar.OnMenuItemClickListener onMenuItemClickListener = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            if (item.getItemId() == R.id.action_view_tickets) {
-                Intent intent = new Intent(getContext(), TicketsListActivity.class);
-                intent.putExtra(TicketsListActivity.EXTRA_EVENT_ID, event.getEventId());
-                intent.putExtra(TicketsListActivity.EXTRA_EVENT_TITLE, getString(R.string.tickets_list, event.getName()));
-                getActivity().startActivity(intent);
-                return true;
-            } else if (item.getItemId() == R.id.action_get_directions) {
-                Intent intent = new Intent(getContext(), MapsActivity.class);
-                startActivity(intent);
-            }
-            return false;
-        }
-    };
 
     @Override
     protected int getLayout() {
@@ -91,7 +71,6 @@ public class EventDetailsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -113,10 +92,7 @@ public class EventDetailsFragment extends BaseFragment {
                 getActivity().finish();
             }
         });
-        toolbar.inflateMenu(R.menu.event_details);
-        toolbar.getMenu().findItem(R.id.action_view_tickets)
-                .setVisible(Config.isManagement());
-        toolbar.setOnMenuItemClickListener(onMenuItemClickListener);
+
         event.addChangeListener(changeListener);
         final Bitmap image = GenericUtils.getImage(getContext());
         iv_event_flyer.setImageBitmap(image);
@@ -137,7 +113,6 @@ public class EventDetailsFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.book_ticket)
     void bookTicket() {
         BottomSheetDialogFragment dialogFragment = new BookTicketDialogFragment();
         Bundle bundle = new Bundle(1);
@@ -148,7 +123,7 @@ public class EventDetailsFragment extends BaseFragment {
 
     @OnClick(R.id.tv_location)
     void onLocationClicked() {
-        launchGoogleMaps(getContext(), event.getVenue().getLatitude(), event.getVenue().getLongitude(), event.getName());
+        launchGoogleMaps(getContext(), event.getVenue().getLatitude(), event.getVenue().getLongitude(), event.getVenue().getName());
     }
 
     public static void launchGoogleMaps(Context context, double latitude, double longitude, String label) {
@@ -157,6 +132,29 @@ public class EventDetailsFragment extends BaseFragment {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    @OnClick({R.id.book_ticket, R.id.visit_site, R.id.contact_organiser, R.id.get_directions})
+    void onActionItemSelected(View v) {
+        int i = v.getId();
+        Intent intent;
+        if (i == R.id.visit_site) {
+            if (event.getWebLink() != null) {
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(event.getWebLink()));
+                startActivity(intent);
+            }
+        } else if (i == R.id.contact_organiser) {
+            intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + event.getOrganizerContact().split(":")[0]));
+            startActivity(intent);
+        } else if (i == R.id.get_directions) {
+            onLocationClicked();
+        } else if (i == R.id.book_ticket) {
+            bookTicket();
+        } else {
+            throw new AssertionError();
+        }
     }
 
     @Override

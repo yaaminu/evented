@@ -149,4 +149,6 @@
     <string name="ticket_type_updated">Ticket types updated</string>
     <string name="ticket_required">You haven\'t selected your ticket</string>
     <string name="choose_ticket">Choose Your Ticket</string>
+    <string name="contact">Contact</string>
+    <string name="visit_site">Visit site</string>
 </resources>

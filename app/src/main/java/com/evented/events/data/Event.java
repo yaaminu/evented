@@ -287,4 +287,12 @@ public class Event extends RealmObject implements Parcelable {
         }
         return total;
     }
+
+    public String getWebLink() {
+        return webLink;
+    }
+
+    public String getOrganizerContact() {
+        return organizerContact;
+    }
 }

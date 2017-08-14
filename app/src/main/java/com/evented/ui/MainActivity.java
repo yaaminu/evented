@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
 
         new Thread() {
 
-            private final Venue address = new Venue("event location", "address", -0.17353469999999996, 5.6218986);
+            private final Venue address = new Venue("Silverbird Cinemas Accra", "address", -0.17353469999999996, 5.6218986);
 
             @Override
             public void run() {
@@ -349,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setWebLink("https://facebook.com");
+                    events.get(i).setOrganizerContact("0266349205");
                     events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
@@ -380,6 +382,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
                     events.get(i).setTicketTypes(ticketTypes);
+                    events.get(i).setWebLink("https://facebook.com");
+                    events.get(i).setOrganizerContact("0266349205");
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -409,6 +413,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
                     events.get(i).setTicketTypes(ticketTypes);
+                    events.get(i).setWebLink("https://facebook.com");
+                    events.get(i).setOrganizerContact("0266349205");
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -437,6 +443,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setWebLink("https://facebook.com");
+                    events.get(i).setOrganizerContact("0266349205");
                     events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
@@ -478,6 +486,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
                     events.get(i).setTicketTypes(ticketTypes);
+                    events.get(i).setWebLink("https://facebook.com");
+                    events.get(i).setOrganizerContact("0266349205");
                 }
                 realm.copyToRealmOrUpdate(events);
             }
