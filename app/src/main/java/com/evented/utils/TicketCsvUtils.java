@@ -11,11 +11,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +23,7 @@ public class TicketCsvUtils {
 
 
     final SimpleDateFormat format;
-    public static final NumberFormat FORMAT = DecimalFormat.getNumberInstance();
 
-    static {
-        FORMAT.setMaximumFractionDigits(2);
-        FORMAT.setMinimumFractionDigits(2);
-        FORMAT.setRoundingMode(RoundingMode.HALF_UP);
-    }
 
     @SuppressLint("SimpleDateFormat")
     public TicketCsvUtils() {
@@ -64,8 +53,7 @@ public class TicketCsvUtils {
         String[] row = new String[4];
         row[0] = (ticket.getTicketNumber() + "");
         row[1] = (format.format(new Date(ticket.getDatePurchased())));
-        row[2] = (FORMAT.format(BigDecimal.valueOf(ticket.getTicketCost())
-                .divide(BigDecimal.valueOf(100), MathContext.DECIMAL128)));
+        row[2] = (ticket.getFormattedCost());
         row[3] = ticket.getType();
         //noinspection StringBufferReplaceableByString
         return new StringBuilder()

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
+import com.evented.events.data.TicketType;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.TaskManager;
 import com.evented.utils.ThreadUtils;
@@ -26,6 +28,7 @@ import java.math.MathContext;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import io.realm.RealmList;
 
 /**
  * Created by yaaminu on 8/8/17.
@@ -114,6 +117,16 @@ public class CreateEventFragment2 extends BaseFragment {
         }
     }
 
+    @NonNull
+    RealmList<TicketType> ticketTypes = new RealmList<>();
+
+    @OnClick(R.id.advanced_ticketing)
+    void advanced() {
+        AddTicketTypesDialogFragment addTicketTypesDialogFragment
+                = AddTicketTypesDialogFragment.create(ticketTypes);
+        addTicketTypesDialogFragment.show(getChildFragmentManager(), "addTicketTypes");
+    }
+
     @OnItemSelected(R.id.sp_publicity)
     void onPublicityChanged(int selectedItem) {
         getEvent().setPublicity(selectedItem);
@@ -129,22 +142,27 @@ public class CreateEventFragment2 extends BaseFragment {
         if (TextUtils.isEmpty(entranceFee.trim())) {
             entranceFee = "0";
         }
-        try {
-            long amount =
-                    BigDecimal.valueOf(Double.parseDouble(entranceFee))
-                            .multiply(BigDecimal.valueOf(100), MathContext.DECIMAL128).longValue();
-            getEvent().setEntranceFee(amount);
-        } catch (NumberFormatException e) {
-            this.entranceFee.setError(getString(R.string.invalid_amount) + entranceFee);
-            return false;
+
+        if (ticketTypes.isEmpty()) {
+            long amount = 0;
+            int maxSeats = 0;
+            try {
+                amount =
+                        BigDecimal.valueOf(Double.parseDouble(entranceFee))
+                                .multiply(BigDecimal.valueOf(100), MathContext.DECIMAL128).longValue();
+            } catch (NumberFormatException e) {
+                this.entranceFee.setError(getString(R.string.invalid_amount) + entranceFee);
+                return false;
+            }
+            try {
+                maxSeats = Integer.parseInt(availableSeats.getText().toString().trim(), 10);
+            } catch (NumberFormatException e) {
+                this.availableSeats.setError(getString(R.string.invalid_num) + availableSeats.getText().toString());
+                return false;
+            }
+            ticketTypes.add(new TicketType("Ticket", amount, maxSeats));
         }
-        try {
-            int maxSeats = Integer.parseInt(availableSeats.getText().toString().trim(), 10);
-            getEvent().setMaxSeats(maxSeats);
-        } catch (NumberFormatException e) {
-            this.availableSeats.setError(getString(R.string.invalid_num) + availableSeats.getText().toString());
-            return false;
-        }
+        getEvent().setTicketTypes(ticketTypes);
         return true;
     }
 }

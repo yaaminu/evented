@@ -127,7 +127,7 @@ public class CreateEventFragment1 extends BaseFragment {
     Handler handler;
 
     @OnTextChanged(R.id.location)
-    void location(Editable text) {
+    void location(@SuppressWarnings("unused") Editable text) {
         handler.removeCallbacks(searchRunnable);
         handler.postDelayed(searchRunnable, 1000);
     }
@@ -272,6 +272,7 @@ public class CreateEventFragment1 extends BaseFragment {
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 Calendar calendar = new GregorianCalendar();
 
+                //noinspection ConstantConditions
                 TextView item = getView().findViewById(selectedDateItem);
                 Event event = getEvent();
 
@@ -324,6 +325,7 @@ public class CreateEventFragment1 extends BaseFragment {
                 final Event event = getEvent();
                 Calendar calendar = new GregorianCalendar();
 
+                //noinspection ConstantConditions
                 TextView item = getView().findViewById(selectedDateItem);
 
                 if (selectedDateItem == R.id.end_time) {

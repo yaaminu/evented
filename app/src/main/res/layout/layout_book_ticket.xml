@@ -24,12 +24,36 @@
         app:layout_columnSpan="2"
         app:layout_columnWeight="1" />
 
-    <View
+
+    <LinearLayout
+        android:id="@+id/ticket_type_parent"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/light_gray"
-        app:layout_columnSpan="2"
-        app:layout_columnWeight="1" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/light_gray"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1" />
+
+        <Spinner
+            android:id="@+id/sp_ticket_types"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/light_gray"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/et_verification_code"

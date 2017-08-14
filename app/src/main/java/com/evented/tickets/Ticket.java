@@ -1,5 +1,10 @@
 package com.evented.tickets;
 
+import com.evented.utils.GenericUtils;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
@@ -117,5 +122,10 @@ public class Ticket extends RealmObject {
 
     public String getType() {
         return type;
+    }
+
+    public String getFormattedCost() {
+        return "GH₵" + GenericUtils.format(BigDecimal.valueOf(getTicketCost()).divide(BigDecimal.valueOf(100),
+                MathContext.DECIMAL128).doubleValue());
     }
 }

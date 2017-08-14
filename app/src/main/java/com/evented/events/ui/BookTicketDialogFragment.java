@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
+import com.evented.events.data.TicketType;
 import com.evented.events.data.UserManager;
 import com.evented.tickets.Ticket;
 import com.evented.tickets.TicketDetailsActivity;
@@ -56,11 +58,17 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
     @BindView(R.id.tv_instruction)
     TextView tv_instruction;
 
+    @BindView(R.id.sp_ticket_types)
+    Spinner spTicketTypes;
+
     Event event;
     private Realm realm;
 
     int stage = 0;
     private ProgressDialog dialog;
+
+    @BindView(R.id.ticket_type_parent)
+    View ticketTypeRootLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +98,10 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         ButterKnife.bind(this, view);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
-
+        spTicketTypes.setAdapter(new TicketTypesAdapter(event.getTicketTypes()));
+        if (event.getTicketTypes().size() == 1) {
+            spTicketTypes.setSelection(1); //the adapter shifts the item up and place an empty item at first index
+        }
         return view;
     }
 
@@ -129,7 +140,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                         @Override
                         public void call(String s) {
                             dialog.dismiss();
-                            ViewUtils.hideViews(book_ticket_root_layout);
+                            ViewUtils.hideViews(book_ticket_root_layout, ticketTypeRootLayout);
                             tv_instruction.setText(getString(R.string.verification_instruaction));
                             ViewUtils.showViews(et_verification);
                             book_ticket.setText(R.string.verify_and_book);
@@ -155,11 +166,12 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         dialog.setMessage(getString(R.string.booking_ticket));
         dialog.show();
         // TODO: 8/14/17 add a ticket type field
+        final TicketType ticketType = (TicketType) spTicketTypes.getSelectedItem();
         eventManager
                 .bookTicket(event.getEventId(), event.getName()
                         , billingPhoneNumber, buyFor,
-                        event.getEntranceFee(),
-                        et_verification.getText().toString(), "ticketType")
+                        ticketType.getCost(),
+                        et_verification.getText().toString(), ticketType.getName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Ticket>() {
@@ -199,8 +211,14 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 buy_for.setError("");
                 return false;
             }
+
             return true;
         } else if (stage == 1) {
+            if (spTicketTypes.getSelectedItemPosition() == 0) {
+                showDialog(getString(R.string.ticket_required));
+                return false;
+            }
+
             if (et_verification.getText().toString().trim().length() < 5) {
                 showDialog(getString(R.string.error_verification_code));
                 et_verification.setError("");

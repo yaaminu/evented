@@ -8,9 +8,6 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.tickets.Ticket;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-
 import butterknife.BindView;
 
 import static com.evented.utils.GenericUtils.getString;
@@ -34,9 +31,7 @@ public class TicketListAdapter extends RecyclerViewBaseAdapter<Ticket, TicketLis
                         DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_TIME |
                         DateUtils.FORMAT_12HOUR)));
         holder.tv_event_name.setText(item.getEventName());
-        holder.tv_ticket_cost.setText(getString(R.string.ticket_cost, "" + BigDecimal.valueOf(
-                item.getTicketCost()).divide(BigDecimal.valueOf(100),
-                MathContext.DECIMAL128).longValue()));
+        holder.tv_ticket_cost.setText(getString(R.string.ticket_cost, item.getFormattedCost()));
         holder.tv_ticket_number.setText(getString(R.string.ticket_no, item.getTicketNumber()));
         holder.tv_ticket_number.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, item.getVerifications() >= 1 ? R.drawable.ic_check_circle_black_24dp : 0);
 

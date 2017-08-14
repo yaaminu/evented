@@ -12,11 +12,9 @@ public class EventBuilder {
     private long dateUpdated;
     private long dateCreated;
     private int publicity = 0;
-    private int maxSeats = 0;
     private int likes = 0;
     private int going = 0;
     private BillingAcount billingAcount;
-    private long entranceFee = 0;
     private int category;
 
     public EventBuilder setEventId(String eventId) {
@@ -79,10 +77,6 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setMaxSeats(int maxSeats) {
-        this.maxSeats = maxSeats;
-        return this;
-    }
 
     public EventBuilder setLikes(int likes) {
         this.likes = likes;
@@ -94,10 +88,6 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setEntranceFee(long entranceFee) {
-        this.entranceFee = entranceFee;
-        return this;
-    }
 
     public EventBuilder setCategory(int category) {
         this.category = category;
@@ -107,6 +97,6 @@ public class EventBuilder {
 
     public Event createEvent() {
         return new Event(eventId, createdBy, name, flyers, description, venue, startDate, endDate, dateUpdated,
-                dateCreated, publicity, maxSeats, likes, going, entranceFee, billingAcount, category);
+                dateCreated, publicity, likes, going, billingAcount, category);
     }
 }

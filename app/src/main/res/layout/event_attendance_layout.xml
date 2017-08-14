@@ -51,32 +51,9 @@
             app:columnCount="2"
             app:useDefaultMargins="true">
 
-            <android.support.v4.widget.Space
-                android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:drawableLeft="@drawable/ic_attendance_white_24dp"
-                android:drawablePadding="@dimen/default_gap"
-                android:gravity="center_vertical"
-                android:text="@string/attendance_cap"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1"
-                tools:ignore="RtlHardcoded" />
-
 
             <android.support.v4.widget.Space
                 android:layout_height="@dimen/default_gap"
-                app:layout_columnSpan="2"
-                app:layout_columnWeight="1" />
-
-
-            <View
-                android:layout_height="1dp"
-                android:background="@color/light_gray"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
 
@@ -174,6 +151,21 @@
                 android:background="@color/light_gray"
                 app:layout_columnSpan="2"
                 app:layout_columnWeight="1" />
+
+            <TextView
+                android:id="@+id/advanced_ticketing"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_advance_ticketing_24dp"
+                android:drawablePadding="@dimen/default_gap"
+                android:focusable="true"
+                app:layout_columnSpan="2"
+                app:layout_columnWeight="1"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/default_gap"
+                android:paddingTop="@dimen/default_gap"
+                android:text="@string/advanced_ticketing"
+                android:textColor="@color/colorPrimaryDark" />
 
             <android.support.v4.widget.Space
                 app:layout_columnSpan="2"

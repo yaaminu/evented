@@ -12,9 +12,6 @@ import com.evented.events.ui.BaseFragment;
 import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-
 import butterknife.BindView;
 
 /**
@@ -58,12 +55,11 @@ public class MiniTicketDetailsFragment extends BaseFragment {
         tv_event_name.setText(ticket.getEventName());
         tv_start_time.setText(getString(R.string.starts_at, DateUtils.formatDateTime(getContext(),
                 callbacks.getEvent().getStartDate(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
-        tv_ticket_cost.setText(getString(R.string.ticket_cost, "" + BigDecimal.valueOf(ticket.getTicketCost()).divide(BigDecimal.valueOf(100),
-                MathContext.DECIMAL128)));
+        tv_ticket_cost.setText(getString(R.string.ticket_cost, ticket.getFormattedCost()));
         tv_date_purchased.setText(getString(R.string.purchased_on, DateUtils.formatDateTime(getContext(),
                 ticket.getDatePurchased(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
         tv_ticket_number.setText(getString(R.string.ticket_no, ticket.getTicketNumber()));
-        tv_ticket_type.setText(getString(R.string.ticket_class,ticket.getType()));
+        tv_ticket_type.setText(getString(R.string.ticket_class, ticket.getType()));
 
     }
 

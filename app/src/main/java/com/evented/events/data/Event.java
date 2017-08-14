@@ -2,11 +2,11 @@ package com.evented.events.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
 
-import java.util.Date;
-
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -15,9 +15,10 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class Event extends RealmObject implements Parcelable {
-
+    @SuppressWarnings("unused")
     public static final String FIELD_START_DATE = "startDate",
             END_DATE = "endDate";
+    @SuppressWarnings("unused")
     public static final int PUBLICITY_PUBLIC = 0,
             PUBLICITY_PRIVATE = 1,
             PUBLICITY_SECRETE = 2;
@@ -41,24 +42,23 @@ public class Event extends RealmObject implements Parcelable {
     private long dateUpdated;
     private long dateCreated;
     private int publicity;
-    private int maxSeats;
     private int likes;
     private int going;
-    private long entranceFee;
 
     private BillingAcount billingAcount;
     private boolean liked;
     private boolean currentUserGoing;
     private String organizerContact;
     private String webLink;
+    private RealmList<TicketType> ticketTypes;
 
 
     public Event() {
     }
 
     Event(String eventId, String createdBy, String name, String flyers, String description, Venue venue
-            , long startDate, long endDate, long dateUpdated, long dateCreated, int publicity, int maxSeats,
-          int likes, int going, long entranceFee, BillingAcount billingAcount, int category) {
+            , long startDate, long endDate, long dateUpdated, long dateCreated, int publicity,
+          int likes, int going, BillingAcount billingAcount, int category) {
         this.eventId = eventId;
         this.createdBy = createdBy;
         this.name = name;
@@ -71,11 +71,10 @@ public class Event extends RealmObject implements Parcelable {
         this.dateUpdated = dateUpdated;
         this.dateCreated = dateCreated;
         this.publicity = publicity;
-        this.maxSeats = maxSeats;
         this.likes = likes;
         this.going = going;
-        this.entranceFee = entranceFee;
         this.billingAcount = billingAcount;
+        this.ticketTypes = new RealmList<>();
     }
 
 
@@ -87,19 +86,26 @@ public class Event extends RealmObject implements Parcelable {
         description = in.readString();
         category = in.readInt();
         venue = in.readParcelable(Venue.class.getClassLoader());
+        //noinspection unchecked
+        ticketTypes = arrayListToRealmList(in.readArrayList(null));
         startDate = in.readLong();
         endDate = in.readLong();
         dateUpdated = in.readLong();
         dateCreated = in.readLong();
         publicity = in.readInt();
-        maxSeats = in.readInt();
         likes = in.readInt();
         going = in.readInt();
-        entranceFee = in.readLong();
         liked = in.readByte() != 0;
         currentUserGoing = in.readByte() != 0;
         organizerContact = in.readString();
         webLink = in.readString();
+        billingAcount = in.readParcelable(BillingAcount.class.getClassLoader());
+    }
+
+    private RealmList<TicketType> arrayListToRealmList(ArrayList<TicketType> arrayList) {
+        RealmList<TicketType> realmList = new RealmList<>();
+        realmList.addAll(arrayList);
+        return realmList;
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -122,9 +128,6 @@ public class Event extends RealmObject implements Parcelable {
         this.eventId = eventId;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
@@ -178,37 +181,21 @@ public class Event extends RealmObject implements Parcelable {
         this.endDate = endDate;
     }
 
-    public long getDateUpdated() {
-        return dateUpdated;
-    }
 
     public void setDateUpdated(long dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
 
-    public long getDateCreated() {
-        return dateCreated;
-    }
 
     public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public int getPublicity() {
-        return publicity;
-    }
 
     public void setPublicity(int publicity) {
         this.publicity = publicity;
     }
 
-    public int getMaxSeats() {
-        return maxSeats;
-    }
-
-    public void setMaxSeats(int maxSeats) {
-        this.maxSeats = maxSeats;
-    }
 
     public int getLikes() {
         return likes;
@@ -226,47 +213,9 @@ public class Event extends RealmObject implements Parcelable {
         this.going = going;
     }
 
-    public long getEntranceFee() {
-        return entranceFee;
-    }
-
-    public void setEntranceFee(long entranceFee) {
-        this.entranceFee = entranceFee;
-    }
 
     public void setBillingAcount(BillingAcount billingAcount) {
         this.billingAcount = billingAcount;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "eventId='" + eventId + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", name='" + name + '\'' +
-                ", flyers='" + flyers + '\'' +
-                ", description='" + description + '\'' +
-                ", venue='" + venue + '\'' +
-                ", startDate=" + new Date(startDate) +
-                ", endDate=" + new Date(endDate) +
-                ", dateUpdated=" + new Date(dateUpdated) +
-                ", dateCreated=" + new Date(dateCreated) +
-                ", publicity=" + publicity +
-                ", maxSeats=" + maxSeats +
-                ", likes=" + likes +
-                ", going=" + going +
-                ", entranceFee=" + entranceFee +
-                ", billingAcount=" + billingAcount +
-                '}';
-    }
-
-    @Nullable
-    public BillingAcount getBillingAcount() {
-        return billingAcount;
-    }
-
-    public int getCategory() {
-        return category;
     }
 
     public void setLiked(boolean liked) {
@@ -293,14 +242,6 @@ public class Event extends RealmObject implements Parcelable {
         this.webLink = webLink;
     }
 
-    public String getOrganizerContact() {
-        return organizerContact;
-    }
-
-    public String getWebLink() {
-        return webLink;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -308,6 +249,7 @@ public class Event extends RealmObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeString(eventId);
         parcel.writeString(createdBy);
         parcel.writeString(name);
@@ -315,18 +257,34 @@ public class Event extends RealmObject implements Parcelable {
         parcel.writeString(description);
         parcel.writeInt(category);
         parcel.writeParcelable(venue, i);
+        parcel.writeList(ticketTypes);
         parcel.writeLong(startDate);
         parcel.writeLong(endDate);
         parcel.writeLong(dateUpdated);
         parcel.writeLong(dateCreated);
         parcel.writeInt(publicity);
-        parcel.writeInt(maxSeats);
         parcel.writeInt(likes);
         parcel.writeInt(going);
-        parcel.writeLong(entranceFee);
         parcel.writeByte((byte) (liked ? 1 : 0));
         parcel.writeByte((byte) (currentUserGoing ? 1 : 0));
         parcel.writeString(organizerContact);
         parcel.writeString(webLink);
+        parcel.writeParcelable(billingAcount, i);
+    }
+
+    public RealmList<TicketType> getTicketTypes() {
+        return ticketTypes;
+    }
+
+    public void setTicketTypes(@NonNull RealmList<TicketType> tickTypes) {
+        this.ticketTypes = tickTypes;
+    }
+
+    public int getMaxSeats() {
+        int total = 0;
+        for (TicketType ticketType : ticketTypes) {
+            total += ticketType.getMaxSeat();
+        }
+        return total;
     }
 }

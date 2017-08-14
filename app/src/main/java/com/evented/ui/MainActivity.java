@@ -22,6 +22,7 @@ import com.evented.R;
 import com.evented.events.data.BillingAcount;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
+import com.evented.events.data.TicketType;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
 import com.evented.events.data.Venue;
@@ -45,6 +46,7 @@ import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -291,7 +293,11 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
     static void createEvents() {
         final String description = "This is the description of the event. It must give precise information of what " +
                 "the event is all about and all other valuable information";
+        final RealmList<TicketType> ticketTypes = new RealmList<>(new TicketType("VIP", 1000, 1000));
+
         new Thread() {
+
+            private final Venue address = new Venue("event location", "address", -0.17353469999999996, 5.6218986);
 
             @Override
             public void run() {
@@ -323,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                         new BillingAcount(currentUser.userName,
                                 currentUser.phoneNumber, "MTN");
 
+
                 for (int i = 0; i < 20; i++) {
                     events.add(new EventBuilder()
                             .setBillingAcount(billingAcount)
@@ -334,16 +341,15 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4))
                             .setEventId("eventIdToday" + i)
                             .setDescription(description)
-                            .setMaxSeats(1000)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
-                            .setEntranceFee(10000)
                             .setName("Event name " + i)
-                            .setVenue(new Venue("event location", "address", 0, 0))
+                            .setVenue(address)
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -364,17 +370,16 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setEndDate(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(4))
                             .setEventId("eventIdTomorrow" + i)
                             .setDescription(description)
-                            .setMaxSeats(1000)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
-                            .setEntranceFee(10000)
                             .setName("Event name " + i)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
-                            .setVenue(new Venue("event location", "address", 0, 0))
+                            .setVenue(address)
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -394,17 +399,16 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setEventId("eventIdNextWeek" + i)
                             .setCategory(Math.max(1, i % 9))
                             .setDescription(description)
-                            .setMaxSeats(1000)
                             .setBillingAcount(billingAcount)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
-                            .setEntranceFee(10000)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setName("Event name " + i)
-                            .setVenue(new Venue("event location", "address", 0, 0))
+                            .setVenue(address)
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -427,14 +431,13 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setDescription(description)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
-                            .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
-                            .setEntranceFee(10000)
                             .setName("Event name " + i)
-                            .setVenue(new Venue("event location", "address", 0, 0))
+                            .setVenue(address)
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
             }
@@ -466,16 +469,15 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setDescription(description)
                             .setCategory((1 + i) % 9)
                             .setLikes(Math.abs(new SecureRandom().nextInt()) % 100)
-                            .setMaxSeats(1000)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setBillingAcount(billingAcount)
-                            .setEntranceFee(10000)
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setName("Event name " + i)
-                            .setVenue(new Venue("event location", "address", 0, 0))
+                            .setVenue(address)
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
+                    events.get(i).setTicketTypes(ticketTypes);
                 }
                 realm.copyToRealmOrUpdate(events);
             }

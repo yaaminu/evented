@@ -39,8 +39,6 @@ import com.evented.utils.ViewUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.MathContext;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -118,13 +116,12 @@ public class TicketDetailsActivity extends AppCompatActivity {
 
             tv_event_name.setText(ticket.getEventName());
 
-            tv_ticket_cost.setText(getString(R.string.ticket_cost, "" + BigDecimal.valueOf(ticket.getTicketCost()).divide(BigDecimal.valueOf(100),
-                    MathContext.DECIMAL128)));
+            tv_ticket_cost.setText(getString(R.string.ticket_cost, ticket.getFormattedCost()));
 
             Event event = realm.where(Event.class)
                     .equalTo(Event.FIELD_EVENT_ID, ticket.getEventId()).findFirst();
 
-            tv_ticket_type.setText(getString(R.string.ticket_class,ticket.getType()));
+            tv_ticket_type.setText(getString(R.string.ticket_class, ticket.getType()));
             tv_start_time.setText(getString(R.string.starts_at, event == null ? getString(R.string.date_aunavialable) : DateUtils.formatDateTime(TicketDetailsActivity.this,
                     event.getStartDate(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_12HOUR | DateUtils.FORMAT_ABBREV_ALL)));
             ViewUtils.showViews(progress);

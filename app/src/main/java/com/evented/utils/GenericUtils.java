@@ -15,13 +15,28 @@ import android.widget.EditText;
 import com.evented.R;
 import com.evented.events.ui.HomeScreenItemAdapter;
 
+import java.math.RoundingMode;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 /**
  * author Null-Pointer on 1/11/2016.
  */
 public class GenericUtils {
+    public static final NumberFormat FORMAT = DecimalFormat.getNumberInstance();
+
+    static {
+        GenericUtils.FORMAT.setMaximumFractionDigits(2);
+        GenericUtils.FORMAT.setMinimumFractionDigits(2);
+        GenericUtils.FORMAT.setRoundingMode(RoundingMode.HALF_UP);
+    }
+
+    public static String format(double num) {
+        return FORMAT.format(num);
+    }
+
     private GenericUtils() {
     }
 

@@ -64,10 +64,10 @@
     <string name="initialising_transaction">Initialising transaction</string>
     <string name="qr_code">QR code</string>
     <string name="ticket_details">Ticket Details</string>
-    <string name="ticket_cost">Cost %s</string>
+    <string name="ticket_cost">Ticket Cost %s</string>
     <string name="starts_at">Event starts at %s</string>
     <string name="purchased_on">Purchased on: %s</string>
-    <string name="ticket_no">No. %d</string>
+    <string name="ticket_no">Ticket No. %d</string>
     <string name="back">back</string>
     <string name="search">search</string>
     <string name="search_hint">Search...</string>
@@ -138,5 +138,15 @@
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="title_activity_maps">Map</string>
-    <string name="ticket_class">Class %s</string>
+    <string name="ticket_class">Ticket Type %s</string>
+    <string name="ticket_type">Ticket type</string>
+    <string name="seats">Seats</string>
+    <string name="cost">Cost</string>
+    <string name="add_ticket_type">Add Ticket Type</string>
+    <string name="cant_be_empty">cann\'t be empty</string>
+    <string name="advanced_ticketing">Advanced Ticketing</string>
+    <string name="done">Done</string>
+    <string name="ticket_type_updated">Ticket types updated</string>
+    <string name="ticket_required">You haven\'t selected your ticket</string>
+    <string name="choose_ticket">Choose Your Ticket</string>
 </resources>
