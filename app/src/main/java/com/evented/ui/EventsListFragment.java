@@ -30,7 +30,9 @@ import io.realm.RealmResults;
 public class EventsListFragment extends BaseFragment {
 
     private static final String ARG_CATEGORY = "category";
-    private static final String ARG_OLDEST = "oldest", ARG_SHOW_ONLY_FAVORITES = "onlyFavorites";
+    private static final String ARG_OLDEST = "oldest", ARG_SHOW_ONLY_FAVORITES = "onlyFavorites",
+            ARG_SHOW_TRENDING =
+                    "showOnlyTrending";
     private Realm realm;
     private int category;
     private long oldest;
@@ -43,6 +45,8 @@ public class EventsListFragment extends BaseFragment {
     View emptyView;
     private EventsListAdapter adapter;
     private boolean showOnlyFavorites;
+    private boolean showOnlyFragments;
+    private boolean showOnlyTrending;
 
     @Override
     protected int getLayout() {
@@ -50,17 +54,27 @@ public class EventsListFragment extends BaseFragment {
     }
 
     public static Fragment create(long oldest, int position) {
-        return create(oldest, position, false);
+        return create(oldest, position, false, false);
     }
 
-    public static Fragment create(long oldest, int position, boolean showOnlyFavorites) {
+    public static Fragment createFavoritesListFragment() {
+        return create(0, Event.CATEGORY_ALL, true, false);
+    }
+
+    private static Fragment create(long oldest, int position, boolean showOnlyFavorites, boolean trending) {
         Fragment fragment = new EventsListFragment();
         Bundle bundle = new Bundle(2);
         bundle.putLong(ARG_OLDEST, oldest);
         bundle.putInt(ARG_CATEGORY, position);
         bundle.putBoolean(ARG_SHOW_ONLY_FAVORITES, showOnlyFavorites);
+        bundle.putBoolean(ARG_SHOW_TRENDING, trending);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+
+    public static Fragment createTrendingListFragment() {
+        return create(0, Event.CATEGORY_ALL, false, true);
     }
 
     @Override
@@ -70,6 +84,7 @@ public class EventsListFragment extends BaseFragment {
         oldest = getArguments().getLong(ARG_OLDEST);
         category = getArguments().getInt(ARG_CATEGORY);
         showOnlyFavorites = getArguments().getBoolean(ARG_SHOW_ONLY_FAVORITES);
+        showOnlyTrending = getArguments().getBoolean(ARG_SHOW_TRENDING);
     }
 
 
@@ -82,9 +97,14 @@ public class EventsListFragment extends BaseFragment {
 
         if (category != Event.CATEGORY_ALL) {
             query.equalTo(Event.FIELD_CATEGORY, category);
-        }
-        if (showOnlyFavorites) {
+        } else if (showOnlyFavorites) {
             query.equalTo(Event.FIELD_LIKED, true);
+        } else if (showOnlyTrending) {
+            query.beginGroup()
+                    .greaterThanOrEqualTo(Event.FIELD_GOING, 50)
+                    .or()
+                    .greaterThanOrEqualTo(Event.FIELD_LIKES, 50)
+                    .endGroup();
         }
         events = query
                 .findAllSortedAsync(Event.FIELD_START_DATE);

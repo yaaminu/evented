@@ -10,17 +10,17 @@ import com.evented.R;
  * Created by yaaminu on 9/6/17.
  */
 
-public class FavoriteEventsActivity extends AppCompatActivity {
+public class TrendingEventsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_events);
+        setContentView(R.layout.activity_trending_events);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, EventsListFragment.createFavoritesListFragment())
+                .replace(R.id.fragment_container, EventsListFragment.createTrendingListFragment())
                 .commit();
-
     }
 }

@@ -28,6 +28,7 @@ public class Event extends RealmObject implements Parcelable {
     public static final String FIELD_NAME = "name";
     public static final String FIELD_GOING = "going";
     public static final String FIELD_LIKED = "liked";
+    public static final String FIELD_LIKES = "likes";
 
     @PrimaryKey
     private String eventId;

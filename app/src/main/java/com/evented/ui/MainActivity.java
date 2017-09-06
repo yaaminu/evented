@@ -270,7 +270,9 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
 
     @OnItemClick(R.id.side_menu_list)
     void onMenuItemClick(int position) {
-        if (position == 3) {
+        if (position == 0) {
+            startActivity(new Intent(this, TrendingEventsActivity.class));
+        } else if (position == 3) {
             Intent intent = new Intent(this, MyEventListActivity.class);
             startActivity(intent);
         } else if (position == 1) {

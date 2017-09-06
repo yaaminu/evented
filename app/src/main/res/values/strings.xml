@@ -154,4 +154,5 @@
     <string name="you">You</string>
     <string name="loading_location">Getting location</string>
     <string name="favorite_events">Favorite Events</string>
+    <string name="trending_events">Trending Events</string>
 </resources>
