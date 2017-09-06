@@ -304,9 +304,6 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
 
                 Realm realm = Realm.getDefaultInstance();
                 try {
-                    realm.beginTransaction();
-                    realm.delete(Event.class);
-                    realm.commitTransaction();
                     if (realm.where(Event.class)
                             .count() > 20) {
                         return;
