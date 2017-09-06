@@ -304,6 +304,9 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
 
                 Realm realm = Realm.getDefaultInstance();
                 try {
+                    realm.beginTransaction();
+                    realm.delete(Event.class);
+                    realm.commitTransaction();
                     if (realm.where(Event.class)
                             .count() > 20) {
                         return;
@@ -346,7 +349,9 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                             .setGoing(Math.abs(new SecureRandom().nextInt()) % 100)
                             .setPublicity(Event.PUBLICITY_PUBLIC)
                             .setName("Event name " + i)
-                            .setVenue(address)
+                            .setVenue(new Venue("Silverbird Cinemas Accra", "address",
+                                    -0.17353469999999996 + new SecureRandom().nextDouble() % 0.1,
+                                    5.6218986 + new SecureRandom().nextDouble() % 0.1))
                             .createEvent());
                     events.get(i).setLiked(i % 5 == 0);
                     events.get(i).setCurrentUserGoing(i % 2 == 0);
