@@ -12,6 +12,7 @@ import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.ui.BaseFragment;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.ViewUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -37,6 +39,10 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
     @Nullable
     Location currentLocation;
     private Realm realm;
+
+    @BindView(R.id.loading_overlay)
+    View loading_overlay;
+
 
     @Override
     protected int getLayout() {
@@ -90,6 +96,7 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
     public void onLocation(@NonNull Location location) {
         this.currentLocation = location;
         if (this.googleMap != null) {
+            ViewUtils.hideViews(loading_overlay);
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             final MarkerOptions markerOptions = new MarkerOptions()
                     .position(latLng)
