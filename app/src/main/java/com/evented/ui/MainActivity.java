@@ -275,6 +275,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             startActivity(intent);
         } else if (position == 1) {
             startActivity(new Intent(this, NearbyEvents.class));
+        } else if (position == 2) {
+            startActivity(new Intent(this, FavoriteEventsActivity.class));
         } else if (position == 5) {
             startActivity(new Intent(this, LauncherActivity.class));
             finish();

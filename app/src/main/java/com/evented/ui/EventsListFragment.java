@@ -30,7 +30,7 @@ import io.realm.RealmResults;
 public class EventsListFragment extends BaseFragment {
 
     private static final String ARG_CATEGORY = "category";
-    private static final String ARG_OLDEST = "oldest";
+    private static final String ARG_OLDEST = "oldest", ARG_SHOW_ONLY_FAVORITES = "onlyFavorites";
     private Realm realm;
     private int category;
     private long oldest;
@@ -42,6 +42,7 @@ public class EventsListFragment extends BaseFragment {
     @BindView(R.id.empty_view)
     View emptyView;
     private EventsListAdapter adapter;
+    private boolean showOnlyFavorites;
 
     @Override
     protected int getLayout() {
@@ -49,10 +50,15 @@ public class EventsListFragment extends BaseFragment {
     }
 
     public static Fragment create(long oldest, int position) {
+        return create(oldest, position, false);
+    }
+
+    public static Fragment create(long oldest, int position, boolean showOnlyFavorites) {
         Fragment fragment = new EventsListFragment();
         Bundle bundle = new Bundle(2);
         bundle.putLong(ARG_OLDEST, oldest);
         bundle.putInt(ARG_CATEGORY, position);
+        bundle.putBoolean(ARG_SHOW_ONLY_FAVORITES, showOnlyFavorites);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,6 +69,7 @@ public class EventsListFragment extends BaseFragment {
         realm = Realm.getDefaultInstance();
         oldest = getArguments().getLong(ARG_OLDEST);
         category = getArguments().getInt(ARG_CATEGORY);
+        showOnlyFavorites = getArguments().getBoolean(ARG_SHOW_ONLY_FAVORITES);
     }
 
 
@@ -75,6 +82,9 @@ public class EventsListFragment extends BaseFragment {
 
         if (category != Event.CATEGORY_ALL) {
             query.equalTo(Event.FIELD_CATEGORY, category);
+        }
+        if (showOnlyFavorites) {
+            query.equalTo(Event.FIELD_LIKED, true);
         }
         events = query
                 .findAllSortedAsync(Event.FIELD_START_DATE);
