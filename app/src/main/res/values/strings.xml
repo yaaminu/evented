@@ -152,5 +152,5 @@
     <string name="visit_site">Visit site</string>
     <string name="nearby_events">Nearby Events</string>
     <string name="you">You</string>
-    <string name="loading_location">Loading location</string>
+    <string name="loading_location">Getting location</string>
 </resources>

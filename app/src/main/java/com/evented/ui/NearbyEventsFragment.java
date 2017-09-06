@@ -104,7 +104,7 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
                     .title(getString(R.string.you));
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng)
-                    .zoom(12.5f).tilt(20)
+                    .zoom(11.5f).tilt(20)
                     .bearing(0)
                     .build();
             this.googleMap.addMarker(markerOptions).setTag(TAG_YOU);
