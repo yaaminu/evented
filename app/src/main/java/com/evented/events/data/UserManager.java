@@ -102,10 +102,12 @@ public class UserManager {
             @Override
             public void call(Subscriber<? super Object> subscriber) {
                 subscriber.onStart();
+                SystemClock.sleep(3000);
                 Config.getPreferences(SESSION_PREF)
                         .edit()
                         .clear()
                         .commit();
+                GenericUtils.clearSharedPrefs(Config.getApplicationContext());
                 subscriber.onNext(true);
                 subscriber.onCompleted();
             }

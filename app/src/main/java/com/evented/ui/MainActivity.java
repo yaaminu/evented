@@ -1,5 +1,6 @@
 package com.evented.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.evented.events.data.TicketType;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
 import com.evented.events.data.Venue;
+import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.ViewUtils;
 import com.rey.slidelayout.SlideLayout;
@@ -48,6 +50,9 @@ import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by yaaminu on 8/7/17.
@@ -292,6 +297,33 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         intent.putExtra(EventDetailsActivity.EXTRA_EVENT_NAME, event.getName());
         intent.putExtra(EventDetailsActivity.EXTRA_EVENT_ID, event.getEventId());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.log_out)
+    void logout() {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Logging out");
+        dialog.setCancelable(false);
+        dialog.show();
+        UserManager.getInstance()
+                .logout()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MainActivity.this, LauncherActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dialog.dismiss();
+                        GenericUtils.showDialog(MainActivity.this, throwable.getMessage());
+                    }
+                });
     }
 
     static void createEvents() {

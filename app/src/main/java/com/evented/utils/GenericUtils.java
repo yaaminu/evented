@@ -1,5 +1,6 @@
 package com.evented.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import com.evented.R;
 import com.evented.events.ui.HomeScreenItemAdapter;
 
+import java.io.File;
 import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -290,5 +292,16 @@ public class GenericUtils {
                 Bitmap.Config.ARGB_8888);
         carMarkerDrawable.draw(new Canvas(carMarker));
         return carMarker;
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public static void clearSharedPrefs(Context context) {
+        File file = context.getDir("shared_prefs", Context.MODE_PRIVATE);
+        File[] files = file.listFiles();
+        for (File sharedPref : files) {
+            context.getSharedPreferences(sharedPref.getName(), Context.MODE_PRIVATE)
+                    .edit().clear().commit();
+            org.apache.commons.io.FileUtils.deleteQuietly(sharedPref);
+        }
     }
 }
