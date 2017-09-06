@@ -5,10 +5,16 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.format.DateUtils;
 import android.widget.EditText;
 
@@ -112,15 +118,28 @@ public class GenericUtils {
         if (!condition) throw new AssertionError(message);
     }
 
-    public static boolean hasPermission(Context context, String... permissions) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
+    public static void assertThat(boolean condition) {
+        assertThat(condition, "assertion failed");
+    }
+
+    public static boolean hasPermission(FragmentActivity appCompatActivity, boolean askIfNotGranted, int requestCode, String... permissions) {
+        assertThat(permissions.length > 0);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        boolean hasPermission = true;
         for (String permission : permissions) {
-            if (context.checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(appCompatActivity, permission)) {
+                hasPermission = false;
+                break;
             }
         }
-        return true;
+        if (!hasPermission && askIfNotGranted) {
+            appCompatActivity.requestPermissions(permissions, requestCode);
+        }
+        return hasPermission;
     }
+
 
     public static boolean wasPermissionGranted(String[] permissions, int[] grantResults) {
         for (int i = 0; i < permissions.length; i++) {
@@ -255,5 +274,21 @@ public class GenericUtils {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(context.getResources(),
                 res, options);
+    }
+
+    public static Bitmap vectorToDrawable(Context context, @DrawableRes int res) {
+        Drawable carMarkerDrawable =
+                ContextCompat.getDrawable(context,
+                        res);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            carMarkerDrawable = DrawableCompat.wrap(carMarkerDrawable).mutate();
+        }
+        carMarkerDrawable.setBounds(0, 0, carMarkerDrawable.getIntrinsicWidth(), carMarkerDrawable.getIntrinsicHeight());
+
+        Bitmap carMarker = Bitmap.createBitmap(carMarkerDrawable.getIntrinsicWidth(),
+                carMarkerDrawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        carMarkerDrawable.draw(new Canvas(carMarker));
+        return carMarker;
     }
 }

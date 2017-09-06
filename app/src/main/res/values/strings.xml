@@ -150,4 +150,6 @@
     <string name="choose_ticket">Choose Your Ticket</string>
     <string name="contact">Contact</string>
     <string name="visit_site">Visit site</string>
+    <string name="nearby_events">Nearby Events</string>
+    <string name="you">You</string>
 </resources>

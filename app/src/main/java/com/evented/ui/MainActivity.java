@@ -22,6 +22,7 @@ import com.evented.R;
 import com.evented.events.data.BillingAcount;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventBuilder;
+import com.evented.events.data.NearbyEvents;
 import com.evented.events.data.TicketType;
 import com.evented.events.data.User;
 import com.evented.events.data.UserManager;
@@ -272,6 +273,8 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         if (position == 3) {
             Intent intent = new Intent(this, MyEventListActivity.class);
             startActivity(intent);
+        } else if (position == 1) {
+            startActivity(new Intent(this, NearbyEvents.class));
         } else if (position == 5) {
             startActivity(new Intent(this, LauncherActivity.class));
             finish();
