@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
+import com.evented.events.data.ParseBackend;
 import com.evented.ui.JobRunnerImpl;
 import com.evented.utils.Config;
 import com.evented.utils.TaskManager;
@@ -20,6 +21,7 @@ public class Evented extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ParseBackend.initialize(this);
         Realm.init(this);
         Realm.setDefaultConfiguration(new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded().build());

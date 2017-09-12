@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
         dialog.setCancelable(false);
         dialog.show();
         UserManager.getInstance()
-                .logout()
+                .logout(this)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Object>() {
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                     }
                     User currentUser = UserManager.getInstance().getCurrentUser();
                     if (currentUser == null) {
-                        currentUser = new User("yaaminu", "233266349205", "233266349205", true);
+                        currentUser = new User("233266349205", "233266349205", true);
                     }
                     realm.beginTransaction();
                     createToday(currentUser, realm);
@@ -363,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             private void createToday(User currentUser, Realm realm) {
                 List<Event> events = new ArrayList<>(20);
                 BillingAcount billingAcount =
-                        new BillingAcount(currentUser.userName,
+                        new BillingAcount("yaaminu",
                                 currentUser.phoneNumber, "MTN");
 
 
@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
 
             private void createTomorrow(Realm realm, User currentUser) {
                 BillingAcount billingAcount =
-                        new BillingAcount(currentUser.userName,
+                        new BillingAcount("username",
                                 currentUser.phoneNumber, "MTN");
                 List<Event> events = new ArrayList<>(20);
                 for (int i = 0; i < 20; i++) {
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             private void createEventNextWeek(Realm realm, User currentUser) {
                 List<Event> events = new ArrayList<>(20);
                 BillingAcount billingAcount =
-                        new BillingAcount(currentUser.userName,
+                        new BillingAcount("username",
                                 currentUser.phoneNumber, "MTN");
                 for (int i = 0; i < 20; i++) {
                     events.add(new EventBuilder()
@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             private void createEventNextMonth(Realm realm, User currentUser) {
                 List<Event> events = new ArrayList<>(20);
                 BillingAcount billingAcount =
-                        new BillingAcount(currentUser.userName,
+                        new BillingAcount("username",
                                 currentUser.phoneNumber, "MTN");
                 for (int i = 0; i < 20; i++) {
                     events.add(new EventBuilder()
@@ -492,7 +492,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
             private void createEventAfterNextMonth(Realm realm, User currentUser) {
                 List<Event> events = new ArrayList<>(20);
                 BillingAcount billingAcount =
-                        new BillingAcount(currentUser.userName,
+                        new BillingAcount("username",
                                 currentUser.phoneNumber, "MTN");
 
                 Calendar calendar = Calendar.getInstance();

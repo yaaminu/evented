@@ -82,7 +82,7 @@ public class VerificationFragment extends BaseFragment {
     void changeNumber() {
         dialog.show();
         UserManager.getInstance()
-                .logout()
+                .logout(getContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Object>() {

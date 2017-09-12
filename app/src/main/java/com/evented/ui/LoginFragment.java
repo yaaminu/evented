@@ -60,7 +60,7 @@ public class LoginFragment extends BaseFragment {
         if (validate()) {
             dialog.show();
             UserManager.getInstance()
-                    .login(et_phone.getText().toString().trim())
+                    .login(getContext(), et_phone.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<User>() {
