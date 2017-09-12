@@ -9,9 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
+import com.evented.events.data.EventManager;
+import com.evented.events.data.UserManager;
 import com.evented.events.ui.BaseFragment;
 import com.evented.events.ui.HomeScreenEventsAdapter;
 import com.evented.events.ui.HomeScreenItemAdapter;
@@ -26,8 +30,14 @@ import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
+ * Used to display the home screen events. This fragment takes care of the
+ * header and  displaying the categorized events.
  * Created by yaaminu on 8/9/17.
  */
 
@@ -39,9 +49,19 @@ public class HomeScreenEventsListFragment extends BaseFragment {
     @BindView(R.id.empty_view)
     View emptyView;
 
+    @BindView(R.id.empty_view_text)
+    TextView emptyViewText;
+
+    @BindView(R.id.loading_progress)
+    ProgressBar progressBar;
+
     private Realm realm;
     private HomeScreenAdapterDelegate delegate;
     private HomeScreenEventsAdapter adapter;
+    @Nullable
+    private Subscription subscription;
+    private boolean loadingEvents;
+    private HiglightsFragment highlightsFragment;
 
     @Override
     protected int getLayout() {
@@ -52,6 +72,12 @@ public class HomeScreenEventsListFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        loadingEvents = true;
+        subscription = EventManager.create(UserManager.getInstance())
+                .loadEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
     @Override
@@ -67,6 +93,28 @@ public class HomeScreenEventsListFragment extends BaseFragment {
                 .replace(R.id.highlights, new HiglightsFragment())
                 .commit();
     }
+
+    private final Observer<Object> observer = new Observer<Object>() {
+        @Override
+        public void onCompleted() {
+            //do nothing
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            //stop loading
+            loadingEvents = false;
+            adapter.notifyDataChanged();
+            //show dialog
+        }
+
+        @Override
+        public void onNext(Object o) {
+            //stop loading
+            loadingEvents = false;
+            adapter.notifyDataChanged();
+        }
+    };
 
     @Override
     public void onResume() {
@@ -92,6 +140,9 @@ public class HomeScreenEventsListFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
         realm.close();
         super.onDestroy();
     }
@@ -106,30 +157,45 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         calendar.set(Calendar.MILLISECOND, 0);
 
         //today
-        items.add(getSectionItems(getString(R.string.today), calendar.getTimeInMillis()));
+        PeriodCategorizedEvents tmp = getSectionItems(getString(R.string.today), calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
 
         //tomorrow
-        items.add(getSectionItems(getString(R.string.tomorrow), TimeUnit.DAYS.toMillis(1) + calendar.getTimeInMillis()));
+        tmp = getSectionItems(getString(R.string.tomorrow), TimeUnit.DAYS.toMillis(1) + calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
 
         //this week
-        items.add(getSectionItems(getString(R.string.this_week), TimeUnit.DAYS.toMillis(2) + calendar.getTimeInMillis()));
-
+        tmp = getSectionItems(getString(R.string.this_week), TimeUnit.DAYS.toMillis(2) + calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
         //this month
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 2);
-        items.add(getSectionItems(getString(R.string.this_month), calendar.getTimeInMillis()));
-
+        tmp = getSectionItems(getString(R.string.this_month), calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
         //next month
         int thisMonth = calendar.get(Calendar.MONTH) + 1;
         int maxMonth = calendar.getActualMaximum(Calendar.MONTH);
         calendar.set(Calendar.MONTH, thisMonth > maxMonth ? (thisMonth - maxMonth) - 1/*start over*/ : thisMonth);
-        items.add(getSectionItems(getString(R.string.next_month), calendar.getTimeInMillis()));
-
+        tmp = getSectionItems(getString(R.string.next_month), calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
         //more
         int afterNextMonth = calendar.get(Calendar.MONTH) + 1;
         maxMonth = calendar.getActualMaximum(Calendar.MONTH);
         calendar.set(Calendar.MONTH, afterNextMonth > maxMonth ? (afterNextMonth - maxMonth) - 1/*start over*/ : afterNextMonth);
-        items.add(getSectionItems(getString(R.string.later), calendar.getTimeInMillis()));
+        tmp = getSectionItems(getString(R.string.later), calendar.getTimeInMillis());
+        if (!tmp.events.isEmpty()) {
+            items.add(tmp);
+        }
         return items;
     }
 
@@ -175,6 +241,8 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         @Override
         public List<PeriodCategorizedEvents> dataSet() {
             ViewUtils.showByFlag(items.isEmpty(), context.emptyView);
+            ViewUtils.showByFlag(context.loadingEvents, context.progressBar);
+            ViewUtils.showByFlag(!context.loadingEvents, context.emptyViewText);
             ViewUtils.showByFlag(!items.isEmpty(), context.recyclerView);
             return items;
         }

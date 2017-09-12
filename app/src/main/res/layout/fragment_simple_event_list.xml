@@ -11,10 +11,5 @@
         android:layout_marginTop="@dimen/default_gap"
         android:orientation="vertical" />
 
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/no_event_created" />
+    <include layout="@layout/empty_view_layout" />
 </FrameLayout>

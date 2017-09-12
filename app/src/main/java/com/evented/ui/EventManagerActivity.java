@@ -53,10 +53,7 @@ public class EventManagerActivity extends AppCompatActivity implements SimpleEve
         results = eventsQuery
                 .findAllSortedAsync(Event.FIELD_START_DATE);
         results.addChangeListener(listener);
-
     }
-
-
     @Override
     protected void onResume() {
         if (results != null) {

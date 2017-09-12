@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -148,9 +149,36 @@ public class EventManager {
         });
     }
 
+
+    public Observable<?> loadEvents() {
+        return loadEventsInternal(false);
+    }
+
+    public Observable<?> loadEventsForCurrentUser() {
+        return loadEventsInternal(true);
+    }
+
+    private Observable<?> loadEventsInternal(boolean loadOnlyOurs) {
+        return ParseBackend.getInstance()
+                .loadEvents(loadOnlyOurs)
+                .flatMap(new Func1<List<Event>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(List<Event> events) {
+                        Realm realm = Realm.getDefaultInstance();
+                        try {
+                            realm.beginTransaction();
+                            realm.copyToRealmOrUpdate(events);
+                            realm.commitTransaction();
+                        } finally {
+                            realm.close();
+                        }
+                        return Observable.just(true);
+                    }
+                });
+    }
+
     public rx.Observable<Event> createEvent(final Event event) {
         // TODO: 8/9/17 validate event
-
         return ParseBackend.getInstance()
                 .createEvent(event)
                 .map(new Func1<Event, Event>() {
@@ -263,4 +291,5 @@ public class EventManager {
             }
         }, true);
     }
+
 }

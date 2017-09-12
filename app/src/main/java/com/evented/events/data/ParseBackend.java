@@ -14,9 +14,14 @@ import com.evented.utils.ThreadUtils;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -55,6 +60,49 @@ public class ParseBackend {
                     }
                 });
     }
+
+    public Observable<List<Event>> loadEvents(boolean loadOurs) {
+        return fetchEventsFromServer(loadOurs)
+                .map(new Func1<List<ParseObject>, List<Event>>() {
+                    @Override
+                    public List<Event> call(List<ParseObject> parseObjects) {
+                        if (parseObjects.isEmpty()) {
+                            return Collections.emptyList();
+                        }
+                        List<Event> events = new ArrayList<>(parseObjects.size());
+                        for (ParseObject parseObject : parseObjects) {
+                            events.add(Event.create(parseObject));
+                        }
+                        return events;
+                    }
+                });
+    }
+
+    @NonNull
+    private Observable<List<ParseObject>> fetchEventsFromServer(final boolean loadOnlyOurs) {
+        return Observable.create(new Observable.OnSubscribe<List<ParseObject>>() {
+            @Override
+            public void call(Subscriber<? super List<ParseObject>> subscriber) {
+                final User currentUser = getCurrentUser();
+                try {
+                    final ParseQuery<ParseObject> query = ParseQuery.getQuery(Event.CLASS_NAME);
+                    List<ParseObject> events;
+                    if (loadOnlyOurs) {
+                        GenericUtils.assertThat(currentUser != null);
+                        query.whereEqualTo("createdBy", currentUser.userId);
+                    }
+                    events = query.find();
+
+                    subscriber.onNext(events);
+                    subscriber.onCompleted();
+                } catch (ParseException e) {
+                    PLog.e(TAG, e.getMessage(), e);
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
 
     private static class Holder {
         private static ParseBackend instance = new ParseBackend();

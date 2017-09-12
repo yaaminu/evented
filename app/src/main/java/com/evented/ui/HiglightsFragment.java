@@ -16,6 +16,7 @@ import com.evented.utils.GenericUtils;
 
 import butterknife.BindView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -50,18 +51,48 @@ public class HiglightsFragment extends BaseFragment {
         realm = Realm.getDefaultInstance();
     }
 
+    private final RealmChangeListener<Realm> changeListener = new RealmChangeListener<Realm>() {
+        @Override
+        public void onChange(Realm o) {
+            updateHighlightsView(getView());
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (highlightEvent == null) {
+            realm.addChangeListener(changeListener);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        realm.removeChangeListener(changeListener);
+        super.onPause();
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        updateHighlightsView(view);
+    }
+
+    @Nullable
+    Event highlightEvent;
+
+    private void updateHighlightsView(View view) {
         final RealmResults<Event> allEvents = realm.where(Event.class)
                 .findAllSorted(Event.FIELD_GOING, Sort.DESCENDING);
-        if (!allEvents.isEmpty()) {
+
+        if (!allEvents.isEmpty() && highlightEvent == null) {
+            realm.removeChangeListener(changeListener);
             GenericUtils.setUpDrawables(getContext());
-            Event event = allEvents.first();
-            tv_location.setText(event.getVenue().getName());
-            tv_event_name.setText(event.getName());
-            tv_likes.setText(String.valueOf(event.getLikes()));
-            tv_going.setText(String.valueOf(event.getGoing()));
+            highlightEvent = allEvents.first();
+            tv_location.setText(highlightEvent.getVenue().getName());
+            tv_event_name.setText(highlightEvent.getName());
+            tv_likes.setText(String.valueOf(highlightEvent.getLikes()));
+            tv_going.setText(String.valueOf(highlightEvent.getGoing()));
             final Bitmap image = GenericUtils.getImage(getContext());
             iv_event_flyer.setImageBitmap(image);
             Palette.from(image)
@@ -78,7 +109,9 @@ public class HiglightsFragment extends BaseFragment {
 
                         }
                     });
+            view.setVisibility(View.VISIBLE);
         } else {
+            realm.addChangeListener(changeListener);
             view.setVisibility(View.GONE);
         }
     }
