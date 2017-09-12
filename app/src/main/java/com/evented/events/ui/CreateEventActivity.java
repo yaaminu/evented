@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.evented.R;
@@ -64,11 +65,14 @@ public class CreateEventActivity extends AppCompatActivity {
         if (stage >= 3) {
             createEvent();
         } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, getFragment(stage))
-                    .addToBackStack("createEvent")
-                    .commit();
+            final FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                    .beginTransaction();
+            fragmentTransaction
+                    .replace(R.id.container, getFragment(stage));
+            if (stage >= 1) {
+                fragmentTransaction.addToBackStack("createEvent");
+            }
+            fragmentTransaction.commit();
         }
     }
 
