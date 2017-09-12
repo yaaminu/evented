@@ -133,7 +133,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         if (stage == 0) {
             dialog.setMessage(getString(R.string.initialising_transaction));
             dialog.show();
-            eventManager.verifyNumber(billing_account_number.getText().toString().trim())
+            eventManager.verifyNumber(event.getName(), billing_account_number.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<String>() {

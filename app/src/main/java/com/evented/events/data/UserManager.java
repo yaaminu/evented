@@ -3,9 +3,12 @@ package com.evented.events.data;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.telephony.SmsManager;
 
 import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.PhoneNumberNormaliser;
+import com.google.i18n.phonenumbers.NumberParseException;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -62,6 +65,17 @@ public class UserManager {
                         .putString(USER_NAME, user.userName)
                         .commit();
                 // TODO: 8/13/17 send a verification code to the phone number
+                String message = "Your verification code is 1234";
+                try {
+                    SmsManager.getDefault()
+                            .sendTextMessage(PhoneNumberNormaliser.toIEE(phone, "GH"),
+                                    null, message, null, null);
+                } catch (NumberParseException e) {
+                    subscriber.onError(e);
+                    return;
+                } catch (SecurityException e) {
+
+                }
                 subscriber.onNext(user);
                 subscriber.onCompleted();
             }

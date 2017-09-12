@@ -2,13 +2,16 @@ package com.evented.events.data;
 
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.telephony.SmsManager;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
 import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
+import com.evented.utils.PhoneNumberNormaliser;
 import com.evented.utils.TaskManager;
+import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
@@ -171,12 +174,24 @@ public class EventManager {
         });
     }
 
-    public Observable<String> verifyNumber(final String phoneNumber) {
+    public Observable<String> verifyNumber(final String eventName, final String phoneNumber) {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 // TODO: 8/10/17 send a real sms and store the number
                 subscriber.onStart();
+
+                String message = "You wanted to buy ticket for   " + eventName + ". Use code 12345 to verify your phone number";
+                try {
+                    SmsManager.getDefault()
+                            .sendTextMessage(PhoneNumberNormaliser.toIEE(phoneNumber, "GH"),
+                                    null, message, null, null);
+                } catch (NumberParseException e) {
+                    subscriber.onError(e);
+                    return;
+                } catch (SecurityException e) {
+
+                }
                 SystemClock.sleep(3000);
                 subscriber.onNext(phoneNumber);
                 subscriber.onCompleted();
@@ -205,9 +220,24 @@ public class EventManager {
                         Event event = realm.where(Event.class).equalTo(Event.FIELD_EVENT_ID, eventId)
                                 .findFirst();
                         GenericUtils.ensureNotNull(event);
+                        //noinspection ConstantConditions
                         event.setCurrentUserGoing(true);
                         event.setGoing(event.getGoing() + 1);
                         realm.commitTransaction();
+
+                        String message = "Ticket purchase for  " + event.getName() + " successful. Follow this link to download the ticket " +
+                                "https://ev.co/t/?tid=82719817283300381";
+                        try {
+                            SmsManager.getDefault()
+                                    .sendTextMessage(PhoneNumberNormaliser.toIEE(buyForNumber, "GH"),
+                                            null, message, null, null);
+                        } catch (NumberParseException e) {
+                            subscriber.onError(e);
+                            return;
+                        } catch (SecurityException e) {
+
+                        }
+
                         subscriber.onNext(ticket);
                         subscriber.onCompleted();
                     } finally {
