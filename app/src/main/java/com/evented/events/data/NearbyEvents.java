@@ -118,7 +118,7 @@ public class NearbyEvents extends AppCompatActivity implements LocationListener,
     }
 
     @Override
-    public void ungisterLocationListener(com.evented.ui.LocationListener locationListener) {
+    public void unregisterLocationListener(com.evented.ui.LocationListener locationListener) {
         listeners.remove(locationListener);
     }
 }

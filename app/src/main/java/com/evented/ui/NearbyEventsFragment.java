@@ -76,7 +76,7 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
 
     @Override
     public void onDestroyView() {
-        ((LocationProvider) getActivity()).ungisterLocationListener(this);
+        ((LocationProvider) getActivity()).unregisterLocationListener(this);
         super.onDestroyView();
     }
 
@@ -145,7 +145,7 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
     public interface LocationProvider {
         void registerLocationListener(LocationListener locationListener);
 
-        void ungisterLocationListener(LocationListener locationListener);
+        void unregisterLocationListener(LocationListener locationListener);
     }
 
 }
