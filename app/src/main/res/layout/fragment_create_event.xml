@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:contentDescription="@string/flyer"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             tools:src="@drawable/flyer2" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="#5fff"
+            android:background="@color/colorPrimaryFaded"
             android:hint="@string/event_name"
             android:inputType="text"
             android:paddingBottom="@dimen/default_gap"

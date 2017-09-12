@@ -1,5 +1,6 @@
 package com.evented.events.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
@@ -51,6 +53,7 @@ public class CreateEventFragment1 extends BaseFragment {
     private static final String TAG = "CreateEventFragment1";
     private static final int PICK_FLYER_REQUEST_CODE = 1001,
             PICK_LOCATION_REQUEST_CODE = 1002;
+    public static final int REQUEST_EXTERNAL_STORAGE_PERM = 3002;
 
     @BindView(R.id.iv_event_flyer)
     ImageView iv_event_flyer;
@@ -135,11 +138,24 @@ public class CreateEventFragment1 extends BaseFragment {
 
     private void addFlyer() {
         // TODO: 8/13/17 check storage permission
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, PICK_FLYER_REQUEST_CODE);
+        if (GenericUtils.hasPermission(this, true, REQUEST_EXTERNAL_STORAGE_PERM, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, PICK_FLYER_REQUEST_CODE);
+        }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_EXTERNAL_STORAGE_PERM) {
+            if (GenericUtils.wasPermissionGranted(permissions, grantResults)) {
+                addFlyer();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

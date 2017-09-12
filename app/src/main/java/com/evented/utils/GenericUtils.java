@@ -13,6 +13,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -138,6 +139,24 @@ public class GenericUtils {
         }
         if (!hasPermission && askIfNotGranted) {
             appCompatActivity.requestPermissions(permissions, requestCode);
+        }
+        return hasPermission;
+    }
+
+    public static boolean hasPermission(Fragment fragment, boolean askIfNotGranted, int requestCode, String... permissions) {
+        assertThat(permissions.length > 0);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        boolean hasPermission = true;
+        for (String permission : permissions) {
+            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(fragment.getContext(), permission)) {
+                hasPermission = false;
+                break;
+            }
+        }
+        if (!hasPermission && askIfNotGranted) {
+            fragment.requestPermissions(permissions, requestCode);
         }
         return hasPermission;
     }

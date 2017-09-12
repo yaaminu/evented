@@ -140,7 +140,9 @@ public class Event extends RealmObject implements Parcelable {
 
     private RealmList<TicketType> arrayListToRealmList(ArrayList<TicketType> arrayList) {
         RealmList<TicketType> realmList = new RealmList<>();
-        realmList.addAll(arrayList);
+        if (arrayList != null) {
+            realmList.addAll(arrayList);
+        }
         return realmList;
     }
 
