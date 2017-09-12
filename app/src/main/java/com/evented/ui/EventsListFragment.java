@@ -18,8 +18,9 @@ import com.evented.utils.ViewUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -119,10 +120,22 @@ public class EventsListFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    final RealmChangeListener<RealmResults<Event>> changeListener = new RealmChangeListener<RealmResults<Event>>() {
+    final OrderedRealmCollectionChangeListener<RealmResults<Event>> changeListener = new OrderedRealmCollectionChangeListener<RealmResults<Event>>() {
         @Override
-        public void onChange(RealmResults<Event> o) {
-            adapter.notifyDataChanged();
+        public void onChange(RealmResults<Event> events, OrderedCollectionChangeSet changeSet) {
+            if (changeSet == null) {
+                adapter.notifyDataChanged();
+            } else {
+                for (OrderedCollectionChangeSet.Range range : changeSet.getInsertionRanges()) {
+                    adapter.notifyItemRangeInserted(range.startIndex, range.length);
+                }
+                for (OrderedCollectionChangeSet.Range range : changeSet.getChangeRanges()) {
+                    adapter.notifyItemRangeChanged(range.startIndex, range.length);
+                }
+                for (OrderedCollectionChangeSet.Range range : changeSet.getDeletionRanges()) {
+                    adapter.notifyItemRangeRemoved(range.startIndex, range.length);
+                }
+            }
         }
     };
 
