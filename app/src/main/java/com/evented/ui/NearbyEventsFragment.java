@@ -107,17 +107,21 @@ public class NearbyEventsFragment extends BaseFragment implements LocationListen
                     .zoom(12.5f).tilt(20)
                     .bearing(0)
                     .build();
-            this.googleMap.addMarker(markerOptions).setTag(TAG_YOU);
+            Marker marker = this.googleMap.addMarker(markerOptions);
+            marker.setTag(TAG_YOU);
+            marker.showInfoWindow();
             this.googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             RealmResults<Event> events = realm.where(Event.class)
                     .findAll();
             for (Event event : events) {
-                this.googleMap
+                marker = this.googleMap
                         .addMarker(new MarkerOptions()
                                 .title(event.getName())
                                 .position(new LatLng(event.getVenue().getLatitude(),
-                                        event.getVenue().getLongitude()))).setTag(event.getEventId());
+                                        event.getVenue().getLongitude())));
+                marker.showInfoWindow();
+                marker.setTag(event.getEventId());
             }
         }
     }
