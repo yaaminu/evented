@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements SimpleEventListFr
                     }
                     User currentUser = UserManager.getInstance().getCurrentUser();
                     if (currentUser == null) {
-                        currentUser = new User("yaaminu", "233266349205", "233266349205");
+                        currentUser = new User("yaaminu", "233266349205", "233266349205", true);
                     }
                     realm.beginTransaction();
                     createToday(currentUser, realm);

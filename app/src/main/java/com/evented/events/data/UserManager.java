@@ -45,10 +45,11 @@ public class UserManager {
         String userName = preferences.getString(USER_NAME, null),
                 userPhone = preferences.getString(PHONE_NUMBER, null),
                 userId = preferences.getString(USER_ID, null);
+        boolean verified = preferences.getBoolean(VERIFIED, false);
         if (GenericUtils.isEmpty(userId) || GenericUtils.isEmpty(userPhone) || GenericUtils.isEmpty(userName)) {
             return null;
         }
-        return new User(userName, userId, userPhone);
+        return new User(userName, userId, userPhone, verified);
     }
 
     public rx.Observable<User> login(final String phone) {
@@ -58,11 +59,12 @@ public class UserManager {
             public void call(Subscriber<? super User> subscriber) {
                 subscriber.onStart();
                 SystemClock.sleep(2000);
-                final User user = new User("Unspecified", "userID", phone);
+                final User user = new User("Unspecified", "userID", phone, false);
                 Config.getPreferences(SESSION_PREF).edit().putBoolean(LOGGED_IN, true)
                         .putString(USER_ID, user.userId)
                         .putString(PHONE_NUMBER, user.phoneNumber)
                         .putString(USER_NAME, user.userName)
+                        .putBoolean(VERIFIED, false)
                         .commit();
                 // TODO: 8/13/17 send a verification code to the phone number
                 String message = "Your verification code is 1234";
@@ -83,8 +85,8 @@ public class UserManager {
     }
 
     public boolean isCurrentUserVerified() {
-        return getCurrentUser() != null && Config.getPreferences(SESSION_PREF)
-                .getBoolean(VERIFIED, false);
+        final User currentUser = getCurrentUser();
+        return currentUser != null && currentUser.verified;
     }
 
     public rx.Observable<User> verify(final String verificationCode) {

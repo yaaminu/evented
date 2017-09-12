@@ -7,11 +7,13 @@ package com.evented.events.data;
 public class User {
 
     public final String userName, phoneNumber, userId;
+    public final boolean verified;
 
-    public User(String userName, String userId, String phoneNumber) {
+    public User(String userName, String userId, String phoneNumber, boolean verified) {
         this.userName = userName;
         this.userId = userId;
         this.phoneNumber = phoneNumber;
+        this.verified = verified;
     }
 
     @Override
@@ -20,6 +22,7 @@ public class User {
                 "userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", userId='" + userId + '\'' +
+                ", verified='" + verified + '\'' +
                 '}';
     }
 }
