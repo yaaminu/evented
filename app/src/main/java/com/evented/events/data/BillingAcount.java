@@ -3,6 +3,9 @@ package com.evented.events.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 
 /**
@@ -61,5 +64,26 @@ public class BillingAcount extends RealmObject implements Parcelable {
         parcel.writeString(accountName);
         parcel.writeString(accountNumber);
         parcel.writeString(accountType);
+    }
+
+    public String toJsonString() {
+        try {
+            return new JSONObject()
+                    .put("accountName", accountName)
+                    .put("accountNumber", accountNumber)
+                    .put("accountType", accountType).toString();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static BillingAcount fromJson(String billingAccount) {
+        try {
+            JSONObject jsonObject = new JSONObject(billingAccount);
+            return new BillingAcount(jsonObject.getString("accountName"), jsonObject.getString("accountNumber"),
+                    jsonObject.getString("accountType"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

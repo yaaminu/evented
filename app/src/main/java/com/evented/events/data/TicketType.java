@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.evented.utils.GenericUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -92,5 +95,22 @@ public class TicketType extends RealmObject implements Parcelable {
         parcel.writeString(name);
         parcel.writeLong(cost);
         parcel.writeInt(maxSeat);
+    }
+
+    public String toJSONString() throws JSONException {
+        return new JSONObject()
+                .put("name", getName())
+                .put("cost", getCost())
+                .put("maxSeat", maxSeat).toString();
+    }
+
+    public static TicketType fromJson(String text) {
+        try {
+            JSONObject obj = new JSONObject(text);
+            return new TicketType(obj.getString("name"), obj.getLong("cost")
+                    , obj.getInt("maxSeat"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

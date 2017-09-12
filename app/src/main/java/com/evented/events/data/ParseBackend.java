@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 
 /**
@@ -29,6 +30,31 @@ import rx.functions.Func1;
 public class ParseBackend {
 
     private static final String TAG = "ParseBackend";
+
+    public Observable<Event> createEvent(final Event event) {
+        return Observable.just(event)
+                .map(new Func1<Event, ParseObject>() {
+                    @Override
+                    public ParseObject call(Event event) {
+                        GenericUtils.assertThat(event.getEventId() == null);
+                        final User currentUser = getCurrentUser();
+                        GenericUtils.assertThat(currentUser != null);
+                        ParseObject parseObject = event.toParseObject(currentUser);
+                        try {
+                            parseObject.save();
+                            return parseObject;
+                        } catch (ParseException e) {
+                            throw Exceptions.propagate(e);
+                        }
+                    }
+                })
+                .map(new Func1<ParseObject, Event>() {
+                    @Override
+                    public Event call(ParseObject parseObject) {
+                        return Event.create(parseObject);
+                    }
+                });
+    }
 
     private static class Holder {
         private static ParseBackend instance = new ParseBackend();

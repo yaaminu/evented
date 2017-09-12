@@ -4,7 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.parse.ParseObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -30,6 +36,9 @@ public class Event extends RealmObject implements Parcelable {
     public static final String FIELD_LIKED = "liked";
     public static final String FIELD_LIKES = "likes";
 
+
+    public static final String CLASS_NAME = "event";
+
     @PrimaryKey
     private String eventId;
 
@@ -47,7 +56,7 @@ public class Event extends RealmObject implements Parcelable {
     private int likes;
     private int going;
 
-    private BillingAcount billingAcount;
+    private BillingAcount billingAccount;
     private boolean liked;
     private boolean currentUserGoing;
     private String organizerContact;
@@ -56,6 +65,31 @@ public class Event extends RealmObject implements Parcelable {
 
 
     public Event() {
+    }
+
+    public ParseObject toParseObject(@NonNull User currentUser) {
+        ParseObject parseObject = ParseObject.create(CLASS_NAME);
+        parseObject.put("webLink", getWebLink());
+        parseObject.put("organizerContact", getOrganizerContact());
+        parseObject.put("endDate", getEndDate());
+        parseObject.put("startDate", getStartDate());
+        parseObject.put("name", getName());
+        parseObject.put("publicity", getPublicity());
+        parseObject.put("likes", getLikes());
+        parseObject.put("going", getGoing());
+        parseObject.put("venue", venue.toJsonString());
+        parseObject.put("billingAccount", getBillingAccount().toJsonString());
+        if (flyers != null) {
+            parseObject.put("flyers", flyers);
+        }
+        parseObject.put("createdBy", currentUser.userId);
+        parseObject.put("category", category);
+        if (getEventId() != null) {
+            parseObject.setObjectId(getEventId());
+        }
+        parseObject.put("description", getDescription());
+        parseObject.put("ticketTypes", encodeListToJsonArray(ticketTypes));
+        return parseObject;
     }
 
     Event(String eventId, String createdBy, String name, String flyers, String description, Venue venue
@@ -75,7 +109,7 @@ public class Event extends RealmObject implements Parcelable {
         this.publicity = publicity;
         this.likes = likes;
         this.going = going;
-        this.billingAcount = billingAcount;
+        this.billingAccount = billingAcount;
         this.ticketTypes = new RealmList<>();
     }
 
@@ -101,7 +135,7 @@ public class Event extends RealmObject implements Parcelable {
         currentUserGoing = in.readByte() != 0;
         organizerContact = in.readString();
         webLink = in.readString();
-        billingAcount = in.readParcelable(BillingAcount.class.getClassLoader());
+        billingAccount = in.readParcelable(BillingAcount.class.getClassLoader());
     }
 
     private RealmList<TicketType> arrayListToRealmList(ArrayList<TicketType> arrayList) {
@@ -128,11 +162,6 @@ public class Event extends RealmObject implements Parcelable {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
-    }
-
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public String getName() {
@@ -183,21 +212,9 @@ public class Event extends RealmObject implements Parcelable {
         this.endDate = endDate;
     }
 
-
-    public void setDateUpdated(long dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
-
-    public void setDateCreated(long dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-
     public void setPublicity(int publicity) {
         this.publicity = publicity;
     }
-
 
     public int getLikes() {
         return likes;
@@ -217,7 +234,7 @@ public class Event extends RealmObject implements Parcelable {
 
 
     public void setBillingAcount(BillingAcount billingAcount) {
-        this.billingAcount = billingAcount;
+        this.billingAccount = billingAcount;
     }
 
     public void setLiked(boolean liked) {
@@ -271,7 +288,7 @@ public class Event extends RealmObject implements Parcelable {
         parcel.writeByte((byte) (currentUserGoing ? 1 : 0));
         parcel.writeString(organizerContact);
         parcel.writeString(webLink);
-        parcel.writeParcelable(billingAcount, i);
+        parcel.writeParcelable(billingAccount, i);
     }
 
     public RealmList<TicketType> getTicketTypes() {
@@ -296,5 +313,63 @@ public class Event extends RealmObject implements Parcelable {
 
     public String getOrganizerContact() {
         return organizerContact;
+    }
+
+
+    public int getPublicity() {
+        return publicity;
+    }
+
+    public BillingAcount getBillingAccount() {
+        return billingAccount;
+    }
+
+    private static String encodeListToJsonArray(List<TicketType> ticketTypes) {
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            for (TicketType ticketType : ticketTypes) {
+                jsonArray.put(ticketType.toJSONString());
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonArray.toString();
+    }
+
+    private static RealmList<TicketType> decodeListFromJsonArray(String text) {
+        try {
+            JSONArray jsonArray = new JSONArray(text);
+            RealmList<TicketType> realmList = new RealmList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                realmList.add(TicketType.fromJson(jsonArray.getString(i)));
+            }
+            return realmList;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Event create(@NonNull ParseObject obj) {
+        Event event = new Event(obj.getObjectId(),
+                obj.getString("createdBy"),
+                obj.getString("name"),
+                obj.getString("flyers"),
+                obj.getString("description"),
+                Venue.fromJson(obj.getString("venue")),
+                obj.getLong("startDate"),
+                obj.getLong("endDate"),
+                obj.getUpdatedAt().getTime(),
+                obj.getCreatedAt().getTime(),
+                obj.getInt("publicity"),
+                obj.getInt("likes"),
+                obj.getInt("going"),
+                BillingAcount.fromJson(obj.getString("billingAccount")),
+                obj.getInt("category")
+        );
+        event.setTicketTypes(decodeListFromJsonArray(obj.getString("ticketTypes")));
+        event.setOrganizerContact(obj.getString("organizerContact"));
+        event.setWebLink(obj.getString("webLink"));
+        return event;
     }
 }

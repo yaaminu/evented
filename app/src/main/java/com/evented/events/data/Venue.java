@@ -3,6 +3,9 @@ package com.evented.events.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 
 /**
@@ -73,5 +76,27 @@ public class Venue extends RealmObject implements Parcelable {
         parcel.writeString(address);
         parcel.writeDouble(latitude);
         parcel.writeDouble(longitude);
+    }
+
+    public String toJsonString() {
+        try {
+            return new JSONObject().put("name", getName())
+                    .put("address", getAddress())
+                    .put("latitude", getLatitude())
+                    .put("longitude", getLongitude()).toString();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Venue fromJson(String text) {
+        try {
+            JSONObject json = new JSONObject(text);
+            return new Venue(json.getString("name"),
+                    json.getString("address"), json.getDouble("latitude"),
+                    json.getDouble("longitude"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

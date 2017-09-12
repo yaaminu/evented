@@ -21,7 +21,6 @@ import net.glxn.qrgen.core.exception.QRGenerationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
 import rx.exceptions.Exceptions;
+import rx.functions.Func1;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -149,29 +149,21 @@ public class EventManager {
     }
 
     public rx.Observable<Event> createEvent(final Event event) {
-        return rx.Observable.create(new rx.Observable.OnSubscribe<Event>() {
-            @Override
-            public void call(Subscriber<? super Event> subscriber) {
-                subscriber.onStart();
-                SystemClock.sleep(5000);
-                GenericUtils.assertThat(usermanager.getCurrentUser() != null, "no user logged in");
-                // TODO: 8/9/17 validate event
-                event.setCreatedBy(usermanager.getCurrentUser().userId);
-                event.setEventId("ldjafoiafalkf");
-                final long dateCreated = System.currentTimeMillis();
-                event.setDateCreated(dateCreated);
-                event.setDateUpdated(dateCreated);
-                event.setLikes(Math.abs(new SecureRandom().nextInt()) % 100);
-                event.setLiked(true);
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                Event tmp = realm.copyFromRealm(realm.copyToRealmOrUpdate(event));
-                realm.commitTransaction();
-                realm.close();
-                subscriber.onNext(tmp);
-                subscriber.onCompleted();
-            }
-        });
+        // TODO: 8/9/17 validate event
+
+        return ParseBackend.getInstance()
+                .createEvent(event)
+                .map(new Func1<Event, Event>() {
+                    @Override
+                    public Event call(Event event) {
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        Event tmp = realm.copyFromRealm(realm.copyToRealmOrUpdate(event));
+                        realm.commitTransaction();
+                        realm.close();
+                        return tmp;
+                    }
+                });
     }
 
     public Observable<String> verifyNumber(final String eventName, final String phoneNumber) {

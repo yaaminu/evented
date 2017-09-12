@@ -10,6 +10,7 @@ import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
 import com.evented.events.data.UserManager;
+import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,7 +25,6 @@ public class CreateEventActivity extends AppCompatActivity {
     private final CreateEventFragment1 createEventFragment1 = new CreateEventFragment1();
     private final CreateEventFragment2 createEventFragment2 = new CreateEventFragment2();
     private final CreateEventFragment3 createEventFragment3 = new CreateEventFragment3();
-    private final CreateEventFragment3 createEventFragment31 = new CreateEventFragment3();
 
     private int stage = 0;
     private ProgressDialog dialog;
@@ -49,6 +49,7 @@ public class CreateEventActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setMessage("Creating event, Please wait");
+        next();
     }
 
     @Override
@@ -58,19 +59,15 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        next();
-    }
 
     private void next() {
-        if (stage == 3) {
+        if (stage >= 3) {
             createEvent();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, getFragment(stage))
+                    .addToBackStack("createEvent")
                     .commit();
         }
     }
@@ -83,6 +80,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 .subscribe(new Action1<Event>() {
                     @Override
                     public void call(Event event) {
+                        stage = 0;
                         dialog.dismiss();
                         PLog.d(TAG, "event: %s", event);
                         Snackbar.make(getWindow().getDecorView(), event.toString(), Snackbar.LENGTH_LONG)
@@ -93,7 +91,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     @Override
                     public void call(Throwable throwable) {
                         dialog.dismiss();
-                        Snackbar.make(getWindow().getDecorView(), throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+                        GenericUtils.showDialog(CreateEventActivity.this, throwable.getMessage());
                     }
                 });
     }
@@ -107,7 +105,7 @@ public class CreateEventActivity extends AppCompatActivity {
             case 2:
                 return createEventFragment3;
             default:
-                return createEventFragment31;
+                throw new AssertionError();
         }
     }
 
