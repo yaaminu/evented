@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 import com.evented.events.ui.BaseFragment;
 import com.evented.utils.ViewUtils;
 
@@ -58,7 +57,7 @@ public class SimpleEventListFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        subscription = EventManager.create(UserManager.getInstance())
+        subscription = EventManager.create()
                 .loadEventsForCurrentUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 
@@ -36,7 +35,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventManager = EventManager.create(UserManager.getInstance());
+        eventManager = EventManager.create();
 
         setContentView(R.layout.activity_create_event);
         if (savedInstanceState != null) {

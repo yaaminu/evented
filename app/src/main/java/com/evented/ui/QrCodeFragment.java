@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.evented.R;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 import com.evented.events.ui.BaseFragment;
 import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
@@ -97,7 +96,7 @@ public class QrCodeFragment extends BaseFragment implements QRCodeReaderView.OnQ
     public void onQRCodeRead(final String text, PointF[] points) {
         ViewUtils.showViews(progressBar);
 
-        EventManager.create(UserManager.getInstance())
+        EventManager.create()
                 .fromQrCodeText(callbacks.getEvent().getEventId(), text)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,7 +30,7 @@ class EventListItemHolder extends RecyclerViewBaseAdapter.Holder {
     @BindView(R.id.tv_going)
     TextView going;
 
-    static final EventManager eventManager = EventManager.create(UserManager.getInstance());
+    static final EventManager eventManager = EventManager.create();
 
     public EventListItemHolder(View v) {
         super(v);

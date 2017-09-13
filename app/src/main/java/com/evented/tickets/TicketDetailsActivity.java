@@ -29,7 +29,6 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.TaskManager;
@@ -86,7 +85,7 @@ public class TicketDetailsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        eventManager = EventManager.create(UserManager.getInstance());
+        eventManager = EventManager.create();
         setContentView(R.layout.activity_ticket_details);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

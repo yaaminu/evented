@@ -19,7 +19,6 @@ import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
 import com.evented.events.data.TicketType;
-import com.evented.events.data.UserManager;
 import com.evented.tickets.Ticket;
 import com.evented.tickets.TicketDetailsActivity;
 import com.evented.utils.GenericUtils;
@@ -76,7 +75,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         if (savedInstanceState != null) {
             stage = savedInstanceState.getInt("stage", 0);
         }
-        eventManager = EventManager.create(UserManager.getInstance());
+        eventManager = EventManager.create();
         realm = Realm.getDefaultInstance();
         String eventId = getArguments().getString(ARG_EVENT_ID);
         event = realm.where(Event.class)
@@ -167,8 +166,8 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         dialog.show();
         final TicketType ticketType = (TicketType) spTicketTypes.getSelectedItem();
         eventManager
-                .bookTicket(event.getEventId(), event.getName()
-                        , billingPhoneNumber, buyFor,
+                .bookTicket(event.getEventId(),
+                        billingPhoneNumber, buyFor,
                         ticketType.getCost(),
                         et_verification.getText().toString(), ticketType.getName())
                 .subscribeOn(Schedulers.io())

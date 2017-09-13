@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.events.data.EventManager;
-import com.evented.events.data.UserManager;
 import com.evented.events.ui.BaseFragment;
 import com.evented.events.ui.HomeScreenEventsAdapter;
 import com.evented.events.ui.HomeScreenItemAdapter;
@@ -73,7 +72,7 @@ public class HomeScreenEventsListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         loadingEvents = true;
-        subscription = EventManager.create(UserManager.getInstance())
+        subscription = EventManager.create()
                 .loadEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

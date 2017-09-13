@@ -39,18 +39,10 @@ import static io.realm.Realm.getDefaultInstance;
 public class EventManager {
     private static final String TAG = "EventManager";
 
-    private static int ticketNumber = 0;
-    @NonNull
-    private final UserManager usermanager;
-
     static final Map<String, Integer> verificationMap = new HashMap<>();
 
-    private EventManager(@NonNull UserManager manager) {
-        this.usermanager = manager;
-    }
-
-    public static EventManager create(@NonNull UserManager usermanager) {
-        return new EventManager(usermanager);
+    public static EventManager create() {
+        return new EventManager();
     }
 
     public Observable<byte[]> qrCode(@NonNull final Ticket ticket) {
@@ -220,7 +212,7 @@ public class EventManager {
         });
     }
 
-    public Observable<Ticket> bookTicket(final String eventId, final String eventName,
+    public Observable<Ticket> bookTicket(final String eventId,
                                          final String billingPhoneNumber, final String buyForNumber,
                                          final long cost,
                                          final String verificationCode, final String ticketType) {
