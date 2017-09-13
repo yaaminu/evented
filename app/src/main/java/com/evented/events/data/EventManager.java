@@ -1,10 +1,12 @@
 package com.evented.events.data;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
+import com.evented.utils.Config;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
@@ -237,6 +239,7 @@ public class EventManager {
 
     public void toggleLikedAsync(final String eventId) {
         Observable.from(execute(new Callable<Pair<String, Boolean>>() {
+            @SuppressLint("ApplySharedPref")
             @Override
             public Pair<String, Boolean> call() {
                 likeLock.acquireUninterruptibly();
@@ -254,6 +257,10 @@ public class EventManager {
                     realm.commitTransaction();
                     //like is negated because it's the original like status of the event
                     //that we are interested in
+                    Config.getPreferences(Event.EVENT_LIKES_PREFS)
+                            .edit()
+                            .putBoolean(event.getEventId() + Event.EVENT_LIKE_PREF_SUFFIX, event.isLiked())
+                            .commit();
                     return Pair.create(event.getEventId(), !liked);
                 } finally {
                     realm.close();
@@ -271,8 +278,13 @@ public class EventManager {
                         likeLock.release();
                     }
                 }, new Action1<Throwable>() {
+                    @SuppressLint("ApplySharedPref")
                     @Override
                     public void call(Throwable throwable) {
+                        Config.getPreferences(Event.EVENT_LIKES_PREFS)
+                                .edit()
+                                .remove(eventId + Event.EVENT_LIKE_PREF_SUFFIX)
+                                .commit();
                         likeLock.release();
                         PLog.d(TAG, "failed");
                         //unliike

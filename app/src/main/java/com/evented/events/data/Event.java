@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.evented.utils.Config;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
@@ -38,6 +39,8 @@ public class Event extends RealmObject implements Parcelable {
 
 
     public static final String CLASS_NAME = "event";
+    public static final String EVENT_LIKES_PREFS = "event.likes.prefs";
+    public static final String EVENT_LIKE_PREF_SUFFIX = ".likes";
 
     @PrimaryKey
     private String eventId;
@@ -352,7 +355,7 @@ public class Event extends RealmObject implements Parcelable {
         }
     }
 
-    public static Event create(@NonNull ParseObject obj) {
+    public static Event create(@NonNull ParseObject obj, @NonNull String currentUserId) {
         Event event = new Event(obj.getObjectId(),
                 obj.getString("createdBy"),
                 obj.getString("name"),
@@ -369,6 +372,9 @@ public class Event extends RealmObject implements Parcelable {
                 BillingAcount.fromJson(obj.getString("billingAccount")),
                 obj.getInt("category")
         );
+        event.setLiked(Config.getPreferences(EVENT_LIKES_PREFS)
+                .getBoolean(obj.getObjectId() + EVENT_LIKE_PREF_SUFFIX,
+                        false));
         event.setTicketTypes(decodeListFromJsonArray(obj.getString("ticketTypes")));
         event.setOrganizerContact(obj.getString("organizerContact"));
         event.setWebLink(obj.getString("webLink"));

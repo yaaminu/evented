@@ -62,9 +62,17 @@ public class ParseBackend {
                 .map(new Func1<ParseObject, Event>() {
                     @Override
                     public Event call(ParseObject parseObject) {
-                        return Event.create(parseObject);
+                        return Event.create(parseObject, getCurrentUserIdMayThrow());
                     }
                 });
+    }
+
+    @NonNull
+    private String getCurrentUserIdMayThrow() {
+        final User currentUser = getCurrentUser();
+        GenericUtils.ensureNotNull(currentUser);
+        assert currentUser != null;
+        return currentUser.userId;
     }
 
     public Observable<List<Event>> loadEvents(boolean loadOurs) {
@@ -77,7 +85,7 @@ public class ParseBackend {
                         }
                         List<Event> events = new ArrayList<>(parseObjects.size());
                         for (ParseObject parseObject : parseObjects) {
-                            events.add(Event.create(parseObject));
+                            events.add(Event.create(parseObject, getCurrentUserIdMayThrow()));
                         }
                         return events;
                     }
@@ -334,7 +342,7 @@ public class ParseBackend {
                 .map(new Func1<ParseObject, Event>() {
                     @Override
                     public Event call(ParseObject parseObject) {
-                        return Event.create(parseObject);
+                        return Event.create(parseObject, getCurrentUserIdMayThrow());
                     }
                 });
     }
