@@ -241,7 +241,7 @@ public class EventManager {
 
     }
 
-    public void toggleLikedAsyn(final String eventId) {
+    public void toggleLikedAsync(final String eventId) {
         TaskManager.executeNow(new Runnable() {
             @Override
             public void run() {

@@ -40,7 +40,7 @@ class EventListItemHolder extends RecyclerViewBaseAdapter.Holder {
     void onClick(View view) {
         if (view.getId() == R.id.tv_likes) {
             eventManager
-                    .toggleLikedAsyn(((String) view.getTag()));
+                    .toggleLikedAsync(((String) view.getTag()));
         } else {
             itemView.performClick();
         }
