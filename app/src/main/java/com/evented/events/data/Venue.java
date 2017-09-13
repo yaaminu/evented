@@ -93,8 +93,10 @@ public class Venue extends RealmObject implements Parcelable {
         try {
             JSONObject json = new JSONObject(text);
             return new Venue(json.getString("name"),
-                    json.getString("address"), json.getDouble("latitude"),
-                    json.getDouble("longitude"));
+                    json.getString("address"),
+                    json.getDouble("longitude"),
+                    json.getDouble("latitude")
+            );
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
