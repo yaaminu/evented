@@ -68,10 +68,13 @@ public class CreateEventFragment2 extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        et_event_name.setText(((CreateEventActivity) getActivity()).getEvent().getName());
-        loadImage(((CreateEventActivity) getActivity())
-                        .getEvent().getFlyers(), getResources().getDisplayMetrics().widthPixels,
-                getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
+        final Event event = ((CreateEventActivity) getActivity())
+                .getEvent();
+        et_event_name.setText(event.getName());
+        if (event.getFlyers().length > 0) {
+            loadImage(event.getFlyers()[0], getResources().getDisplayMetrics().widthPixels,
+                    getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
+        }
     }
 
 

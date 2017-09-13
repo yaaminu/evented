@@ -8,6 +8,7 @@ import android.telephony.SmsManager;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
+import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
@@ -16,12 +17,14 @@ import com.evented.utils.ThreadUtils;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,7 +46,21 @@ public class ParseBackend {
     private static final String TAG = "ParseBackend";
 
     public Observable<Event> createEvent(final Event event) {
-        return Observable.just(event)
+        return Observable.from(TaskManager.execute(new Callable<Event>() {
+            @Override
+            public Event call() throws Exception {
+                final String[] eventFlyers = event.getFlyers();
+                event.setFlyer(null);
+                for (String flyerPath : eventFlyers) {
+                    if (new File(flyerPath).exists()) {
+                        ParseFile parseFile = new ParseFile(new File(flyerPath), FileUtils.getMimeType(flyerPath));
+                        parseFile.save();
+                        event.addFlyer(parseFile.getUrl());
+                    }
+                }
+                return event;
+            }
+        }, true))
                 .map(new Func1<Event, ParseObject>() {
                     @Override
                     public ParseObject call(Event event) {
@@ -62,18 +79,11 @@ public class ParseBackend {
                 .map(new Func1<ParseObject, Event>() {
                     @Override
                     public Event call(ParseObject parseObject) {
-                        return Event.create(parseObject, getCurrentUserIdMayThrow());
+                        return Event.create(parseObject);
                     }
                 });
     }
 
-    @NonNull
-    private String getCurrentUserIdMayThrow() {
-        final User currentUser = getCurrentUser();
-        GenericUtils.ensureNotNull(currentUser);
-        assert currentUser != null;
-        return currentUser.userId;
-    }
 
     public Observable<List<Event>> loadEvents(boolean loadOurs) {
         return fetchEventsFromServer(loadOurs)
@@ -85,7 +95,7 @@ public class ParseBackend {
                         }
                         List<Event> events = new ArrayList<>(parseObjects.size());
                         for (ParseObject parseObject : parseObjects) {
-                            events.add(Event.create(parseObject, getCurrentUserIdMayThrow()));
+                            events.add(Event.create(parseObject));
                         }
                         return events;
                     }
@@ -342,7 +352,7 @@ public class ParseBackend {
                 .map(new Func1<ParseObject, Event>() {
                     @Override
                     public Event call(ParseObject parseObject) {
-                        return Event.create(parseObject, getCurrentUserIdMayThrow());
+                        return Event.create(parseObject);
                     }
                 });
     }

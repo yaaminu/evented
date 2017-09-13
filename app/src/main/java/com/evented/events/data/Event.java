@@ -3,8 +3,10 @@ package com.evented.events.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.evented.utils.Config;
+import com.evented.utils.GenericUtils;
 import com.parse.ParseObject;
 
 import org.json.JSONArray;
@@ -41,6 +43,7 @@ public class Event extends RealmObject implements Parcelable {
     public static final String CLASS_NAME = "event";
     public static final String EVENT_LIKES_PREFS = "event.likes.prefs";
     public static final String EVENT_LIKE_PREF_SUFFIX = ".likes";
+    public static final String FLYER_SEPARATOR = "\\Q?:?\\E";
 
     @PrimaryKey
     private String eventId;
@@ -177,12 +180,24 @@ public class Event extends RealmObject implements Parcelable {
         this.name = name;
     }
 
-    public String getFlyers() {
-        return flyers;
+    @NonNull
+    public String[] getFlyers() {
+        return flyers == null ? new String[0] : flyers.split(FLYER_SEPARATOR);
     }
 
-    public void setFlyers(String flyers) {
-        this.flyers = flyers;
+    /**
+     * add a flyer to this event. The flyer must not contain the character
+     * ":"
+     *
+     * @param flyer the flyer, may not contain ":" and may not be null
+     */
+    public void addFlyer(@NonNull String flyer) {
+        GenericUtils.assertThat(!flyer.contains(FLYER_SEPARATOR));
+        if (this.flyers == null) {
+            this.flyers = flyer;
+        } else {
+            this.flyers = this.flyers + FLYER_SEPARATOR + flyer;
+        }
     }
 
     public String getDescription() {
@@ -355,7 +370,7 @@ public class Event extends RealmObject implements Parcelable {
         }
     }
 
-    public static Event create(@NonNull ParseObject obj, @NonNull String currentUserId) {
+    public static Event create(@NonNull ParseObject obj) {
         Event event = new Event(obj.getObjectId(),
                 obj.getString("createdBy"),
                 obj.getString("name"),
@@ -379,5 +394,14 @@ public class Event extends RealmObject implements Parcelable {
         event.setOrganizerContact(obj.getString("organizerContact"));
         event.setWebLink(obj.getString("webLink"));
         return event;
+    }
+
+    public void setFlyer(@Nullable String flyer) {
+        if (flyer == null) {
+            this.flyers = null;
+            return;
+        }
+        GenericUtils.assertThat(!flyer.contains(FLYER_SEPARATOR));
+        this.flyers = flyer;
     }
 }

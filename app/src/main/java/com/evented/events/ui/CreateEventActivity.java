@@ -68,10 +68,17 @@ public class CreateEventActivity extends AppCompatActivity {
                     .beginTransaction();
             fragmentTransaction
                     .replace(R.id.container, getFragment(stage));
-            if (stage >= 1) {
-                fragmentTransaction.addToBackStack("createEvent");
-            }
             fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (stage >= 1) {
+            stage--;
+            next();
+        } else {
+            super.onBackPressed();
         }
     }
 

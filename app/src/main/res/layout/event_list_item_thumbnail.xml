@@ -15,13 +15,30 @@
         android:focusable="true"
         app:columnCount="2">
 
-        <ImageView
-            android:id="@+id/iv_event_flyer"
+        <FrameLayout
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1">
+
+            <ImageView
+                android:id="@+id/iv_event_flyer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/home_screen_item_flyer_height"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/flyer"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/place_holder_image_background" />
+
+            <ProgressBar
+                android:id="@+id/image_loading_progress"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/home_screen_item_flyer_height"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/flyer"
-            android:scaleType="centerCrop"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"
             app:layout_columnSpan="2"
             app:layout_columnWeight="1" />
 

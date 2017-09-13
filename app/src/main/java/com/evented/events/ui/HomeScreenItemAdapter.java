@@ -4,12 +4,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.RecyclerViewBaseAdapter;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.ViewUtils;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,13 +41,27 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
     }
 
     @Override
-    protected void doBindHolder(com.evented.events.ui.Holder holder, int position) {
+    protected void doBindHolder(final com.evented.events.ui.Holder holder, int position) {
         Event item = getItem(position);
         holder.eventName.setText(item.getName());
         holder.location.setText(item.getVenue().getName());
         thatDay.setTimeInMillis(item.getStartDate());
         holder.startTime.setText(GenericUtils.formatDateTime(delegate.context(), today, thatDay));
-        holder.flyer.setImageDrawable(drawables.get(position % drawables.size()));
+        ViewUtils.showViews(holder.progressBar);
+        if (item.getFlyers().length > 0) {
+            Picasso.with(delegate.context())
+                    .load(item.getFlyers()[0])
+                    .into(holder.flyer, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            ViewUtils.hideViews(holder.progressBar);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
+        }
     }
 
     @Override
@@ -64,6 +82,8 @@ class Holder extends RecyclerViewBaseAdapter.Holder {
     TextView startTime;
     @BindView(R.id.iv_event_flyer)
     ImageView flyer;
+    @BindView(R.id.image_loading_progress)
+    ProgressBar progressBar;
 
     public Holder(View v) {
         super(v);

@@ -92,8 +92,8 @@ public class CreateEventFragment1 extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Event event = ((CreateEventActivity) getActivity()).getEvent();
-        if (event != null && event.getFlyers() != null) {
-            loadImageAsync(event.getFlyers(), getResources().getDisplayMetrics().widthPixels,
+        if (event != null && event.getFlyers().length > 0) {
+            loadImageAsync(event.getFlyers()[0], getResources().getDisplayMetrics().widthPixels,
                     getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
         }
     }
@@ -172,7 +172,7 @@ public class CreateEventFragment1 extends BaseFragment {
         } else if (requestCode == PICK_FLYER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             String path = FileUtils.resolveContentUriToFilePath(uri);
-            ((CreateEventActivity) getActivity()).getEvent().setFlyers(path);
+            ((CreateEventActivity) getActivity()).getEvent().setFlyer(path);
             loadImageAsync(path, getResources().getDisplayMetrics().widthPixels, getResources().getDimensionPixelSize(R.dimen.add_flyer_height));
         } else {
             super.onActivityResult(requestCode, resultCode, data);
