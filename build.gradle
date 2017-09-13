@@ -3,7 +3,7 @@
 buildscript {
     ext {
         kotlin_version = '1.1.3-2'
-        server_url = project.getProperties().get("server", "\"http://192.168.43.5:8080\"")
+        server_url = project.getProperties().get("server", "\"https://evented-app.herokuapp.com/api/\"")
         app_id = project.getProperties().get("app_id", "\"8rRIZo9dfTmTQ76ZZ8WHmoNejWiAEMJ7y7Bq6531ZpOD5mR9NSXrAm9mBF2lb76O\"")
     }
     repositories {
