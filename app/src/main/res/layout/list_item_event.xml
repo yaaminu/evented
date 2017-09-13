@@ -33,15 +33,26 @@
             tools:ignore="RtlHardcoded"
             tools:text="Independence square" />
 
-        <ImageView
-            android:id="@+id/iv_event_flyer"
-            android:layout_height="@dimen/list_item_flyer_height"
-            android:layout_marginBottom="@dimen/default_gap"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/flyer20"
+        <FrameLayout
             app:layout_columnSpan="3"
-            app:layout_columnWeight="1" />
+            app:layout_columnWeight="1">
+
+            <ImageView
+                android:id="@+id/iv_event_flyer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_item_flyer_height"
+                android:layout_marginBottom="@dimen/default_gap"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/flyer"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/place_holder_image_background" />
+
+            <ProgressBar
+                android:id="@+id/image_loading_progress"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_description"

@@ -10,8 +10,14 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/flyer"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         tools:src="@drawable/flyer2" />
+
+    <ProgressBar
+        android:id="@+id/image_loading_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/tv_event_name"

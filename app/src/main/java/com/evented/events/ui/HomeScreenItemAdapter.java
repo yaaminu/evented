@@ -48,9 +48,12 @@ public class HomeScreenItemAdapter extends RecyclerViewBaseAdapter<Event, Holder
         thatDay.setTimeInMillis(item.getStartDate());
         holder.startTime.setText(GenericUtils.formatDateTime(delegate.context(), today, thatDay));
         ViewUtils.showViews(holder.progressBar);
+
         if (item.getFlyers().length > 0) {
             Picasso.with(delegate.context())
                     .load(item.getFlyers()[0])
+                    .placeholder(R.drawable.place_holder_image_background)
+                    .error(R.drawable.place_holder_image_background)
                     .into(holder.flyer, new Callback() {
                         @Override
                         public void onSuccess() {

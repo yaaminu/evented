@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,9 @@ import com.evented.R;
 import com.evented.events.data.Event;
 import com.evented.ui.EventDetailsActivity;
 import com.evented.utils.GenericUtils;
+import com.evented.utils.ViewUtils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +40,7 @@ import io.realm.RealmChangeListener;
  * Created by yaaminu on 8/8/17.
  */
 
-public class EventDetailsFragment extends BaseFragment {
+public class EventDetailsFragment extends BaseFragment implements Target {
 
 
     @Override
@@ -69,6 +74,9 @@ public class EventDetailsFragment extends BaseFragment {
 
     @BindView(R.id.tv_likes)
     TextView tv_likes;
+    @BindView(R.id.image_loading_progress)
+    ProgressBar progressBar;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,18 +105,19 @@ public class EventDetailsFragment extends BaseFragment {
         });
 
         event.addChangeListener(changeListener);
-        final Bitmap image = GenericUtils.getImage(getContext());
-        iv_event_flyer.setImageBitmap(image);
-        Palette palette = Palette.from(image)
-                .generate();
-        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark)));
-//        collapsingToolbarLayout.setBackgroundColor();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getActivity().getWindow().setStatusBarColor(palette.getVibrantColor(ContextCompat.getColor(getContext(),
-                    R.color.colorPrimaryDark)));
-        }
+        iv_event_flyer.setImageResource(R.drawable.place_holder_image_background);
     }
 
+
+    private void loadImage() {
+        if (event.getFlyers().length > 0) {
+            Picasso.with(getContext())
+                    .load(event.getFlyers()[0])
+                    .placeholder(R.drawable.place_holder_image_background)
+                    .error(R.drawable.place_holder_image_background)
+                    .into(this);
+        }
+    }
 
     @Override
     public void onDestroyView() {
@@ -199,6 +208,7 @@ public class EventDetailsFragment extends BaseFragment {
             tv_likes.setCompoundDrawablesWithIntrinsicBounds(
                     event.isLiked() ? R.drawable.ic_favorite_black_fill_24dp : R.drawable.ic_favorite_border_black_24dp, 0, 0, 0
             );
+            loadImage();
         }
     };
 
@@ -208,4 +218,26 @@ public class EventDetailsFragment extends BaseFragment {
         Toast.makeText(getContext(), "Showing image", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBitmapLoaded(Bitmap image, Picasso.LoadedFrom from) {
+        iv_event_flyer.setImageBitmap(image);
+        ViewUtils.hideViews(progressBar);
+        Palette palette = Palette.from(image)
+                .generate();
+        collapsingToolbarLayout.setContentScrimColor(palette.getVibrantColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(palette.getVibrantColor(ContextCompat.getColor(getContext(),
+                    R.color.colorPrimaryDark)));
+        }
+    }
+
+    @Override
+    public void onBitmapFailed(Drawable errorDrawable) {
+        iv_event_flyer.setImageDrawable(errorDrawable);
+    }
+
+    @Override
+    public void onPrepareLoad(Drawable placeHolderDrawable) {
+        iv_event_flyer.setImageDrawable(placeHolderDrawable);
+    }
 }

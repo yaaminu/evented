@@ -26,17 +26,27 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Headline.hidden"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <ImageView
-                android:id="@+id/iv_event_flyer"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/flyer"
                 android:fitsSystemWindows="true"
-                android:minHeight="250dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/flyer18"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/iv_event_flyer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/flyer"
+                    android:minHeight="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/flyer18" />
+
+                <ProgressBar
+                    android:id="@+id/image_loading_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

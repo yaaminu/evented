@@ -2,6 +2,7 @@ package com.evented.ui;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.evented.R;
@@ -29,6 +30,9 @@ class EventListItemHolder extends RecyclerViewBaseAdapter.Holder {
     ImageView flyer;
     @BindView(R.id.tv_going)
     TextView going;
+
+    @BindView(R.id.image_loading_progress)
+    ProgressBar progressBar;
 
     static final EventManager eventManager = EventManager.create();
 
