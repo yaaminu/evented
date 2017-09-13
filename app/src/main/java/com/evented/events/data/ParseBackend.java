@@ -11,6 +11,7 @@ import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
+import com.evented.utils.TaskManager;
 import com.evented.utils.ThreadUtils;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.parse.ParseCloud;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -109,7 +111,7 @@ public class ParseBackend {
 
     public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber,
                                          final String buyForNumber, final long cost, final String verificationCode,
-                                         final String ticketType) {
+                                         final String ticketType, final String trackingId) {
 
         return Observable.create(new Observable.OnSubscribe<ParseObject>() {
             @Override
@@ -120,6 +122,7 @@ public class ParseBackend {
                 params.put("billingPhoneNumber", billingPhoneNumber);
                 params.put("buyForNumber", buyForNumber);
                 params.put("ticketCost", cost);
+                params.put("trackingId", trackingId);
                 params.put("verificationCode", verificationCode);
                 params.put("ticketType", ticketType);
                 try {
@@ -138,6 +141,22 @@ public class ParseBackend {
                 return Ticket.create(parseObject);
             }
         });
+    }
+
+    public Observable<String> sendVerificationCode(final String eventId, final String billingPhoneNumber) {
+        return Observable.from(TaskManager.execute(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                try {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("eventId", eventId);
+                    params.put("billingPhoneNumber", billingPhoneNumber);
+                    return ParseCloud.callFunction("verifyNumber", params);
+                } catch (ParseException e) {
+                    throw Exceptions.propagate(e);
+                }
+            }
+        }, true));
     }
 
 

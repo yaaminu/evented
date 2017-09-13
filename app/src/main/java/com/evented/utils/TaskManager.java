@@ -77,7 +77,7 @@ public class TaskManager {
     }
 
     @NonNull
-    public static Future<?> execute(Callable<?> task, boolean requiresNetwork) {
+    public static <T> Future<T> execute(Callable<T> task, boolean requiresNetwork) {
         if (requiresNetwork) {
             return NETWORK_EXECUTOR.submit(task);
         } else {

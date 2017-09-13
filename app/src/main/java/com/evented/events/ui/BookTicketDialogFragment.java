@@ -66,6 +66,9 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
     int stage = 0;
     private ProgressDialog dialog;
 
+    @Nullable
+    private String trackingId;
+
     @BindView(R.id.ticket_type_parent)
     View ticketTypeRootLayout;
 
@@ -74,6 +77,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             stage = savedInstanceState.getInt("stage", 0);
+            trackingId = savedInstanceState.getString("trackingId", null);
         }
         eventManager = EventManager.create();
         realm = Realm.getDefaultInstance();
@@ -87,6 +91,9 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt("stage", stage);
+        if (trackingId != null) {
+            outState.putString("trackingId", trackingId);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -132,12 +139,14 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
         if (stage == 0) {
             dialog.setMessage(getString(R.string.initialising_transaction));
             dialog.show();
-            eventManager.verifyNumber(event.getName(), billing_account_number.getText().toString().trim())
+            eventManager.verifyNumber(event.getEventId(), billing_account_number.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<String>() {
                         @Override
-                        public void call(String s) {
+                        public void call(String trackingId) {
+                            GenericUtils.ensureNotEmpty(trackingId);
+                            BookTicketDialogFragment.this.trackingId = trackingId;
                             dialog.dismiss();
                             ViewUtils.hideViews(book_ticket_root_layout, ticketTypeRootLayout);
                             tv_instruction.setText(getString(R.string.verification_instruaction));
@@ -160,6 +169,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
     }
 
     private void completeBooking() {
+        GenericUtils.ensureNotEmpty(trackingId);
         String billingPhoneNumber = billing_account_number.getText().toString().trim(),
                 buyFor = buy_for.getText().toString().trim();
         dialog.setMessage(getString(R.string.booking_ticket));
@@ -169,7 +179,8 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 .bookTicket(event.getEventId(),
                         billingPhoneNumber, buyFor,
                         ticketType.getCost(),
-                        et_verification.getText().toString(), ticketType.getName())
+                        et_verification.getText().toString(),
+                        ticketType.getName(), trackingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Ticket>() {
@@ -217,7 +228,7 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 return false;
             }
 
-            if (et_verification.getText().toString().trim().length() != 4) {
+            if (et_verification.getText().toString().trim().length() != 5) {
                 showDialog(getString(R.string.invalid_verification_code));
                 et_verification.setError("");
                 return false;

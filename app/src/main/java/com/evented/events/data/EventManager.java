@@ -1,8 +1,6 @@
 package com.evented.events.data;
 
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.telephony.SmsManager;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
@@ -10,7 +8,6 @@ import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
 import com.evented.utils.TaskManager;
-import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
@@ -23,6 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import io.realm.Realm;
 import rx.Observable;
@@ -187,27 +185,16 @@ public class EventManager {
                 });
     }
 
-    public Observable<String> verifyNumber(final String eventName, final String phoneNumber) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
+    public Observable<String> verifyNumber(final String eventId, final String phoneNumber) {
+        return Observable.from(TaskManager.execute(new Callable<String>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
-                // TODO: 8/10/17 send a real sms and store the number
-                subscriber.onStart();
-
-                String message = "You wanted to buy ticket for   " + eventName + ". Use code 12345 to verify your phone number";
-                try {
-                    SmsManager.getDefault()
-                            .sendTextMessage(PhoneNumberNormaliser.toIEE(phoneNumber, "GH"),
-                                    null, message, null, null);
-                } catch (NumberParseException e) {
-                    subscriber.onError(e);
-                    return;
-                } catch (SecurityException e) {
-
-                }
-                SystemClock.sleep(3000);
-                subscriber.onNext(phoneNumber);
-                subscriber.onCompleted();
+            public String call() throws Exception {
+                return PhoneNumberNormaliser.toIEE(phoneNumber, "GH");
+            }
+        }, false)).flatMap(new Func1<String, Observable<String>>() {
+            @Override
+            public Observable<String> call(String phoneNumber) {
+                return ParseBackend.getInstance().sendVerificationCode(eventId, phoneNumber);
             }
         });
     }
@@ -215,9 +202,10 @@ public class EventManager {
     public Observable<Ticket> bookTicket(final String eventId,
                                          final String billingPhoneNumber, final String buyForNumber,
                                          final long cost,
-                                         final String verificationCode, final String ticketType) {
+                                         final String verificationCode, final String ticketType,
+                                         final String trackingId) {
         return ParseBackend.getInstance()
-                .bookTicket(eventId, billingPhoneNumber, buyForNumber, cost, verificationCode, ticketType)
+                .bookTicket(eventId, billingPhoneNumber, buyForNumber, cost, verificationCode, ticketType, trackingId)
                 .map(new Func1<Ticket, Ticket>() {
                     @Override
                     public Ticket call(Ticket ticket) {
