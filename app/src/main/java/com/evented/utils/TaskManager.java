@@ -102,7 +102,7 @@ public class TaskManager {
         }
     }
 
-    public static Future<?> executeNow(Callable<?> callable, boolean requiresNetwork) {
+    public static <T> Future<T> executeNow(Callable<T> callable, boolean requiresNetwork) {
         if (requiresNetwork) {
             return networkCachedThreadPool.submit(callable);
         } else {

@@ -319,4 +319,23 @@ public class ParseBackend {
             }
         });
     }
+
+    public Observable<Event> likeEvent(final String eventId, final boolean liked) {
+        return Observable.from(TaskManager.execute(new Callable<ParseObject>() {
+            @Override
+            public ParseObject call() throws Exception {
+                ParseObject parseObject = ParseQuery.getQuery(Event.CLASS_NAME)
+                        .get(eventId);
+                parseObject.increment("likes", liked ? -1 : 1);
+                parseObject.save();
+                return parseObject;
+            }
+        }, true))
+                .map(new Func1<ParseObject, Event>() {
+                    @Override
+                    public Event call(ParseObject parseObject) {
+                        return Event.create(parseObject);
+                    }
+                });
+    }
 }

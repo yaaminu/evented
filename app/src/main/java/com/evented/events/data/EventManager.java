@@ -1,13 +1,13 @@
 package com.evented.events.data;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
-import com.evented.utils.TaskManager;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
@@ -21,13 +21,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Semaphore;
 
 import io.realm.Realm;
 import rx.Observable;
 import rx.Subscriber;
 import rx.exceptions.Exceptions;
+import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
+import static com.evented.utils.TaskManager.execute;
 import static io.realm.Realm.getDefaultInstance;
 
 /**
@@ -186,7 +190,7 @@ public class EventManager {
     }
 
     public Observable<String> verifyNumber(final String eventId, final String phoneNumber) {
-        return Observable.from(TaskManager.execute(new Callable<String>() {
+        return Observable.from(execute(new Callable<String>() {
             @Override
             public String call() throws Exception {
                 return PhoneNumberNormaliser.toIEE(phoneNumber, "GH");
@@ -229,26 +233,51 @@ public class EventManager {
 
     }
 
+    private final Semaphore likeLock = new Semaphore(1, true);
+
     public void toggleLikedAsync(final String eventId) {
-        TaskManager.executeNow(new Runnable() {
+        Observable.from(execute(new Callable<Pair<String, Boolean>>() {
             @Override
-            public void run() {
+            public Pair<String, Boolean> call() {
+                likeLock.acquireUninterruptibly();
                 Realm realm = getDefaultInstance();
                 try {
                     Event event = realm.where(Event.class)
                             .equalTo(Event.FIELD_EVENT_ID, eventId)
                             .findFirst();
                     GenericUtils.ensureNotNull(event);
+                    GenericUtils.ensureNotNull(event);
                     final boolean liked = !event.isLiked();
                     realm.beginTransaction();
                     event.setLiked(liked);
                     event.setLikes(liked ? event.getLikes() + 1 : Math.max(0, event.getLikes() - 1));
                     realm.commitTransaction();
+                    //like is negated because it's the original like status of the event
+                    //that we are interested in
+                    return Pair.create(event.getEventId(), !liked);
                 } finally {
                     realm.close();
                 }
             }
-        }, true);
+        }, true)).flatMap(new Func1<Pair<String, Boolean>, Observable<Event>>() {
+            @Override
+            public Observable<Event> call(Pair<String, Boolean> event) {
+                return ParseBackend.getInstance().likeEvent(event.first, event.second);
+            }
+        }).subscribeOn(Schedulers.io())
+                .subscribe(new Action1<Event>() {
+                    @Override
+                    public void call(Event event) {
+                        likeLock.release();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        likeLock.release();
+                        PLog.d(TAG, "failed");
+                        //unliike
+                    }
+                });
     }
 
 }
