@@ -1,11 +1,14 @@
 package com.evented.events.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -142,12 +145,14 @@ public class EventDetailsFragment extends BaseFragment {
             if (event.getWebLink() != null) {
                 intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(event.getWebLink()));
-                startActivity(intent);
+                GenericUtils.open(getActivity(), intent);
             }
         } else if (i == R.id.contact_organiser) {
-            intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:" + event.getOrganizerContact().split(":")[0]));
-            startActivity(intent);
+            if (GenericUtils.hasPermission(this, true, 3001, Manifest.permission.CALL_PHONE)) {
+                intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + event.getOrganizerContact().split(":")[0]));
+                startActivity(intent);
+            }
         } else if (i == R.id.get_directions) {
             onLocationClicked();
         } else if (i == R.id.book_ticket) {
@@ -161,6 +166,24 @@ public class EventDetailsFragment extends BaseFragment {
     public void onDestroy() {
         realm.close();
         super.onDestroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 3001 && GenericUtils.wasPermissionGranted(permissions, grantResults)) {
+            new Handler()
+                    .post(new Runnable() {
+                        @Override
+                        public void run() {
+                            final View view = getView();
+                            if (view != null) {
+                                onActionItemSelected(view.findViewById(R.id.contact_organiser));
+                            }
+                        }
+                    });
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     final RealmChangeListener<Event> changeListener = new RealmChangeListener<Event>() {

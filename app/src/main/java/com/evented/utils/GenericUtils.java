@@ -2,7 +2,9 @@ package com.evented.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -321,6 +323,14 @@ public class GenericUtils {
             context.getSharedPreferences(sharedPref.getName(), Context.MODE_PRIVATE)
                     .edit().clear().commit();
             org.apache.commons.io.FileUtils.deleteQuietly(sharedPref);
+        }
+    }
+
+    public static void open(FragmentActivity activity, Intent intent) {
+        try {
+            activity.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            showDialog(activity, e.getMessage());
         }
     }
 }
