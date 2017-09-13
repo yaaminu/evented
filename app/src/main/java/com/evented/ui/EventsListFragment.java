@@ -21,6 +21,7 @@ import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -99,14 +100,14 @@ public class EventsListFragment extends BaseFragment {
         } else if (showOnlyFavorites) {
             query.equalTo(Event.FIELD_LIKED, true);
         } else if (showOnlyTrending) {
-            query.beginGroup()
-                    .greaterThanOrEqualTo(Event.FIELD_GOING, 50)
-                    .or()
-                    .greaterThanOrEqualTo(Event.FIELD_LIKES, 50)
-                    .endGroup();
+            // TODO: 9/13/17 use  a better ranking algorithm
+            query
+                    .greaterThanOrEqualTo(Event.FIELD_GOING, 2)
+                    .findAllSorted(Event.FIELD_GOING, Sort.DESCENDING, Event.FIELD_LIKES, Sort.DESCENDING);
         }
         events = query
                 .findAllSortedAsync(Event.FIELD_START_DATE);
+
         events.addChangeListener(changeListener);
         adapter = new EventsListAdapter(delegate);
         recyclerView.setAdapter(adapter);
