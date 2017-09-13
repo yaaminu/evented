@@ -165,7 +165,6 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 buyFor = buy_for.getText().toString().trim();
         dialog.setMessage(getString(R.string.booking_ticket));
         dialog.show();
-        // TODO: 8/14/17 add a ticket type field
         final TicketType ticketType = (TicketType) spTicketTypes.getSelectedItem();
         eventManager
                 .bookTicket(event.getEventId(), event.getName()
@@ -219,8 +218,8 @@ public class BookTicketDialogFragment extends BottomSheetDialogFragment {
                 return false;
             }
 
-            if (et_verification.getText().toString().trim().length() < 5) {
-                showDialog(getString(R.string.error_verification_code));
+            if (et_verification.getText().toString().trim().length() != 4) {
+                showDialog(getString(R.string.invalid_verification_code));
                 et_verification.setError("");
                 return false;
             }

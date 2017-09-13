@@ -6,7 +6,6 @@ import android.telephony.SmsManager;
 
 import com.evented.BuildConfig;
 import com.evented.tickets.Ticket;
-import com.evented.utils.FileUtils;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
@@ -30,6 +29,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.exceptions.Exceptions;
 import rx.functions.Func1;
+
+import static io.realm.Realm.getDefaultInstance;
 
 /**
  * Created by yaaminu on 8/9/17.
@@ -105,7 +106,7 @@ public class EventManager {
                     GenericUtils.ensureNotEmpty(ticketId, signature);
                     //in the real application, we should be able to lookup the ticket and find it. since the
                     //event organizer will sync with the server.
-                    Realm realm = Realm.getDefaultInstance();
+                    Realm realm = getDefaultInstance();
                     try {
                         realm.beginTransaction();
                         Ticket ticket = realm.where(Ticket.class)
@@ -164,7 +165,7 @@ public class EventManager {
                 .flatMap(new Func1<List<Event>, Observable<?>>() {
                     @Override
                     public Observable<?> call(List<Event> events) {
-                        Realm realm = Realm.getDefaultInstance();
+                        Realm realm = getDefaultInstance();
                         try {
                             realm.beginTransaction();
                             realm.copyToRealmOrUpdate(events);
@@ -184,7 +185,7 @@ public class EventManager {
                 .map(new Func1<Event, Event>() {
                     @Override
                     public Event call(Event event) {
-                        Realm realm = Realm.getDefaultInstance();
+                        Realm realm = getDefaultInstance();
                         realm.beginTransaction();
                         Event tmp = realm.copyFromRealm(realm.copyToRealmOrUpdate(event));
                         realm.commitTransaction();
@@ -223,58 +224,36 @@ public class EventManager {
                                          final String billingPhoneNumber, final String buyForNumber,
                                          final long cost,
                                          final String verificationCode, final String ticketType) {
-        return rx.Observable.create(new Observable.OnSubscribe<Ticket>() {
-            @Override
-            public void call(Subscriber<? super Ticket> subscriber) {
-                subscriber.onStart();
-                SystemClock.sleep(3000);
-                if ("12345".equals(verificationCode)) {
-                    Realm realm = Realm.getDefaultInstance();
-                    try {
-                        final Ticket ticket = new Ticket(System.currentTimeMillis() + "", eventId, billingPhoneNumber, buyForNumber,
-                                FileUtils.sha1(System.currentTimeMillis() + ""),
-                                System.currentTimeMillis(), cost, ++ticketNumber, eventName, ticketType);
-                        PLog.d(TAG, "ticket bought %s", ticket);
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(ticket);
-                        Event event = realm.where(Event.class).equalTo(Event.FIELD_EVENT_ID, eventId)
-                                .findFirst();
-                        GenericUtils.ensureNotNull(event);
-                        //noinspection ConstantConditions
-                        event.setCurrentUserGoing(true);
-                        event.setGoing(event.getGoing() + 1);
-                        realm.commitTransaction();
-
-                        String message = "Ticket purchase for  " + event.getName() + " successful. Follow this link to download the ticket " +
-                                "https://ev.co/t/?tid=82719817283300381";
+        return ParseBackend.getInstance()
+                .bookTicket(eventId, billingPhoneNumber, buyForNumber, cost, verificationCode, ticketType)
+                .map(new Func1<Ticket, Ticket>() {
+                    @Override
+                    public Ticket call(Ticket ticket) {
+                        Realm realm = getDefaultInstance();
                         try {
-                            SmsManager.getDefault()
-                                    .sendTextMessage(PhoneNumberNormaliser.toIEE(buyForNumber, "GH"),
-                                            null, message, null, null);
-                        } catch (NumberParseException e) {
-                            subscriber.onError(e);
-                            return;
-                        } catch (SecurityException e) {
-
+                            realm.beginTransaction();
+                            ticket = realm.copyToRealmOrUpdate(ticket);
+                            Event event = realm.where(Event.class)
+                                    .equalTo(Event.FIELD_EVENT_ID, eventId)
+                                    .findFirst();
+                            GenericUtils.assertThat(event != null);
+                            event.setGoing(event.getGoing() + 1);
+                            event.setCurrentUserGoing(true);
+                            realm.commitTransaction();
+                            return realm.copyFromRealm(ticket);
+                        } finally {
+                            realm.close();
                         }
-
-                        subscriber.onNext(ticket);
-                        subscriber.onCompleted();
-                    } finally {
-                        realm.close();
                     }
-                } else {
-                    subscriber.onError(new Exception("Verification code invalid"));
-                }
-            }
-        });
+                });
+
     }
 
     public void toggleLikedAsyn(final String eventId) {
         TaskManager.executeNow(new Runnable() {
             @Override
             public void run() {
-                Realm realm = Realm.getDefaultInstance();
+                Realm realm = getDefaultInstance();
                 try {
                     Event event = realm.where(Event.class)
                             .equalTo(Event.FIELD_EVENT_ID, eventId)

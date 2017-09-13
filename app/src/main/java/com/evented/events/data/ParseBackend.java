@@ -7,11 +7,13 @@ import android.support.annotation.Nullable;
 import android.telephony.SmsManager;
 
 import com.evented.BuildConfig;
+import com.evented.tickets.Ticket;
 import com.evented.utils.GenericUtils;
 import com.evented.utils.PLog;
 import com.evented.utils.PhoneNumberNormaliser;
 import com.evented.utils.ThreadUtils;
 import com.google.i18n.phonenumbers.NumberParseException;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,7 +23,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -99,6 +103,39 @@ public class ParseBackend {
                     PLog.e(TAG, e.getMessage(), e);
                     subscriber.onError(e);
                 }
+            }
+        });
+    }
+
+    public Observable<Ticket> bookTicket(final String eventId, final String billingPhoneNumber,
+                                         final String buyForNumber, final long cost, final String verificationCode,
+                                         final String ticketType) {
+
+        return Observable.create(new Observable.OnSubscribe<ParseObject>() {
+            @Override
+            public void call(Subscriber<? super ParseObject> subscriber) {
+                subscriber.onStart();
+                Map<String, Object> params = new HashMap<>(6);
+                params.put("eventId", eventId);
+                params.put("billingPhoneNumber", billingPhoneNumber);
+                params.put("buyForNumber", buyForNumber);
+                params.put("ticketCost", cost);
+                params.put("verificationCode", verificationCode);
+                params.put("ticketType", ticketType);
+                try {
+                    ParseObject ticket = ParseCloud
+                            .callFunction("bookTicket", params);
+                    subscriber.onNext(ticket);
+                    subscriber.onCompleted();
+                } catch (ParseException e) {
+                    subscriber.onError(e);
+                }
+
+            }
+        }).map(new Func1<ParseObject, Ticket>() {
+            @Override
+            public Ticket call(ParseObject parseObject) {
+                return Ticket.create(parseObject);
             }
         });
     }

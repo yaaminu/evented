@@ -1,6 +1,7 @@
 package com.evented.tickets;
 
 import com.evented.utils.GenericUtils;
+import com.parse.ParseObject;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -127,5 +128,20 @@ public class Ticket extends RealmObject {
     public String getFormattedCost() {
         return "GH₵" + GenericUtils.format(BigDecimal.valueOf(getTicketCost()).divide(BigDecimal.valueOf(100),
                 MathContext.DECIMAL128).doubleValue());
+    }
+
+    public static Ticket create(ParseObject obj) {
+        return new Ticket(
+                obj.getObjectId(),
+                obj.getString("eventId"),
+                obj.getString("purchasedBy"),
+                obj.getString("ownerPhone"),
+                obj.getString("ticketSignature"),
+                obj.getCreatedAt().getTime(),
+                obj.getLong("ticketCost"),
+                obj.getInt("ticketNumber"),
+                obj.getString("eventName"),
+                obj.getString("ticketType")
+        );
     }
 }
