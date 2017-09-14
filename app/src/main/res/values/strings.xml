@@ -111,7 +111,7 @@
     <string name="get_started">Get Started</string>
     <string name="phone_required">Phone number is required</string>
     <string name="skip">Skip</string>
-    <string name="login_intro">You need to add your phone number in order to buy a ticket, view tickets or create an  event</string>
+    <string name="login_intro">You need to add your phone number to proceed</string>
     <string name="add_phone">Add Phone Number</string>
     <string name="verify">Verify</string>
     <string name="verification_notice">You\'ll shortly receive the verification code in your inbox. Make sure you have a working SMS plan</string>

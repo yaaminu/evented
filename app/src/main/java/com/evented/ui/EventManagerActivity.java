@@ -53,6 +53,9 @@ public class EventManagerActivity extends AppCompatActivity implements SimpleEve
         results = eventsQuery
                 .findAllSortedAsync(Event.FIELD_START_DATE);
         results.addChangeListener(listener);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
     }
 
     @Override

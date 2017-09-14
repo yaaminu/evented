@@ -68,6 +68,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.EventManagerActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/manage_events" />
         <activity
             android:name=".ui.ExportTicketsActivity"
