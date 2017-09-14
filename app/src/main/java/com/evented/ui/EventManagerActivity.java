@@ -54,6 +54,7 @@ public class EventManagerActivity extends AppCompatActivity implements SimpleEve
                 .findAllSortedAsync(Event.FIELD_START_DATE);
         results.addChangeListener(listener);
     }
+
     @Override
     protected void onResume() {
         if (results != null) {
@@ -93,15 +94,20 @@ public class EventManagerActivity extends AppCompatActivity implements SimpleEve
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Config.setManagement(false);
-        startActivity(new Intent(this, LauncherActivity.class));
-        finish();
+        if (item.getTitle().toString().startsWith("switch")) {
+            Config.setManagement(false);
+            startActivity(new Intent(this, LauncherActivity.class));
+            finish();
+        } else {
+            TestDataGenerator.createEvents();
+        }
         return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add("switch to management");
+        menu.add("Seed Test Data");
         return super.onCreateOptionsMenu(menu);
     }
 }
